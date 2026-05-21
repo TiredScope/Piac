@@ -11,8 +11,13 @@ config_version=5
 [application]
 
 config/name="PIAC"
+run/main_scene="uid://cjotab7wbyty"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Com="*uid://dvo6vway0j0fn"
 
 [physics]
 
