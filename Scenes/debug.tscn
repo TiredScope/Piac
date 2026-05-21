@@ -29,7 +29,7 @@ layout_mode = 2
 [node name="CheckBox" type="CheckBox" parent="VBoxContainer" unique_id=1434299145]
 layout_mode = 2
 button_pressed = true
-text = "Enable"
+text = "Enable RFID"
 
 [connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]
 [connection signal="toggled" from="VBoxContainer/CheckBox" to="." method="_on_check_box_toggled"]
