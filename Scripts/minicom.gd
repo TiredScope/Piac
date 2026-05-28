@@ -2,6 +2,7 @@ class_name MiniCom
 extends Node
 
 const DEFAULT_NAME_FILTER = "Arduino"
+#const DEFAULT_NAME_FILTER = "Silicon Labs"
 const DEFAULT_BAUD_RATE = 115200
 const DEFAULT_TIMEOUT = 1000
 
@@ -164,6 +165,7 @@ func scan() -> void:
 			continue
 
 		if name_filter not in port.device_name:
+			print("Ignoring ", port.device_name)
 			continue
 
 		print("Found ", port_name)

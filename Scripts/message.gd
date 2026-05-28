@@ -29,6 +29,9 @@ enum Type {
 	# RFIDModule
 	M_RFID_SCANNED = 0x0500,
 	M_RFID_SCAN_FAILED = 0x0501,
+
+	# PulseSensorModule
+	M_PULSESENSOR_HEARTBEAT = 0x0600,
 }
 
 var type: Type

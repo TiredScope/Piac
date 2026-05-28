@@ -1,6 +1,7 @@
 extends Node
 
 var rfid: RFIDModule
+var pulse_sensor: PulseSensorModule
 
 func _init() -> void:
 	Com.connected.connect(func(client: MiniCom.Client):
@@ -26,6 +27,11 @@ func _init() -> void:
 	rfid.scanned.connect(func(message: Message, uid: PackedByteArray):
 		debug_print("%s scanned tag with uid %s" % [message.source.get_port(), uid.hex_encode()])
 		debug_print("Generated traits: %s" % [TraitGenerator.generate_traits(uid)])
+	)
+
+	self.pulse_sensor = PulseSensorModule.new(Com)
+	pulse_sensor.heartbeat.connect(func(message: Message, bpm: int):
+		debug_print("%s BPM: %s" % [message.source.get_port(), bpm])
 	)
 
 func _on_button_pressed() -> void:
