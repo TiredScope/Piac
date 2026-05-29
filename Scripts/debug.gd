@@ -8,8 +8,13 @@ func _init() -> void:
 		debug_print("%s connected" % [client.get_port()])
 	)
 
+	Com.disconnected.connect(func(client: MiniCom.Client):
+		debug_print("%s disconnected" % [client.get_port()])
+		update_modules()
+	)
+
 	Com.message_received.connect(func(message: Message):
-		if message.type in [Message.Type.M_NOP, Message.Type.M_DEBUG, Message.Type.M_CAPABILITIES]:
+		if message.type in [Message.Type.M_NOP, Message.Type.M_DEBUG]:
 			return
 
 		debug_print("%s > %s" % [message.source.get_port(), message.to_string()])
@@ -17,6 +22,7 @@ func _init() -> void:
 
 	Com.capabilities_received.connect(func(message: Message, capabilities: Array[MiniCom.ClientModule]):
 		debug_print("%s has capabilities %s" % [message.source.get_port(), capabilities])
+		update_modules()
 	)
 
 	Com.debug_print_received.connect(func(message: Message, text: String):
@@ -34,13 +40,27 @@ func _init() -> void:
 		debug_print("%s BPM: %s" % [message.source.get_port(), bpm])
 	)
 
-func _on_button_pressed() -> void:
-	Com.scan()
-	pass
-
 func debug_print(s: String):
 	%DebugOutput.text += s + "\n"
 
+func update_modules():
+	for child: Node in %ModuleControls.get_children():
+		%ModuleControls.remove_child(child)
+		child.queue_free()
 
-func _on_check_box_toggled(toggled_on: bool) -> void:
-	Com.set_module_enabled(RFIDModule.ID, toggled_on, 0)
+	for client in Com.get_clients():
+		for module: MiniCom.ClientModule in client.capabilities:
+			var cb: CheckBox = CheckBox.new()
+			cb.text = module.get_id()
+			cb.button_pressed = module.is_enabed()
+			%ModuleControls.add_child(cb)
+
+			cb.toggled.connect(func(on: bool):
+				Com.set_module_enabled(module.get_id(), on, module.get_discriminator())
+			)
+
+func _on_scan_pressed() -> void:
+	Com.scan()
+
+func _on_query_capabilities_pressed() -> void:
+	Com.query_capabilities()

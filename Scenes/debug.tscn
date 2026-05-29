@@ -9,9 +9,13 @@ script = ExtResource("1_raf04")
 offset_right = 649.0
 offset_bottom = 309.0
 
-[node name="Button" type="Button" parent="VBoxContainer" unique_id=670769648]
+[node name="Scan" type="Button" parent="VBoxContainer" unique_id=670769648]
 layout_mode = 2
-text = "Check connection"
+text = "Scan"
+
+[node name="QueryCapabilities" type="Button" parent="VBoxContainer" unique_id=810629820]
+layout_mode = 2
+text = "Query Capabilities"
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer" unique_id=270773000]
 layout_mode = 2
@@ -27,10 +31,13 @@ unique_name_in_owner = true
 layout_mode = 2
 scroll_following = true
 
-[node name="CheckBox" type="CheckBox" parent="VBoxContainer" unique_id=1434299145]
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=1683900937]
 layout_mode = 2
-button_pressed = true
-text = "Enable RFID"
+text = "Modules:"
 
-[connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]
-[connection signal="toggled" from="VBoxContainer/CheckBox" to="." method="_on_check_box_toggled"]
+[node name="ModuleControls" type="HBoxContainer" parent="VBoxContainer" unique_id=607338514]
+unique_name_in_owner = true
+layout_mode = 2
+
+[connection signal="pressed" from="VBoxContainer/Scan" to="." method="_on_scan_pressed"]
+[connection signal="pressed" from="VBoxContainer/QueryCapabilities" to="." method="_on_query_capabilities_pressed"]

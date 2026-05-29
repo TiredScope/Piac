@@ -11,23 +11,31 @@ class Values:
 signal received_values(message: Message, x: float, y: float, sw: bool)
 
 var _com: MiniCom
-var _values: Values
+var _values: Dictionary[int, Values]
 
 func _init(com: MiniCom) -> void:
 	self._com = com
 	self._com.message_received.connect(_on_message)
-	self._values = Values.new()
+	self._values = {}
 
 func _on_message(m: Message) -> void:
 	if m.type == Message.Type.M_JOYSTICK_VALUES:
 		var reader: MessageReader = m.reader()
-		_values.x = reader.get_f32()
-		_values.y = reader.get_f32()
-		_values.sw = reader.get_u8() == 0 # low is pressed
-		received_values.emit(m, _values.x, _values.y, _values.sw)
+		var values := Values.new()
+		values.x = reader.get_f32()
+		values.y = reader.get_f32()
+		values.sw = reader.get_u8() == 0 # low is pressed
+		_values[m.discriminator] = values
+		received_values.emit(m, values.x, values.y, values.sw)
 
 func get_id() -> String:
 	return ID
 
-func get_values() -> Values:
-	return self._values
+func get_values(discriminator: int = Message.DEFAULT_DISCRIMINATOR) -> Values:
+	if discriminator != Message.DEFAULT_DISCRIMINATOR:
+		return self._values.get(discriminator, Values.new())
+
+	if len(self._values) == 0:
+		return Values.new()
+
+	return self._values.values()[0]

@@ -9,19 +9,24 @@ const DEFAULT_TIMEOUT = 1000
 class ClientModule:
 	var _id: String
 	var _discriminator: int
+	var _enabled: bool
 
-	func _init(id: String, discriminator: int):
+	func _init(id: String, discriminator: int, enabled: bool):
 		self._id = id
 		self._discriminator = discriminator
+		self._enabled = enabled
 
 	func _to_string() -> String:
-		return "(%s @ %s)" % [_id, _discriminator]
+		return "(%s @ %s: [%s])" % [_id, _discriminator, "ON" if _enabled else "OFF"]
 
 	func get_id() -> String:
 		return _id
 
 	func get_discriminator() -> int:
 		return _discriminator
+
+	func is_enabed() -> bool:
+		return _enabled
 
 class Client:
 	var capabilities: Array[ClientModule]
@@ -77,6 +82,7 @@ class Client:
 		print(_port, " < ", data.hex_encode())
 
 signal connected(client: Client)
+signal disconnected(client: Client)
 signal message_received(message: Message)
 signal capabilities_received(message: Message, capabilities: Array[ClientModule])
 signal debug_print_received(message: Message, text: String)
@@ -94,6 +100,11 @@ func _init() -> void:
 	_manager.data_received.connect(_on_data)
 
 func _on_disconnect(port: String) -> void:
+	var client: Client = _clients.get(port)
+	if client == null:
+		return
+
+	disconnected.emit(client)
 	_clients.erase(port)
 
 func _on_data(port: String, data: PackedByteArray) -> void:
@@ -119,7 +130,8 @@ func handle_message(client: Client, message: Message) -> void:
 			while not reader.is_end():
 				var id = reader.get_string()
 				var discriminator = reader.get_u8()
-				capabilities.append(ClientModule.new(id, discriminator))
+				var enabled = reader.get_u8() != 0
+				capabilities.append(ClientModule.new(id, discriminator, enabled))
 			client.capabilities = capabilities
 			capabilities_received.emit(message, capabilities)
 		Message.Type.M_DEBUG:
@@ -142,19 +154,27 @@ func set_module_enabled(module: String, enabled: bool, discriminator: int = Mess
 	var msg: Message = builder.build()
 	send_message(msg)
 
+	for c: Client in get_clients_by_discriminator(discriminator):
+		for m: ClientModule in c.capabilities:
+			if m.get_id() == module:
+				m._enabled = enabled
+
 func _broadcast_message(message: Message) -> void:
 	for port in _clients:
 		var client: Client = _clients[port]
 		client.send(message)
 
-func send_message(message: Message) -> void:
-	if message.discriminator != Message.DEFAULT_DISCRIMINATOR:
-		for c: Client in _clients.values():
-			if c.has_discriminator(message.discriminator):
-				c.send(message)
-		pass
+func get_clients_by_discriminator(discriminator: int) -> Array[Client]:
+	if discriminator != Message.DEFAULT_DISCRIMINATOR:
+		return _clients.values().filter(func(c: Client):
+			return c.has_discriminator(discriminator)
+		)
 	else:
-		_broadcast_message(message)
+		return _clients.values()
+
+func send_message(message: Message) -> void:
+	for c: Client in get_clients_by_discriminator(message.discriminator):
+		c.send(message)
 
 func scan() -> void:
 	var ports: Dictionary = _manager.list_ports()

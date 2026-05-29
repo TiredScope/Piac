@@ -32,6 +32,9 @@ enum Type {
 
 	# PulseSensorModule
 	M_PULSESENSOR_HEARTBEAT = 0x0600,
+
+	# PIRSensorModule
+	M_PIRSENSOR_PRESENCE = 0x0700,
 }
 
 var type: Type
