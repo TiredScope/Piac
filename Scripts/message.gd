@@ -44,6 +44,9 @@ enum Type {
 
 	# IRReceiverModule
 	M_IRRECEIVER_DATA = 0x0A00,
+
+	#ThermistorModule
+	M_THERMISTOR_VALUE = 0x0B00,
 }
 
 var type: Type
