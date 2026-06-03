@@ -38,6 +38,9 @@ enum Type {
 
 	# UltrasonicSensorModule
 	M_ULTRASONICSENSOR_DISTANCE = 0x0800,
+
+	# LightSensorModule
+	M_LIGHTSENSOR_VALUE = 0x0900,
 }
 
 var type: Type
