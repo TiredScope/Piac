@@ -1,4 +1,4 @@
-class_name UltrasonicSensorModule
+class_name LightSensorModule
 extends Module
 
 const ID: String = "light_sensor"
