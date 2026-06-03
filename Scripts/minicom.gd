@@ -1,10 +1,14 @@
 class_name MiniCom
 extends Node
 
-const DEFAULT_NAME_FILTER = "Arduino"
+const DEFAULT_NAME_FILTER: Array[String] = [
+	"Arduino",
+	"Silicon Labs",
+]
+
 #const DEFAULT_NAME_FILTER = "Silicon Labs"
 const DEFAULT_BAUD_RATE = 115200
-const DEFAULT_TIMEOUT = 1000
+const DEFAULT_TIMEOUT = 100
 
 class ClientModule:
 	var _id: String
@@ -87,7 +91,7 @@ signal message_received(message: Message)
 signal capabilities_received(message: Message, capabilities: Array[ClientModule])
 signal debug_print_received(message: Message, text: String)
 
-var name_filter: String = DEFAULT_NAME_FILTER
+var name_filter: Array[String] = DEFAULT_NAME_FILTER
 var baud_rate: int = DEFAULT_BAUD_RATE
 var timeout: int = DEFAULT_TIMEOUT
 
@@ -184,7 +188,13 @@ func scan() -> void:
 		if _clients.has(port_name):
 			continue
 
-		if name_filter not in port.device_name:
+		var found: bool = false
+		for filter in name_filter:
+			if filter in port.device_name:
+				found = true
+				break
+
+		if not found:
 			print("Ignoring ", port.device_name)
 			continue
 
