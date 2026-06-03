@@ -10,7 +10,7 @@ class IRData:
 	var command: int
 	var extra: int
 
-signal data_received(message: Message, bpm: int)
+signal data_received(message: Message, data: IRData)
 
 var _com: MiniCom
 

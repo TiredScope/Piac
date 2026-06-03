@@ -4,6 +4,7 @@ extends Node
 const DEFAULT_NAME_FILTER: Array[String] = [
 	"Arduino",
 	"Silicon Labs",
+	"Adafruit",
 ]
 
 #const DEFAULT_NAME_FILTER = "Silicon Labs"
