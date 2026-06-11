@@ -53,9 +53,6 @@ func _init() -> void:
 		circuit_playground.set_pixel(0, Color.AQUA)
 	)
 
-#signal light_received(message: Message, value: int)
-#signal sound_received(message: Message, value: int)
-
 	circuit_playground.buttons_received.connect(func(message: Message, buttons: CircuitPlaygroundModule.Buttons) -> void:
 		debug_print("%s Buttons: left=%s right=%s sw=%s" % [message.source.get_port(), "X" if buttons.left else "-", "X" if buttons.right else "-", "<-" if buttons.slide_switch else "->"])
 	)
