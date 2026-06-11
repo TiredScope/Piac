@@ -3,6 +3,7 @@ extends Node
 var rfid: RFIDModule
 var pulse_sensor: PulseSensorModule
 var circuit_playground: CircuitPlaygroundModule
+var dht22: DHT22Module
 
 func _init() -> void:
 	Com.connected.connect(func(client: MiniCom.Client) -> void:
@@ -79,6 +80,15 @@ func _init() -> void:
 
 	circuit_playground.sound_received.connect(func(message: Message, value: int) -> void:
 		debug_print("%s Sound: %f" % [message.source.get_port(), value])
+	)
+
+	self.dht22 = DHT22Module.new(Com)
+	dht22.init.connect(func(_client: MiniCom.Client, discriminator: int) -> void:
+		dht22.set_reporting_delay(5000, discriminator)
+	)
+
+	dht22.received_values.connect(func(message: Message, values: DHT22Module.Values) -> void:
+		debug_print("%s DHT22 values: t=%4.2f h=%4.2f" % [message.source.get_port(), values.temperature, values.humidity])
 	)
 
 func debug_print(s: String) -> void:
