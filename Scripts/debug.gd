@@ -2,60 +2,104 @@ extends Node
 
 var rfid: RFIDModule
 var pulse_sensor: PulseSensorModule
+var circuit_playground: CircuitPlaygroundModule
 
 func _init() -> void:
-	Com.connected.connect(func(client: MiniCom.Client):
+	Com.connected.connect(func(client: MiniCom.Client) -> void:
 		debug_print("%s connected" % [client.get_port()])
 	)
 
-	Com.disconnected.connect(func(client: MiniCom.Client):
+	Com.disconnected.connect(func(client: MiniCom.Client) -> void:
 		debug_print("%s disconnected" % [client.get_port()])
 		update_modules()
 	)
 
-	Com.message_received.connect(func(message: Message):
+	Com.message_received.connect(func(message: Message) -> void:
 		if message.type in [Message.Type.M_NOP, Message.Type.M_DEBUG]:
 			return
 
 		debug_print("%s > %s" % [message.source.get_port(), message.to_string()])
 	)
 
-	Com.capabilities_received.connect(func(message: Message, capabilities: Array[MiniCom.ClientModule]):
+	Com.capabilities_received.connect(func(message: Message, capabilities: Array[MiniCom.ClientModule]) -> void:
 		debug_print("%s has capabilities %s" % [message.source.get_port(), capabilities])
 		update_modules()
 	)
 
-	Com.debug_print_received.connect(func(message: Message, text: String):
+	Com.debug_print_received.connect(func(message: Message, text: String) -> void:
 		debug_print("%s > [DEBUG] %s" % [message.source.get_port(), text])
 	)
 
+	Com.is_ready.connect(func(client: MiniCom.Client) -> void:
+		debug_print("%s is ready" % [client.get_port()])
+	)
+
 	self.rfid = RFIDModule.new(Com)
-	rfid.scanned.connect(func(message: Message, uid: PackedByteArray):
+	rfid.scanned.connect(func(message: Message, uid: PackedByteArray) -> void:
 		debug_print("%s scanned tag with uid %s" % [message.source.get_port(), uid.hex_encode()])
 		debug_print("Generated traits: %s" % [TraitGenerator.generate_traits(uid)])
 	)
 
 	self.pulse_sensor = PulseSensorModule.new(Com)
-	pulse_sensor.heartbeat.connect(func(message: Message, bpm: int):
+	pulse_sensor.heartbeat.connect(func(message: Message, bpm: int) -> void:
 		debug_print("%s BPM: %s" % [message.source.get_port(), bpm])
 	)
 
-func debug_print(s: String):
+	self.circuit_playground = CircuitPlaygroundModule.new(Com)
+	circuit_playground.init.connect(func(_client: MiniCom.Client, _discriminator: int) -> void:
+		#circuit_playground.set_capacitive_touch_pins([CircuitPlaygroundModule.CapacitiveTouchPin.P12, CircuitPlaygroundModule.CapacitiveTouchPin.P0])
+		#circuit_playground.set_reporting_delay(100, [CircuitPlaygroundModule.Component.CAPACITIVE_TOUCH])
+		circuit_playground.set_reporting_mode([CircuitPlaygroundModule.Component.BUTTONS])
+		circuit_playground.set_pixel(0, Color.AQUA)
+	)
+
+#signal light_received(message: Message, value: int)
+#signal sound_received(message: Message, value: int)
+
+	circuit_playground.buttons_received.connect(func(message: Message, buttons: CircuitPlaygroundModule.Buttons) -> void:
+		debug_print("%s Buttons: left=%s right=%s sw=%s" % [message.source.get_port(), "X" if buttons.left else "-", "X" if buttons.right else "-", "<-" if buttons.slide_switch else "->"])
+	)
+
+	circuit_playground.capacitive_touch_received.connect(func(message: Message, values: CircuitPlaygroundModule.CapacitiveTouchValues) -> void:
+		var touch_str: Array[String]
+		for p: CircuitPlaygroundModule.CapacitiveTouchPin in CircuitPlaygroundModule.CapacitiveTouchPin.values():
+			touch_str.push_back("%s=%d" % [p, values.get_value(p)])
+
+		debug_print("%s Capacitive Touch: %s" % [message.source.get_port(), ", ".join(touch_str)])
+	)
+
+	circuit_playground.accelerometer_received.connect(func(message: Message, values: CircuitPlaygroundModule.AccelerometerValues) -> void:
+		debug_print("%s Accelerometer: %4.2f/%4.2f/%4.2f" % [message.source.get_port(), values.x, values.y, values.z])
+	)
+
+	circuit_playground.temperature_received.connect(func(message: Message, temperature: float) -> void:
+		debug_print("%s Temperature: %f" % [message.source.get_port(), temperature])
+	)
+
+	circuit_playground.light_received.connect(func(message: Message, value: int) -> void:
+		debug_print("%s Light: %f" % [message.source.get_port(), value])
+	)
+
+	circuit_playground.sound_received.connect(func(message: Message, value: int) -> void:
+		debug_print("%s Sound: %f" % [message.source.get_port(), value])
+	)
+
+func debug_print(s: String) -> void:
 	%DebugOutput.text += s + "\n"
 
-func update_modules():
+func update_modules() -> void:
 	for child: Node in %ModuleControls.get_children():
 		%ModuleControls.remove_child(child)
 		child.queue_free()
 
 	for client in Com.get_clients():
-		for module: MiniCom.ClientModule in client.capabilities:
+		for module: MiniCom.ClientModule in client.get_capabilities():
 			var cb: CheckBox = CheckBox.new()
 			cb.text = module.get_id()
 			cb.button_pressed = module.is_enabed()
 			%ModuleControls.add_child(cb)
 
-			cb.toggled.connect(func(on: bool):
+			cb.toggled.connect(func(on: bool) -> void:
 				Com.set_module_enabled(module.get_id(), on, module.get_discriminator())
 			)
 

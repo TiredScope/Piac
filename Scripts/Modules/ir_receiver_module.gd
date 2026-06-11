@@ -12,12 +12,6 @@ class IRData:
 
 signal data_received(message: Message, data: IRData)
 
-var _com: MiniCom
-
-func _init(com: MiniCom) -> void:
-	self._com = com
-	self._com.message_received.connect(_on_message)
-
 func _on_message(m: Message) -> void:
 	match m.type:
 		Message.Type.M_IRRECEIVER_DATA:

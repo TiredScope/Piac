@@ -5,12 +5,6 @@ const ID: String = "pulse_sensor"
 
 signal heartbeat(message: Message, bpm: int)
 
-var _com: MiniCom
-
-func _init(com: MiniCom) -> void:
-	self._com = com
-	self._com.message_received.connect(_on_message)
-
 func _on_message(m: Message) -> void:
 	match m.type:
 		Message.Type.M_PULSESENSOR_HEARTBEAT:

@@ -5,12 +5,10 @@ const ID: String = "thermistor"
 
 signal received_value(message: Message, value: int)
 
-var _com: MiniCom
 var _value: Dictionary[int, int]
 
 func _init(com: MiniCom) -> void:
-	self._com = com
-	self._com.message_received.connect(_on_message)
+	super(com)
 	self._value = {}
 
 func _on_message(m: Message) -> void:

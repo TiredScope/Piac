@@ -10,12 +10,10 @@ class Values:
 
 signal received_values(message: Message, x: float, y: float, sw: bool)
 
-var _com: MiniCom
 var _values: Dictionary[int, Values]
 
 func _init(com: MiniCom) -> void:
-	self._com = com
-	self._com.message_received.connect(_on_message)
+	super(com)
 	self._values = {}
 
 func _on_message(m: Message) -> void:

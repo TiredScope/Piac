@@ -34,12 +34,13 @@ class ClientModule:
 		return _enabled
 
 class Client:
-	var capabilities: Array[ClientModule]
-
 	var _com: MiniCom
 	var _port: String
 	var _buffer: PackedByteArray
 	var _esc: bool
+
+	var _capabilities: Array[ClientModule] = []
+	var _ready: bool = false
 
 	func _init(com: MiniCom, port: String) -> void:
 		self._com = com
@@ -69,10 +70,25 @@ class Client:
 			_esc = false
 
 	func get_port() -> String:
-		return self._port
+		return _port
 
-	func has_discriminator(discriminator: int):
-		for m in capabilities:
+	func is_ready() -> bool:
+		return _ready
+
+	func get_capabilities(id: String = "") -> Array[ClientModule]:
+		var caps: Array[ClientModule]
+		for m in _capabilities:
+			if id != "" and m.get_id() != id:
+				continue
+			caps.push_back(m)
+
+		return caps
+
+	func has_capability(id: String) -> bool:
+		return not get_capabilities(id).is_empty()
+
+	func has_discriminator(discriminator: int) -> bool:
+		for m in _capabilities:
 			if m.get_discriminator() == discriminator:
 				return true
 		return false
@@ -87,6 +103,7 @@ class Client:
 		print(_port, " < ", data.hex_encode())
 
 signal connected(client: Client)
+signal is_ready(client: Client)
 signal disconnected(client: Client)
 signal message_received(message: Message)
 signal capabilities_received(message: Message, capabilities: Array[ClientModule])
@@ -133,12 +150,16 @@ func handle_message(client: Client, message: Message) -> void:
 			var capabilities: Array[ClientModule] = []
 			var reader: MessageReader = message.reader()
 			while not reader.is_end():
-				var id = reader.get_string()
-				var discriminator = reader.get_u8()
-				var enabled = reader.get_u8() != 0
+				var id: String = reader.get_string()
+				var discriminator: int = reader.get_u8()
+				var enabled: bool = reader.get_u8() != 0
 				capabilities.append(ClientModule.new(id, discriminator, enabled))
-			client.capabilities = capabilities
+			client._capabilities = capabilities
 			capabilities_received.emit(message, capabilities)
+
+			if not client._ready:
+				client._ready = true
+				is_ready.emit(client)
 		Message.Type.M_DEBUG:
 			var reader: MessageReader = message.reader()
 			var text: String = reader.get_string()
@@ -160,7 +181,7 @@ func set_module_enabled(module: String, enabled: bool, discriminator: int = Mess
 	send_message(msg)
 
 	for c: Client in get_clients_by_discriminator(discriminator):
-		for m: ClientModule in c.capabilities:
+		for m: ClientModule in c.get_capabilities():
 			if m.get_id() == module:
 				m._enabled = enabled
 
@@ -171,7 +192,7 @@ func _broadcast_message(message: Message) -> void:
 
 func get_clients_by_discriminator(discriminator: int) -> Array[Client]:
 	if discriminator != Message.DEFAULT_DISCRIMINATOR:
-		return _clients.values().filter(func(c: Client):
+		return _clients.values().filter(func(c: Client) -> void:
 			return c.has_discriminator(discriminator)
 		)
 	else:
