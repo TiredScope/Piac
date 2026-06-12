@@ -31,8 +31,6 @@ func get_id() -> String:
 	return ID
 
 func set_reporting_delay(delay: int, discriminator: int = Message.DEFAULT_DISCRIMINATOR) -> void:
-	var value: int = 0
-
 	var builder: MessageBuilder = MessageBuilder.new(Message.Type.M_DHT22_SET_REPORTING_DELAY, discriminator)
 	builder.put_u32(delay)
 	_com.send_message(builder.build())

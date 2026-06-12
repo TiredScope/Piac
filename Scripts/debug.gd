@@ -4,6 +4,7 @@ var rfid: RFIDModule
 var pulse_sensor: PulseSensorModule
 var circuit_playground: CircuitPlaygroundModule
 var dht22: DHT22Module
+var mq3: MQ3Module
 
 func _init() -> void:
 	Com.connected.connect(func(client: MiniCom.Client) -> void:
@@ -89,6 +90,19 @@ func _init() -> void:
 
 	dht22.received_values.connect(func(message: Message, values: DHT22Module.Values) -> void:
 		debug_print("%s DHT22 values: t=%4.2f h=%4.2f" % [message.source.get_port(), values.temperature, values.humidity])
+	)
+
+	self.mq3 = MQ3Module.new(Com)
+	mq3.init.connect(func(_client: MiniCom.Client, discriminator: int) -> void:
+		mq3.set_reporting_delay(0, discriminator)
+	)
+
+	mq3.state_changed.connect(func(message: Message, alcohol_detected: bool) -> void:
+		debug_print("%s Alcohol detected: %s" % [message.source.get_port(), "YES" if alcohol_detected else "NO"])
+	)
+
+	mq3.received_values.connect(func(message: Message, values: MQ3Module.Values) -> void:
+		debug_print("%s Alcohol detected: %s, Level: %d" % [message.source.get_port(), "YES" if values.alcohol_detected else "NO", values.value])
 	)
 
 func debug_print(s: String) -> void:

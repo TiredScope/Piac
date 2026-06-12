@@ -8,7 +8,6 @@ signal scanned(message: Message, uid: PackedByteArray)
 
 func _init(com: MiniCom) -> void:
 	super(com)
-	self._com.message_received.connect(_on_message)
 
 func _on_message(m: Message) -> void:
 	match m.type:
