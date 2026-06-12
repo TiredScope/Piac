@@ -5,6 +5,7 @@ var pulse_sensor: PulseSensorModule
 var circuit_playground: CircuitPlaygroundModule
 var dht22: DHT22Module
 var mq3: MQ3Module
+var keypad: SparkfunKeypadModule
 
 func _init() -> void:
 	Com.connected.connect(func(client: MiniCom.Client) -> void:
@@ -103,6 +104,11 @@ func _init() -> void:
 
 	mq3.received_values.connect(func(message: Message, values: MQ3Module.Values) -> void:
 		debug_print("%s Alcohol detected: %s, Level: %d" % [message.source.get_port(), "YES" if values.alcohol_detected else "NO", values.value])
+	)
+
+	self.keypad = SparkfunKeypadModule.new(Com)
+	keypad.key_pressed.connect(func(message: Message, key: String) -> void:
+		debug_print("%s Key pressed: %s" % [message.source.get_port(), key])
 	)
 
 func debug_print(s: String) -> void:

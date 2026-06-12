@@ -69,6 +69,9 @@ enum Type {
 	M_MQ3_SET_REPORTING_DELAY = 0x0E00,
 	M_MQ3_VALUES = 0x0E01,
 	M_MQ3_STATE_CHANGED = 0x0E02,
+
+	# SparkfunKeypadModule
+	M_SPARKFUN_KEYPAD_KEY = 0x0F00,
 }
 
 var type: Type
