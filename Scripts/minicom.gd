@@ -8,7 +8,7 @@ const DEFAULT_NAME_FILTER: Array[String] = [
 ]
 
 #const DEFAULT_NAME_FILTER = "Silicon Labs"
-const DEFAULT_BAUD_RATE = 115200
+const DEFAULT_BAUD_RATE = 9600
 const DEFAULT_TIMEOUT = 100
 
 class ClientModule:
@@ -16,7 +16,7 @@ class ClientModule:
 	var _discriminator: int
 	var _enabled: bool
 
-	func _init(id: String, discriminator: int, enabled: bool):
+	func _init(id: String, discriminator: int, enabled: bool) -> void:
 		self._id = id
 		self._discriminator = discriminator
 		self._enabled = enabled

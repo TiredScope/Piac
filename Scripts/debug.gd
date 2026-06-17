@@ -6,6 +6,9 @@ var circuit_playground: CircuitPlaygroundModule
 var dht22: DHT22Module
 var mq3: MQ3Module
 var keypad: SparkfunKeypadModule
+var neoPixel: NeoPixelModule
+
+var lastChange: float
 
 func _init() -> void:
 	Com.connected.connect(func(client: MiniCom.Client) -> void:
@@ -110,6 +113,23 @@ func _init() -> void:
 	keypad.key_pressed.connect(func(message: Message, key: String) -> void:
 		debug_print("%s Key pressed: %s" % [message.source.get_port(), key])
 	)
+
+	self.neoPixel = NeoPixelModule.new(Com)
+	neoPixel.init.connect(func(_client: MiniCom.Client, _discriminator: int) -> void:
+		lastChange = 0
+		neoPixel.set_brightness(10)
+		neoPixel.set_color(0, Color.DARK_GOLDENROD)
+		lastChange = 0
+	)
+
+func _process(delta: float) -> void:
+	lastChange += delta
+
+	if lastChange > 1:
+		lastChange = 0
+
+		var rng := RandomNumberGenerator.new()
+		neoPixel.set_color(1, Color.from_rgba8(rng.randi_range(0, 255), rng.randi_range(0, 255), rng.randi_range(0, 255)))
 
 func debug_print(s: String) -> void:
 	%DebugOutput.text += s + "\n"

@@ -23,6 +23,6 @@ func _init_client(client: MiniCom.Client) -> void:
 
 func is_available() -> bool:
 	for client in Com.get_clients():
-		if client.capabilities.has(get_id()):
+		if client.has_capability(get_id()):
 			return true
 	return false

@@ -72,6 +72,10 @@ enum Type {
 
 	# SparkfunKeypadModule
 	M_SPARKFUN_KEYPAD_KEY = 0x0F00,
+
+	# NeoPixelModule
+	M_NEOPIXEL_SET_BRIGHTNESS = 0x1000,
+	M_NEOPIXEL_SET_COLORS = 0x1001,
 }
 
 var type: Type
