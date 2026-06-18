@@ -8,7 +8,7 @@ const DEFAULT_NAME_FILTER: Array[String] = [
 ]
 
 #const DEFAULT_NAME_FILTER = "Silicon Labs"
-const DEFAULT_BAUD_RATE = 9600
+const DEFAULT_BAUD_RATE = 115200
 const DEFAULT_TIMEOUT = 100
 
 class ClientModule:

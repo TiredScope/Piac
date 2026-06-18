@@ -8,7 +8,8 @@ var mq3: MQ3Module
 var keypad: SparkfunKeypadModule
 var neoPixel: NeoPixelModule
 
-var lastChange: float
+var t: float = 0
+var lastChange: float = -1
 
 func _init() -> void:
 	Com.connected.connect(func(client: MiniCom.Client) -> void:
@@ -116,20 +117,34 @@ func _init() -> void:
 
 	self.neoPixel = NeoPixelModule.new(Com)
 	neoPixel.init.connect(func(_client: MiniCom.Client, _discriminator: int) -> void:
-		lastChange = 0
+		print("INIT")
+		lastChange = -3
 		neoPixel.set_brightness(10)
 		neoPixel.set_color(0, Color.DARK_GOLDENROD)
 		lastChange = 0
 	)
 
 func _process(delta: float) -> void:
-	lastChange += delta
+	if lastChange < 0:
+		return
 
-	if lastChange > 1:
+	lastChange += delta
+	t += delta
+
+	var mult: float = abs(pow(sin(t*4), 10))
+	if lastChange > 0.02:
 		lastChange = 0
 
+		var colors: Array[Color] = []
 		var rng := RandomNumberGenerator.new()
-		neoPixel.set_color(1, Color.from_rgba8(rng.randi_range(0, 255), rng.randi_range(0, 255), rng.randi_range(0, 255)))
+
+		#var color: Color = Color.from_rgba8(rng.randi_range(0, 255), rng.randi_range(0, 255), rng.randi_range(0, 255))
+		var color: Color = Color.from_rgba8(mult * 255, mult * 255, 0)
+		for i in range(0, 30):
+			colors.push_back(color)
+		for i in range(31, 60):
+			colors.push_back(Color.from_rgba8(55,55,55))
+		neoPixel.set_colors(colors)
 
 func debug_print(s: String) -> void:
 	%DebugOutput.text += s + "\n"
