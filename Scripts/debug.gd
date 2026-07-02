@@ -7,6 +7,7 @@ var dht22: DHT22Module
 var mq3: MQ3Module
 var keypad: SparkfunKeypadModule
 var neoPixel: NeoPixelModule
+var bme280: BME280Module
 
 var t: float = 0
 var lastChange: float = -1
@@ -122,6 +123,15 @@ func _init() -> void:
 		neoPixel.set_brightness(10)
 		neoPixel.set_color(0, Color.DARK_GOLDENROD)
 		lastChange = 0
+	)
+
+	self.bme280 = BME280Module.new(Com)
+	bme280.init.connect(func(_client: MiniCom.Client, discriminator: int) -> void:
+		dht22.set_reporting_delay(5000, discriminator)
+	)
+
+	bme280.received_values.connect(func(message: Message, values: BME280Module.Values) -> void:
+		debug_print("%s BME280 values: t=%4.2f h=%4.2f p=%4.2f" % [message.source.get_port(), values.temperature, values.humidity, values.pressure])
 	)
 
 func _process(delta: float) -> void:

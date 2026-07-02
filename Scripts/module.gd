@@ -1,8 +1,9 @@
 @abstract class_name Module
+extends Node
 
 signal init(client: MiniCom.Client, discriminator: int)
 
-var _com: MiniCom
+@export var _com: MiniCom
 
 func _init(com: MiniCom) -> void:
 	_com = com
