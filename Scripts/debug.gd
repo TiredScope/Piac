@@ -8,6 +8,7 @@ var mq3: MQ3Module
 var keypad: SparkfunKeypadModule
 var neoPixel: NeoPixelModule
 var bme280: BME280Module
+var mpu6050: MPU6050Module
 
 var t: float = 0
 var lastChange: float = -1
@@ -127,11 +128,24 @@ func _init() -> void:
 
 	self.bme280 = BME280Module.new(Com)
 	bme280.init.connect(func(_client: MiniCom.Client, discriminator: int) -> void:
-		dht22.set_reporting_delay(5000, discriminator)
+		bme280.set_reporting_delay(5000, discriminator)
 	)
 
 	bme280.received_values.connect(func(message: Message, values: BME280Module.Values) -> void:
 		debug_print("%s BME280 values: t=%4.2f h=%4.2f p=%4.2f" % [message.source.get_port(), values.temperature, values.humidity, values.pressure])
+	)
+
+	self.mpu6050 = MPU6050Module.new(Com)
+	mpu6050.init.connect(func(_client: MiniCom.Client, discriminator: int) -> void:
+		mpu6050.start_calibration(10, discriminator)
+	)
+
+	mpu6050.received_values.connect(func(message: Message, values: MPU6050Module.Values) -> void:
+		debug_print("%s MPU6050 values: a=(%4.2f, %4.2f, %4.2f), g=(%4.2f, %4.2f, %4.2f)" % [message.source.get_port(), values.acceleration.x, values.acceleration.y, values.acceleration.z, values.gyroscope.x, values.gyroscope.y, values.gyroscope.z])
+	)
+
+	mpu6050.received_calibration_values.connect(func(message: Message, values: MPU6050Module.CalibrationValues) -> void:
+		debug_print("%s MPU6050 values: a=%s, g=%s" % [message.source.get_port(), values.accel_offset, values.gyro_offset])
 	)
 
 func _process(delta: float) -> void:
