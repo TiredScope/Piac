@@ -15,21 +15,21 @@ class CalibrationValues:
 	var gyro_offset: Vector3i
 
 enum AccelRange {
-	FS_250 = 0x00,
-	FS_500 = 0x01,
-	FS_1000 = 0x02,
-	FS_2000 = 0x03,
-}
-
-enum GyroRange {
 	FS_2 = 0x00,
 	FS_4 = 0x01,
 	FS_8 = 0x02,
 	FS_16 = 0x03,
 }
 
-const DEFAULT_ACCEL_RANGE: AccelRange = AccelRange.FS_2000
-const DEFAULT_GYRO_RANGE: GyroRange = GyroRange.FS_8
+enum GyroRange {
+	FS_250 = 0x00,
+	FS_500 = 0x01,
+	FS_1000 = 0x02,
+	FS_2000 = 0x03,
+}
+
+const DEFAULT_ACCEL_RANGE: AccelRange = AccelRange.FS_8
+const DEFAULT_GYRO_RANGE: GyroRange = GyroRange.FS_2000
 
 signal received_values(message: Message, values: Values)
 signal received_calibration_values(message: Message, values: CalibrationValues)
@@ -138,27 +138,28 @@ func get_values(discriminator: int = Message.DEFAULT_DISCRIMINATOR) -> Values:
 	return _values.values()[0]
 
 static func get_accel_value(value: int, accel_range: AccelRange) -> float:
+	print(value)
 	match accel_range:
-		AccelRange.FS_250:
-			return remap(value, -(1<<15), (1<<15)-1, -250, 250)
-		AccelRange.FS_500:
-			return remap(value, -(1<<15), (1<<15)-1, -500, 500)
-		AccelRange.FS_1000:
-			return remap(value, -(1<<15), (1<<15)-1, -1000, 1000)
-		AccelRange.FS_2000:
-			return remap(value, -(1<<15), (1<<15)-1, -2000, 2000)
+		AccelRange.FS_2:
+			return remap(value, -(1<<15), (1<<15)-1, -2, 2)
+		AccelRange.FS_4:
+			return remap(value, -(1<<15), (1<<15)-1, -4, 4)
+		AccelRange.FS_8:
+			return remap(value, -(1<<15), (1<<15)-1, -8, 8)
+		AccelRange.FS_16:
+			return remap(value, -(1<<15), (1<<15)-1, -16, 16)
 		_:
 			return 0
 
 static func get_gyro_value(value: int, gyro_range: GyroRange) -> float:
 	match gyro_range:
-		GyroRange.FS_2:
-			return remap(value, -(1<<15), (1<<15)-1, -2, 2)
-		GyroRange.FS_4:
-			return remap(value, -(1<<15), (1<<15)-1, -4, 4)
-		GyroRange.FS_8:
-			return remap(value, -(1<<15), (1<<15)-1, -8, 8)
-		GyroRange.FS_16:
-			return remap(value, -(1<<15), (1<<15)-1, -16, 16)
+		GyroRange.FS_250:
+			return remap(value, -(1<<15), (1<<15)-1, -250, 250)
+		GyroRange.FS_500:
+			return remap(value, -(1<<15), (1<<15)-1, -500, 500)
+		GyroRange.FS_1000:
+			return remap(value, -(1<<15), (1<<15)-1, -1000, 1000)
+		GyroRange.FS_2000:
+			return remap(value, -(1<<15), (1<<15)-1, -2000, 2000)
 		_:
 			return 0

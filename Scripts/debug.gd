@@ -137,6 +137,7 @@ func _init() -> void:
 
 	self.mpu6050 = MPU6050Module.new(Com)
 	mpu6050.init.connect(func(_client: MiniCom.Client, discriminator: int) -> void:
+		mpu6050.set_ranges(MPU6050Module.AccelRange.FS_2, MPU6050Module.GyroRange.FS_2000, discriminator)
 		mpu6050.start_calibration(10, discriminator)
 	)
 
@@ -145,7 +146,7 @@ func _init() -> void:
 	)
 
 	mpu6050.received_calibration_values.connect(func(message: Message, values: MPU6050Module.CalibrationValues) -> void:
-		debug_print("%s MPU6050 values: a=%s, g=%s" % [message.source.get_port(), values.accel_offset, values.gyro_offset])
+		debug_print("%s MPU6050 calibration values: a=%s, g=%s" % [message.source.get_port(), values.accel_offset, values.gyro_offset])
 	)
 
 func _process(delta: float) -> void:
@@ -160,13 +161,13 @@ func _process(delta: float) -> void:
 		lastChange = 0
 
 		var colors: Array[Color] = []
-		var rng := RandomNumberGenerator.new()
+		var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 		#var color: Color = Color.from_rgba8(rng.randi_range(0, 255), rng.randi_range(0, 255), rng.randi_range(0, 255))
 		var color: Color = Color.from_rgba8(mult * 255, mult * 255, 0)
-		for i in range(0, 30):
+		for i: int in range(0, 30):
 			colors.push_back(color)
-		for i in range(31, 60):
+		for i: int in range(31, 60):
 			colors.push_back(Color.from_rgba8(55,55,55))
 		neoPixel.set_colors(colors)
 
@@ -178,7 +179,7 @@ func update_modules() -> void:
 		%ModuleControls.remove_child(child)
 		child.queue_free()
 
-	for client in Com.get_clients():
+	for client: MiniCom.Client in Com.get_clients():
 		for module: MiniCom.ClientModule in client.get_capabilities():
 			var cb: CheckBox = CheckBox.new()
 			cb.text = module.get_id()
