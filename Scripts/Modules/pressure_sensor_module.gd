@@ -1,7 +1,7 @@
-class_name ThermistorModule
+class_name PressureSensorModule
 extends Module
 
-const ID: String = "thermistor"
+const ID: String = "pressure_sensor"
 
 signal received_value(message: Message, value: int)
 
@@ -12,14 +12,19 @@ func _init(com: MiniCom) -> void:
 	self._value = {}
 
 func _on_message(m: Message) -> void:
-	if m.type == Message.Type.M_THERMISTOR_VALUE:
+	if m.type == Message.Type.M_PRESSURESENSOR_VALUE:
 		var reader: MessageReader = m.reader()
-		var value: int = reader.get_u16() != 0
-		_value[m.discriminator] = value
+		var value: int = reader.get_u16()
+		_value[m.discriminator] =  value
 		received_value.emit(m, value)
 
 func get_id() -> String:
 	return ID
+
+func set_reporting_delay(delay: int, discriminator: int = Message.DEFAULT_DISCRIMINATOR) -> void:
+	var builder: MessageBuilder = MessageBuilder.new(Message.Type.M_PRESSURESENSOR_SET_REPORTING_DELAY, discriminator)
+	builder.put_u32(delay)
+	_com.send_message(builder.build())
 
 func get_value(discriminator: int = Message.DEFAULT_DISCRIMINATOR) -> bool:
 	if discriminator != Message.DEFAULT_DISCRIMINATOR:

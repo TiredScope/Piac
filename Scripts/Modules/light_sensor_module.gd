@@ -21,7 +21,7 @@ func _on_message(m: Message) -> void:
 func get_id() -> String:
 	return ID
 
-func get_distance(discriminator: int = Message.DEFAULT_DISCRIMINATOR) -> bool:
+func get_value(discriminator: int = Message.DEFAULT_DISCRIMINATOR) -> bool:
 	if discriminator != Message.DEFAULT_DISCRIMINATOR:
 		return _value.get(Message.DEFAULT_DISCRIMINATOR, false)
 

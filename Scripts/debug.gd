@@ -9,6 +9,8 @@ var keypad: SparkfunKeypadModule
 var neoPixel: NeoPixelModule
 var bme280: BME280Module
 var mpu6050: MPU6050Module
+var pressureSensor: PressureSensorModule
+var potentiometer: PotentiometerModule
 
 var t: float = 0
 var lastChange: float = -1
@@ -147,6 +149,24 @@ func _init() -> void:
 
 	mpu6050.received_calibration_values.connect(func(message: Message, values: MPU6050Module.CalibrationValues) -> void:
 		debug_print("%s MPU6050 calibration values: a=%s, g=%s" % [message.source.get_port(), values.accel_offset, values.gyro_offset])
+	)
+
+	self.pressureSensor = PressureSensorModule.new(Com)
+	pressureSensor.init.connect(func(_client: MiniCom.Client, discriminator: int) -> void:
+		pressureSensor.set_reporting_delay(500, discriminator)
+	)
+
+	pressureSensor.received_value.connect(func(message: Message, value: int) -> void:
+		debug_print("%s Pressure value: v=%d" % [message.source.get_port(), value])
+	)
+
+	self.potentiometer = PotentiometerModule.new(Com)
+	potentiometer.init.connect(func(_client: MiniCom.Client, discriminator: int) -> void:
+		potentiometer.set_reporting_delay(500, discriminator)
+	)
+
+	potentiometer.received_value.connect(func(message: Message, value: int) -> void:
+		debug_print("%s Potentiometer value: v=%d" % [message.source.get_port(), value])
 	)
 
 func _process(delta: float) -> void:
