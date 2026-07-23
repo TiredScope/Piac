@@ -11,6 +11,7 @@ var bme280: BME280Module
 var mpu6050: MPU6050Module
 var pressureSensor: PressureSensorModule
 var potentiometer: PotentiometerModule
+var light: LightSensorModule
 
 var t: float = 0
 var lastChange: float = -1
@@ -167,6 +168,15 @@ func _init() -> void:
 
 	potentiometer.received_value.connect(func(message: Message, value: int) -> void:
 		debug_print("%s Potentiometer value: v=%d" % [message.source.get_port(), value])
+	)
+
+	self.light = LightSensorModule.new(Com)
+	light.init.connect(func(_client: MiniCom.Client, discriminator: int) -> void:
+		light.set_reporting_delay(500, discriminator)
+	)
+
+	light.received_value.connect(func(message: Message, value: int) -> void:
+		debug_print("%s Light value: v=%d" % [message.source.get_port(), value])
 	)
 
 func _process(delta: float) -> void:
