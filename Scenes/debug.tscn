@@ -30,6 +30,7 @@ color = Color(0.1728327, 0.17283267, 0.17283267, 1)
 
 [node name="DebugOutput" type="RichTextLabel" parent="VBoxContainer/MarginContainer" unique_id=1249180984]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 500)
 layout_mode = 2
 scroll_following = true
 
