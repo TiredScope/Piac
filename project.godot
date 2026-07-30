@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 Com="*uid://dvo6vway0j0fn"
+PVPConstants="*uid://c2hunvs8tvbgm"
 
 [debug]
 

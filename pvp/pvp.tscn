@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://daxt44kos2tp"]
+
+[ext_resource type="PackedScene" uid="uid://kr2csmg3dm4x" path="res://pvp/pvp_configuration.tscn" id="1_643k2"]
+[ext_resource type="Script" uid="uid://c5dbfc8o4whmb" path="res://pvp/pvp.gd" id="1_ns7ub"]
+
+[node name="Pvp" type="Control" unique_id=1016442301]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ns7ub")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=589031429]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="LeftConfiguration" parent="HBoxContainer" unique_id=1061286464 instance=ExtResource("1_643k2")]
+layout_mode = 2
+highlighted = true
+
+[node name="RightConfiguration" parent="HBoxContainer" unique_id=685973804 instance=ExtResource("1_643k2")]
+layout_mode = 2

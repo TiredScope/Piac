@@ -1,0 +1,108 @@
+[gd_scene format=3 uid="uid://kr2csmg3dm4x"]
+
+[ext_resource type="Script" uid="uid://d0elb0oqs5gun" path="res://pvp/pvp_configuration.gd" id="1_b2c5x"]
+[ext_resource type="PackedScene" uid="uid://vg6g01sokmak" path="res://pvp/item.tscn" id="1_ivmiv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s04cq"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 0)
+
+[node name="PvpConfiguration" type="Control" unique_id=1616519180]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 609.0
+offset_bottom = 639.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_b2c5x")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1563053437]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+color = Color(0, 0.06666667, 0.1882353, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=89664308]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="MainPanel" type="PanelContainer" parent="MarginContainer" unique_id=1680470367]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_s04cq")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/MainPanel" unique_id=718904296]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/MainPanel/MarginContainer" unique_id=710661740]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer" unique_id=563271363]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 0.5647059, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "Inventar"
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer" unique_id=387836161]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
+columns = 3
+
+[node name="Item" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer/GridContainer" unique_id=2120219212 instance=ExtResource("1_ivmiv")]
+layout_mode = 2
+
+[node name="Item2" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer/GridContainer" unique_id=861455429 instance=ExtResource("1_ivmiv")]
+layout_mode = 2
+
+[node name="Item3" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer/GridContainer" unique_id=2141631713 instance=ExtResource("1_ivmiv")]
+layout_mode = 2
+
+[node name="Item4" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer/GridContainer" unique_id=1184039369 instance=ExtResource("1_ivmiv")]
+layout_mode = 2
+
+[node name="Item5" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer/GridContainer" unique_id=688916748 instance=ExtResource("1_ivmiv")]
+layout_mode = 2
+
+[node name="Item6" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer/GridContainer" unique_id=431079030 instance=ExtResource("1_ivmiv")]
+layout_mode = 2
+
+[node name="Item7" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer/GridContainer" unique_id=1974928987 instance=ExtResource("1_ivmiv")]
+layout_mode = 2
+
+[node name="Item8" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer/GridContainer" unique_id=330949174 instance=ExtResource("1_ivmiv")]
+layout_mode = 2
+
+[node name="Item9" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer/GridContainer" unique_id=1267953017 instance=ExtResource("1_ivmiv")]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer" unique_id=303237943]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 24
+text = "Bitte wähle ein Item mit 1-9 aus"
