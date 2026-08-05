@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bimgnl8iwej4u" path="res://pvp/item_data.gd" id="1_xpmy7"]
 [ext_resource type="Script" uid="uid://dqqqf7l4u6iam" path="res://pvp/items.gd" id="2_cdl1g"]
 [ext_resource type="Script" uid="uid://81lj6u3rietp" path="res://pvp/pvp_values.gd" id="2_llaei"]
+[ext_resource type="Texture2D" uid="uid://lyowx8yxdhie" path="res://icon.svg" id="3_llaei"]
 
 [sub_resource type="Resource" id="Resource_c7p2d"]
 script = ExtResource("2_llaei")

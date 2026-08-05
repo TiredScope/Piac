@@ -12,10 +12,6 @@ extends Control
 func _ready() -> void:
 	_apply_highlight()
 
-
-func _process(_delta: float) -> void:
-	pass
-
 func _apply_highlight() -> void:
 	if not is_inside_tree():
 		return

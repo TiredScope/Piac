@@ -70,8 +70,8 @@ text = "Inventar"
 [node name="GridContainer" type="GridContainer" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer" unique_id=387836161]
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_constants/h_separation = 16
-theme_override_constants/v_separation = 16
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
 columns = 3
 
 [node name="Item" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer/GridContainer" unique_id=2120219212 instance=ExtResource("1_ivmiv")]

@@ -159,7 +159,7 @@ static func decode(m_source: MiniCom.Client, data: PackedByteArray) -> Message:
 	var checksum: int = stream.get_u8()
 
 	var calculated_checksum: int = 0
-	for b in bd:
+	for b: int in bd:
 		calculated_checksum ^= b
 
 	if calculated_checksum != checksum:

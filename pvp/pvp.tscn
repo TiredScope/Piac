@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://kr2csmg3dm4x" path="res://pvp/pvp_configuration.tscn" id="1_643k2"]
 [ext_resource type="Script" uid="uid://c5dbfc8o4whmb" path="res://pvp/pvp.gd" id="1_ns7ub"]
+[ext_resource type="Script" uid="uid://u0osa5q8bc80" path="res://Scripts/Modules/sparkfun_keypad_module.gd" id="3_en624"]
 
 [node name="Pvp" type="Control" unique_id=1016442301]
 layout_mode = 3
@@ -27,3 +28,11 @@ highlighted = true
 
 [node name="RightConfiguration" parent="HBoxContainer" unique_id=685973804 instance=ExtResource("1_643k2")]
 layout_mode = 2
+
+[node name="Modules" type="Node" parent="." unique_id=1569928464]
+
+[node name="Keypad" type="Node" parent="Modules" unique_id=1164713577]
+script = ExtResource("3_en624")
+metadata/_custom_type_script = "uid://u0osa5q8bc80"
+
+[connection signal="key_pressed" from="Modules/Keypad" to="." method="_on_keypad_key_pressed"]
