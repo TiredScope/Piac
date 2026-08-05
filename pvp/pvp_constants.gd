@@ -1,27 +1,10 @@
 extends Node
 
-enum PVPStat {
-	HP,
-	ATTACK,
-	DEFENSE,
-	OBEDIENCE,
-	TEMPO,
-	LUCK,
-}
+const STATS: Stats = preload("res://Resources/stats.tres")
+const ITEMS: Items = preload("res://Resources/items.tres")
 
-const MAX_POINTS_PER_CATEGORY: int = 10
-const POINTS_IN_DISTRIBUTION: int = 30
-const NUM_STATS: int = 6
+func get_info(stat: Stats.PVPStat) -> StatInfo:
+	return STATS.info[stat]
 
-const HP_MIN: int = 80
-const HP_MAX: int = 100
-const ATTACK_MIN: int = 8
-const ATTACK_MAX: int = 15
-const DEFENSE_MIN: int = 4
-const DEFENSE_MAX: int = 10
-const OBEDIENCE_MIN: float = 0.5
-const OBEDIENCE_MAX: float = 0.8
-const TEMPO_MIN: int = 1
-const TEMPO_MAX: int = 10
-const LUCK_MIN: float = 2
-const LUCK_MAX: float = 3
+func get_num_stats() -> int:
+	return len(STATS.info)

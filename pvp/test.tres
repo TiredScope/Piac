@@ -1,7 +1,21 @@
 [gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://cdcd7754ery6p"]
 
 [ext_resource type="Script" uid="uid://bimgnl8iwej4u" path="res://pvp/item_data.gd" id="1_6oy68"]
+[ext_resource type="Script" uid="uid://81lj6u3rietp" path="res://pvp/pvp_values.gd" id="1_30vgy"]
+
+[sub_resource type="Resource" id="Resource_jidxa"]
+script = ExtResource("1_30vgy")
+values = Dictionary[int, float]({
+0: 0.0,
+1: 0.0,
+2: 0.0,
+3: 0.0,
+4: 0.0,
+5: 0.0
+})
+metadata/_custom_type_script = "uid://81lj6u3rietp"
 
 [resource]
 script = ExtResource("1_6oy68")
+bonus = SubResource("Resource_jidxa")
 metadata/_custom_type_script = "uid://bimgnl8iwej4u"

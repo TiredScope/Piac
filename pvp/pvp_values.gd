@@ -1,55 +1,83 @@
+@tool
 class_name PVPValues
 extends Resource
 
-static var POINTS_IN_DISTRIBUTION: int = 30
+@export var values: Dictionary[Stats.PVPStat, float]
 
-@export_range(PVPConstants.HP_MIN, PVPConstants.HP_MAX, 1) var hp: int
-@export_range(PVPConstants.ATTACK_MIN, PVPConstants.ATTACK_MAX, 1) var attack: int
-@export_range(PVPConstants.DEFENSE_MIN, PVPConstants.DEFENSE_MAX, 1) var defense: int
-@export_range(PVPConstants.OBEDIENCE_MIN, PVPConstants.OBEDIENCE_MAX, 0.05) var obedience: float
-@export_range(PVPConstants.TEMPO_MIN, PVPConstants.TEMPO_MAX, 1) var tempo: int
-@export_range(PVPConstants.LUCK_MIN, PVPConstants.LUCK_MAX, 0.1) var luck: float
+var hp: float:
+	get():
+		return get_value(Stats.PVPStat.HP)
 
-func _init(_hp: int, _attack: int, _defense: int, _obedience: float, _tempo: int, _luck: float) -> void:
-	self.hp = _hp
-	self.attack = _attack
-	self.defense = _defense
-	self.obedience = _obedience
-	self.tempo = _tempo
-	self.luck = _luck
+var attack: float:
+	get():
+		return get_value(Stats.PVPStat.ATTACK)
+
+var defense: float:
+	get():
+		return get_value(Stats.PVPStat.DEFENSE)
+
+var obedience: float:
+	get():
+		return get_value(Stats.PVPStat.OBEDIENCE)
+
+var tempo: float:
+	get():
+		return get_value(Stats.PVPStat.TEMPO)
+
+var luck: float:
+	get():
+		return get_value(Stats.PVPStat.LUCK)
+
+func _init(_values: Dictionary[Stats.PVPStat, float] = _make_empty()) -> void:
+	self.values = _values
+
+func get_value(stat: Stats.PVPStat) -> float:
+	return values.get(stat, 0.0)
+
+func add(other: PVPValues) -> PVPValues:
+	var new_values: Dictionary[Stats.PVPStat, float] = {}
+	for stat: Stats.PVPStat in Stats.PVPStat.values():
+		new_values[stat] = get_value(stat) + other.get_value(stat)
+	return PVPValues.new(new_values)
+
+# TODO: do we need this? Are values allowed to exceed their min and max values if boosted by bonuses?
+func clamp_ranges() -> void:
+	for stat: Stats.PVPStat in Stats.PVPStat.values():
+		var info: StatInfo = PVPConstants.get_info(stat)
+		values[stat] = clampf(get_value(stat), info.min_value, info.max_value)
 
 static func generate_from_distribution(distribution: Array[int]) -> PVPValues:
 	var sum: int = distribution.reduce(func (a: int, b: int) -> int:
 		return a+b, 0)
 
-	assert(sum == PVPConstants.POINTS_IN_DISTRIBUTION)
+	assert(len(distribution) == PVPConstants.get_num_stats())
+	assert(sum == PVPConstants.STATS.totalPoints)
 
-	var gen_hp: int = int(_generate_value(0, PVPConstants.HP_MIN, PVPConstants.HP_MAX))
-	var gen_attack: int = int(_generate_value(0, PVPConstants.ATTACK_MIN, PVPConstants.ATTACK_MAX))
-	var gen_defense: int = int(_generate_value(0, PVPConstants.DEFENSE_MIN, PVPConstants.DEFENSE_MAX))
-	var gen_obedience: float = _generate_value(0, PVPConstants.OBEDIENCE_MIN, PVPConstants.OBEDIENCE_MAX)
-	var gen_tempo: int = int(_generate_value(0, PVPConstants.TEMPO_MIN, PVPConstants.TEMPO_MAX))
-	var gen_luck: float = _generate_value(0, PVPConstants.LUCK_MIN, PVPConstants.LUCK_MAX)
+	var gen_values: Dictionary[Stats.PVPStat, float] = {}
 
-	return PVPValues.new(
-		gen_hp,
-		gen_attack,
-		gen_defense,
-		gen_obedience,
-		gen_tempo,
-		gen_luck,
-	)
+	for stat: Stats.PVPStat in Stats.PVPStat.values():
+		var info: StatInfo = PVPConstants.get_info(stat)
+		var gen_value: float = _generate_value(distribution[stat], info.min_value, info.max_value)
+		gen_values[stat] = gen_value
+
+	return PVPValues.new(gen_values)
 
 static func _generate_value(value: int, min_value: float, max_value: float) -> float:
-	return remap(value, 0, PVPConstants.MAX_POINTS_PER_CATEGORY, min_value, max_value)
+	return remap(value, 0, PVPConstants.STATS.maxPointsPerCategory, min_value, max_value)
 
 static func generate_distribution() -> Array[int]:
-	var values: Array[int] = []
-	values.resize(PVPConstants.NUM_STATS)
-	values.fill(0)
+	var distribution: Array[int] = []
+	distribution.resize(PVPConstants.get_num_stats())
+	distribution.fill(0)
 
-	for _i: int in range(PVPConstants.POINTS_IN_DISTRIBUTION):
-		var idx: int = randi_range(0, len(values)-1)
-		values[idx] += 1
+	for _i: int in range(PVPConstants.STATS.totalPoints):
+		var idx: int = randi_range(0, len(distribution)-1)
+		distribution[idx] += 1
 
-	return values
+	return distribution
+
+static func _make_empty() -> Dictionary[Stats.PVPStat, float]:
+	var empty_values: Dictionary[Stats.PVPStat, float] = {}
+	for stat: Stats.PVPStat in Stats.PVPStat.values():
+		empty_values[stat] = 0
+	return empty_values
