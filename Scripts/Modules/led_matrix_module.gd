@@ -3,10 +3,8 @@ extends Module
 
 const ID: String = "led_matrix"
 
-var _com: MiniCom
-
-func _init(com: MiniCom) -> void:
-	self._com = com
+func _on_message(_m: Message) -> void:
+	pass
 
 func get_id() -> String:
 	return ID

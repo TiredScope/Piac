@@ -20,7 +20,7 @@ func put_i16(value: int) -> void:
 	_buffer.put_16(value)
 
 func put_u16(value: int) -> void:
-	_buffer.put_u16s(value)
+	_buffer.put_u16(value)
 
 func put_i32(value: int) -> void:
 	_buffer.put_32(value)

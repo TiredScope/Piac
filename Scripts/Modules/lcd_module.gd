@@ -11,10 +11,8 @@ enum {
 	LCD_RIGHT_TO_LEFT = 0x10, # 1 == scroll left, 0 == scroll right
 }
 
-var _com: MiniCom
-
-func _init(com: MiniCom) -> void:
-	self._com = com
+func _on_message(_m: Message) -> void:
+	pass
 
 func get_id() -> String:
 	return ID
