@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://cjotab7wbyty"]
+
+[ext_resource type="Script" uid="uid://j1hl6ek4h2kv" path="res://Scripts/debug.gd" id="1_raf04"]
+
+[node name="Debug" type="Node2D" unique_id=693057969]
+script = ExtResource("1_raf04")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=649611363]
+offset_right = 649.0
+offset_bottom = 309.0
+
+[node name="Button" type="Button" parent="VBoxContainer" unique_id=670769648]
+layout_mode = 2
+text = "Check connection"
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer" unique_id=270773000]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer/MarginContainer" unique_id=568149366]
+layout_mode = 2
+size_flags_vertical = 3
+color = Color(0.1728327, 0.17283267, 0.17283267, 1)
+
+[node name="DebugOutput" type="RichTextLabel" parent="VBoxContainer/MarginContainer" unique_id=1249180984]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer" unique_id=1434299145]
+layout_mode = 2
+button_pressed = true
+text = "Enable RFID"
+
+[connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="toggled" from="VBoxContainer/CheckBox" to="." method="_on_check_box_toggled"]
