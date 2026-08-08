@@ -20,7 +20,8 @@ values = Dictionary[int, float]({
 script = ExtResource("1_xpmy7")
 id = "omegalul_hat"
 name = "Omegalul-Hut"
-description = "kekw"
+description = "Ein KEKW-Omegalul-Hut
+Neue Zeile"
 bonus = SubResource("Resource_c7p2d")
 metadata/_custom_type_script = "uid://bimgnl8iwej4u"
 

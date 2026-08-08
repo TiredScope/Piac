@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://kr2csmg3dm4x"]
 
 [ext_resource type="Script" uid="uid://d0elb0oqs5gun" path="res://pvp/pvp_configuration.gd" id="1_b2c5x"]
-[ext_resource type="PackedScene" uid="uid://vg6g01sokmak" path="res://pvp/item.tscn" id="1_ivmiv"]
+[ext_resource type="PackedScene" uid="uid://ue5gvnguluoc" path="res://pvp/inventory.tscn" id="2_b2c5x"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s04cq"]
 resource_local_to_scene = true
@@ -21,6 +21,7 @@ offset_bottom = 639.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_b2c5x")
+title_text = "Inventar"
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1563053437]
 layout_mode = 1
@@ -61,47 +62,20 @@ layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer" unique_id=563271363]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(1, 0.5647059, 0, 1)
 theme_override_font_sizes/font_size = 32
 text = "Inventar"
 
-[node name="GridContainer" type="GridContainer" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer" unique_id=387836161]
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_constants/h_separation = 0
-theme_override_constants/v_separation = 0
-columns = 3
-
-[node name="Item" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer/GridContainer" unique_id=2120219212 instance=ExtResource("1_ivmiv")]
+[node name="Inventory" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer" unique_id=515263858 instance=ExtResource("2_b2c5x")]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Item2" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer/GridContainer" unique_id=861455429 instance=ExtResource("1_ivmiv")]
-layout_mode = 2
-
-[node name="Item3" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer/GridContainer" unique_id=2141631713 instance=ExtResource("1_ivmiv")]
-layout_mode = 2
-
-[node name="Item4" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer/GridContainer" unique_id=1184039369 instance=ExtResource("1_ivmiv")]
-layout_mode = 2
-
-[node name="Item5" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer/GridContainer" unique_id=688916748 instance=ExtResource("1_ivmiv")]
-layout_mode = 2
-
-[node name="Item6" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer/GridContainer" unique_id=431079030 instance=ExtResource("1_ivmiv")]
-layout_mode = 2
-
-[node name="Item7" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer/GridContainer" unique_id=1974928987 instance=ExtResource("1_ivmiv")]
-layout_mode = 2
-
-[node name="Item8" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer/GridContainer" unique_id=330949174 instance=ExtResource("1_ivmiv")]
-layout_mode = 2
-
-[node name="Item9" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer/GridContainer" unique_id=1267953017 instance=ExtResource("1_ivmiv")]
-layout_mode = 2
-
-[node name="Label2" type="Label" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer" unique_id=303237943]
+[node name="SelectItem" type="Label" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer" unique_id=303237943]
+unique_name_in_owner = true
+visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 24
