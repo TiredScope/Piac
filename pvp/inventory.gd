@@ -30,17 +30,17 @@ func highlight_item(index: int) -> void:
 	if index != -1 and (index < 0 or index >= INVENTORY_SIZE):
 		return
 
-	for child: Item in get_children():
+	for child: Item in get_items():
 		child.highlighted = false
 
 	if index != -1:
-		var item: Item = get_children()[index] as Item
+		var item: Item = get_item(index)
 		item.highlighted = true
 
 func get_selected_items() -> Array[int]:
 	var result: Array[int] = []
 	for i: int in range(INVENTORY_SIZE):
-		var item: Item = get_children()[i] as Item
+		var item: Item = get_item(i)
 		if item.selected:
 			result.push_back(i)
 
@@ -48,8 +48,25 @@ func get_selected_items() -> Array[int]:
 
 func get_highlighted_item() -> int:
 	for i: int in range(INVENTORY_SIZE):
-		var item: Item = get_children()[i] as Item
+		var item: Item = get_item(i)
 		if item.highlighted:
 			return i
 
 	return -1
+
+func get_items() -> Array[Item]:
+	var items: Array[Item] = []
+	for n: Node in  get_children():
+		if not n is Item:
+			continue
+
+		items.append(n as Item)
+	return items
+
+func get_item(slot: int) -> Item:
+	var items: Array[Item] = get_items()
+
+	if slot < 0 or slot >= len(items):
+		return null
+
+	return items[slot]

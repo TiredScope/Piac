@@ -79,4 +79,11 @@ visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 24
-text = "Bitte wähle ein Item mit 1-9 aus"
+text = "Bitte wähle ein Item mit 1-9 aus (0 = fertig)"
+
+[node name="PlayerReady" type="Label" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer" unique_id=992067940]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Spieler ist bereit!"
+horizontal_alignment = 1
