@@ -33,7 +33,6 @@ offset_right = 64.0
 offset_bottom = 64.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_s04cq")
 script = ExtResource("1_g6e1w")
-slot_index = null
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=688916748]
 layout_mode = 2
@@ -70,7 +69,8 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_right = 11.0
+offset_left = -5.5
+offset_right = 5.5
 offset_bottom = 33.0
 grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_g6e1w")
@@ -85,5 +85,4 @@ theme_override_constants/margin_bottom = 5
 [node name="Label" type="Label" parent="Tooltip/PanelContainer/MarginContainer" unique_id=477851394]
 layout_mode = 2
 theme_override_constants/line_spacing = 0
-text = "Hello World"
 autowrap_mode = 3

@@ -15,8 +15,7 @@ extends PanelContainer
 @export var slot_index: int:
 	set(value):
 		slot_index = value
-		var lbl: Label = $SlotIndex
-		lbl.text = str(value)
+		_apply_style()
 
 @export var item_data: ItemData:
 	set(value):
@@ -24,6 +23,7 @@ extends PanelContainer
 		_apply_style()
 
 @onready var _stylebox: StyleBoxFlat = get_theme_stylebox("panel") as StyleBoxFlat
+@onready var _slot_index: Label = $SlotIndex
 @onready var _icon: TextureRect = $MarginContainer/TextureRect
 @onready var _tooltip: Control = $Tooltip
 @onready var _tooltip_content: PanelContainer = $Tooltip/PanelContainer
@@ -36,9 +36,16 @@ func _apply_style() -> void:
 	if not is_inside_tree():
 		return
 
-	_icon.texture = item_data.icon if item_data else null
-	_tooltip.visible = item_data and highlighted
-	_tooltip_label.text = item_data.description if item_data else ""
+	_slot_index.text = str(slot_index)
+
+	if not item_data:
+		_icon.texture = null
+		_tooltip.visible = false
+		return
+
+	_icon.texture = item_data.icon
+	_tooltip.visible = highlighted
+	_tooltip_label.text = item_data.name + "\n" + item_data.description
 	call_deferred("_center_tooltip")
 
 	_stylebox.border_color = Color.ORANGE if highlighted else Color.TRANSPARENT

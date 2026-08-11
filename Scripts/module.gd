@@ -3,11 +3,14 @@ extends Node
 
 signal init(client: MiniCom.Client, discriminator: int)
 
-@export var _com: MiniCom
+@export var _com: MiniCom = Com
 
-func _init(com: MiniCom = Com) -> void:
-	_com = com
+func _init(com: MiniCom = null) -> void:
+	if com:
+		_com = com
 
+func _ready() -> void:
+	print("Init module ", get_id())
 	_com.is_ready.connect(_init_client)
 	_com.message_received.connect(_on_message)
 

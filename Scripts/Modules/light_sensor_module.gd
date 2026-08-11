@@ -7,7 +7,7 @@ signal received_value(message: Message, value: int)
 
 var _value: Dictionary[int, int]
 
-func _init(com: MiniCom) -> void:
+func _init(com: MiniCom = null) -> void:
 	super(com)
 	self._value = {}
 
