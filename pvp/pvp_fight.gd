@@ -1,8 +1,12 @@
 class_name PVPFight
 extends Control
 
-var player_1_items: Array[ItemData]
-var player_2_items: Array[ItemData]
+class PVPPlayer:
+	var items: Array[ItemData]
+	var values: AttackValues
+
+var player1: PVPPlayer
+var player2: PVPPlayer
 
 @onready var _light_sensor: LightSensorModule = $Modules/LightSensorModule
 @onready var _pressure_sensor: PressureSensorModule = $Modules/PressureSensorModule
@@ -12,30 +16,29 @@ var player_2_items: Array[ItemData]
 @onready var _crit: ProgressBar = $VBoxContainer/Crit
 @onready var _block: ProgressBar = $VBoxContainer/Block
 
-var values: AttackValues = AttackValues.new()
-
 func _ready() -> void:
-	_show_values()
+	_show_values(player1)
 
 func _process(_delta: float) -> void:
 	var change: float = -0.1 if Input.is_key_pressed(KEY_SHIFT) else 0.1
 	if Input.is_action_just_pressed("ui_left"):
-		values.normal += change
-		_show_values()
+		player1.values.normal += change
+		_show_values(player1)
 
 	if Input.is_action_just_pressed("ui_up"):
-			values.crit += change
-			_show_values()
+			player1.values.crit += change
+			_show_values(player1)
 
 	if Input.is_action_just_pressed("ui_right"):
-			values.block += change
-			_show_values()
+			player1.values.block += change
+			_show_values(player1)
 
 
-func _show_values() -> void:
-	_normal.value = values.normal
-	_crit.value = values.crit
-	_block.value = values.block
+func _show_values(player: PVPPlayer) -> void:
+	#_normal.value = values.normal
+	#_crit.value = values.crit
+	#_block.value = values.block
+	pass
 
 func _on_light_sensor_module_init(_client: MiniCom.Client, discriminator: int) -> void:
 	_light_sensor.set_reporting_delay(100, discriminator)

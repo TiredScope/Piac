@@ -3,6 +3,9 @@
 [ext_resource type="Script" uid="uid://d0elb0oqs5gun" path="res://pvp/pvp_configuration.gd" id="1_b2c5x"]
 [ext_resource type="PackedScene" uid="uid://ue5gvnguluoc" path="res://pvp/inventory.tscn" id="2_b2c5x"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_458wi"]
+bg_color = Color(0, 0.06666667, 0.1882353, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s04cq"]
 resource_local_to_scene = true
 bg_color = Color(0, 0, 0, 0)
@@ -12,34 +15,18 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color(1, 1, 1, 0)
 
-[node name="PvpConfiguration" type="Control" unique_id=1616519180]
+[node name="PVPConfiguration" type="PanelContainer" unique_id=1865470295]
 custom_minimum_size = Vector2(100, 100)
-layout_mode = 3
-anchors_preset = 0
 offset_right = 609.0
 offset_bottom = 639.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_458wi")
 script = ExtResource("1_b2c5x")
 title_text = "Inventar"
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1563053437]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_vertical = 3
-color = Color(0, 0.06666667, 0.1882353, 1)
-
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=89664308]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
