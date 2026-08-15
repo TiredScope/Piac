@@ -6,6 +6,27 @@
 [ext_resource type="Script" uid="uid://cgwoxxixa24a7" path="res://Scripts/Modules/potentiometer_module.gd" id="3_uvnuq"]
 [ext_resource type="Script" uid="uid://chwkqwbbcae4m" path="res://Scripts/Modules/pressure_sensor_module.gd" id="4_43ux5"]
 
+[sub_resource type="Animation" id="Animation_43ux5"]
+resource_name = "pop"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:theme_override_font_sizes/font_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.7),
+"transitions": PackedFloat32Array(1, 0.84089774, 3.605001),
+"update": 0,
+"values": [1, 128, 1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jhk0j"]
+_data = {
+&"pop": SubResource("Animation_43ux5")
+}
+
 [node name="PVPFight" type="Control" unique_id=1284904754]
 layout_mode = 3
 anchors_preset = 15
@@ -38,16 +59,58 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer" unique_id=841021862]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="PVPPlayerStats" parent="PanelContainer/HBoxContainer" unique_id=2106189513 instance=ExtResource("2_uvnuq")]
+[node name="Player1Stats" parent="PanelContainer/HBoxContainer" unique_id=2106189513 instance=ExtResource("2_uvnuq")]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 2
+size_flags_stretch_ratio = 0.0
 
-[node name="PVPPlayerStats2" parent="PanelContainer/HBoxContainer" unique_id=477734847 instance=ExtResource("2_uvnuq")]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/HBoxContainer" unique_id=1600724327]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RoundStatus" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer" unique_id=867916541]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Kampf gestartet"
+horizontal_alignment = 1
+
+[node name="Player2Stats" parent="PanelContainer/HBoxContainer" unique_id=477734847 instance=ExtResource("2_uvnuq")]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
+size_flags_stretch_ratio = 0.0
+
+[node name="Countdown" type="Label" parent="PanelContainer" unique_id=2140495160]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 1
+text = "10"
+horizontal_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PanelContainer/Countdown" unique_id=517353982]
+libraries/ = SubResource("AnimationLibrary_jhk0j")
+
+[node name="Timers" type="Node" parent="." unique_id=154862163]
+
+[node name="FirstRound" type="Timer" parent="Timers" unique_id=1976488201]
+one_shot = true
+
+[node name="Attack" type="Timer" parent="Timers" unique_id=1152446373]
+wait_time = 3.0
+one_shot = true
+
+[node name="BetweenRounds" type="Timer" parent="Timers" unique_id=1062072533]
+wait_time = 3.0
+one_shot = true
+
+[node name="Countdown" type="Timer" parent="Timers" unique_id=77216851]
 
 [connection signal="init" from="Modules/LightSensorModule" to="." method="_on_light_sensor_module_init"]
 [connection signal="received_value" from="Modules/LightSensorModule" to="." method="_on_light_sensor_module_received_value"]
@@ -55,3 +118,9 @@ size_flags_horizontal = 10
 [connection signal="received_value" from="Modules/PotentiometerModule" to="." method="_on_potentiometer_module_received_value"]
 [connection signal="init" from="Modules/PressureSensorModule" to="." method="_on_pressure_sensor_module_init"]
 [connection signal="received_value" from="Modules/PressureSensorModule" to="." method="_on_pressure_sensor_module_received_value"]
+[connection signal="animation_finished" from="PanelContainer/Countdown/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="timeout" from="Timers/FirstRound" to="." method="_start_round"]
+[connection signal="timeout" from="Timers/Attack" to="." method="_on_attack_timeout"]
+[connection signal="timeout" from="Timers/BetweenRounds" to="." method="_start_round"]
+[connection signal="timeout" from="Timers/Countdown" to="." method="_show_countdown"]
+[connection signal="timeout" from="Timers/Countdown" to="." method="_on_countdown_timeout"]

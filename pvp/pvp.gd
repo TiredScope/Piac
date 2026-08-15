@@ -3,7 +3,9 @@ extends Control
 @export var num_items: int = 3
 
 var first_player: bool = true
-var picked_items: int
+
+var player1_values: PVPValues = PVPValues.generate_from_distribution(PVPValues.generate_distribution())
+var player2_values: PVPValues = PVPValues.generate_from_distribution(PVPValues.generate_distribution())
 
 var _packed_pvp_fight: PackedScene = preload("res://pvp/pvp_fight.tscn")
 
@@ -55,18 +57,18 @@ func _is_selection_valid(inv: Inventory, slot: int) -> bool:
 		return false
 
 	var occupied_slots: Array[ItemData.Slot] = []
-	for i: int in inv.get_selected_items():
+	for i: int in inv.get_selected_slots():
 		var item: Item = inv.get_item(i)
 		if not item or not item.item_data:
 			continue
 
 		occupied_slots.push_back(item.item_data.slot)
 
-	return not inv.get_selected_items().has(slot) and not occupied_slots.has(selected_item.item_data.slot)
+	return not inv.get_selected_slots().has(slot) and not occupied_slots.has(selected_item.item_data.slot)
 
 func _can_player_select_anything(inv: Inventory) -> bool:
 	for i: int in range(Inventory.INVENTORY_SIZE):
-		if not inv.get_selected_items().has(i) and _is_selection_valid(inv, i):
+		if not inv.get_selected_slots().has(i) and _is_selection_valid(inv, i):
 			return true
 	return false
 
@@ -80,6 +82,11 @@ func _update_highlight() -> void:
 
 func _selection_done() -> void:
 	var pvp_fight: PVPFight = _packed_pvp_fight.instantiate()
+
+	var player1_items: Array[ItemData] = left_config.get_inventory().get_selected_item_data()
+	var player2_items: Array[ItemData] = right_config.get_inventory().get_selected_item_data()
+
+	pvp_fight.init_players(player1_values, player1_items, player2_values, player2_items)
 	get_tree().change_scene_to_node(pvp_fight)
 
 func _unhandled_input(event: InputEvent) -> void:

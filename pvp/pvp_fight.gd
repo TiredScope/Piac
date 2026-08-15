@@ -2,43 +2,74 @@ class_name PVPFight
 extends Control
 
 class PVPPlayer:
-	var items: Array[ItemData]
-	var values: AttackValues
+	var values: PVPValues
+	var hp: int
+	var items: Array[ItemData] = []
+	var attack_values: AttackValues = AttackValues.new()
 
-var player1: PVPPlayer
-var player2: PVPPlayer
+	func _init(p_values: PVPValues, p_items: Array[ItemData]) -> void:
+		values = p_values
+		items = p_items
+
+		for item: ItemData in items:
+			values = PVPValues.add(values, item.bonus)
+
+		hp = int(values.get_value(Stats.PVPStat.HP))
+
+@onready var _player1_stats: PVPPlayerStats = %Player1Stats
+@onready var _player2_stats: PVPPlayerStats = %Player2Stats
 
 @onready var _light_sensor: LightSensorModule = $Modules/LightSensorModule
 @onready var _pressure_sensor: PressureSensorModule = $Modules/PressureSensorModule
 @onready var _potentiometer: PotentiometerModule = $Modules/PotentiometerModule
 
-@onready var _normal: ProgressBar = $VBoxContainer/Normal
-@onready var _crit: ProgressBar = $VBoxContainer/Crit
-@onready var _block: ProgressBar = $VBoxContainer/Block
+@onready var _countdown: Label = %Countdown
+@onready var _countdown_player: AnimationPlayer = %Countdown/AnimationPlayer
+
+@onready var _first_round_timer: Timer = $Timers/FirstRound
+@onready var _attack_timer: Timer = $Timers/Attack
+@onready var _between_rounds_timer: Timer = $Timers/BetweenRounds
+@onready var _countdown_timer: Timer = $Timers/Countdown
+
+@onready var _round_status: Label = %RoundStatus
+
+var player1: PVPPlayer
+var player2: PVPPlayer
+
+var _current_round: int = 0
+var _current_countdown: int = 0
 
 func _ready() -> void:
-	_show_values(player1)
+	_show_values()
+
+	await get_tree().create_timer(1.0).timeout
+	_start_countdown(int(_first_round_timer.wait_time))
+	_first_round_timer.start()
+
+func init_players(player1_values: PVPValues, player1_items: Array[ItemData], player2_values: PVPValues, player2_items: Array[ItemData]) -> void:
+	player1 = PVPPlayer.new(player1_values, player1_items)
+	player2 = PVPPlayer.new(player2_values, player2_items)
+	pass
 
 func _process(_delta: float) -> void:
 	var change: float = -0.1 if Input.is_key_pressed(KEY_SHIFT) else 0.1
-	if Input.is_action_just_pressed("ui_left"):
-		player1.values.normal += change
-		_show_values(player1)
+	var attack_values: AttackValues = player2.attack_values if Input.is_key_pressed(KEY_CTRL) else player1.attack_values
 
-	if Input.is_action_just_pressed("ui_up"):
-			player1.values.crit += change
-			_show_values(player1)
+	if Input.is_action_just_pressed("simulate_sensor_1"):
+		attack_values.normal += change
+		_show_values()
 
-	if Input.is_action_just_pressed("ui_right"):
-			player1.values.block += change
-			_show_values(player1)
+	if Input.is_action_just_pressed("simulate_sensor_2"):
+		attack_values.crit += change
+		_show_values()
 
+	if Input.is_action_just_pressed("simulate_sensor_3"):
+		attack_values.block += change
+		_show_values()
 
-func _show_values(player: PVPPlayer) -> void:
-	#_normal.value = values.normal
-	#_crit.value = values.crit
-	#_block.value = values.block
-	pass
+func _show_values() -> void:
+	_player1_stats.show_values(player1)
+	_player2_stats.show_values(player2)
 
 func _on_light_sensor_module_init(_client: MiniCom.Client, discriminator: int) -> void:
 	_light_sensor.set_reporting_delay(100, discriminator)
@@ -107,3 +138,42 @@ class AttackValues:
 		set(prop, new_value - remaining_delta)
 		print(remaining_delta)
 		print("N ", normal, " | C ", crit, " | B ", block)
+
+func _start_round() -> void:
+	_current_round += 1
+	_round_status.text = "Runde %d" % [_current_round]
+	_attack_timer.start()
+	_start_countdown(int(_attack_timer.wait_time))
+
+func _start_countdown(time: int) -> void:
+	_current_countdown = time
+	_countdown_timer.start()
+	_show_countdown()
+
+func _show_countdown() -> void:
+	if _current_countdown <= 0:
+		_countdown.visible = false
+		_countdown_timer.stop()
+		return
+
+	_countdown.text = str(_current_countdown)
+	_countdown.visible = true
+	_current_countdown -= 1
+	_countdown_player.play("pop")
+
+
+func _on_attack_timeout() -> void:
+	_calculate_attacks()
+	_round_status.text = "Runde %d vorbei" % [_current_round]
+	_between_rounds_timer.start()
+
+func _calculate_attacks() -> void:
+	player1.hp -= 5
+	# TODO: calculate actual values
+	# TODO: play some fancy animations
+	_show_values()
+	pass
+
+
+func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
+	_countdown.visible = false

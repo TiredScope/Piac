@@ -37,12 +37,21 @@ func highlight_item(index: int) -> void:
 		var item: Item = get_item(index)
 		item.highlighted = true
 
-func get_selected_items() -> Array[int]:
+func get_selected_slots() -> Array[int]:
 	var result: Array[int] = []
 	for i: int in range(INVENTORY_SIZE):
 		var item: Item = get_item(i)
 		if item.selected:
 			result.push_back(i)
+
+	return result
+
+func get_selected_item_data() -> Array[ItemData]:
+	var result: Array[ItemData] = []
+	for i: int in range(INVENTORY_SIZE):
+		var item: Item = get_item(i)
+		if item.selected:
+			result.push_back(item.item_data)
 
 	return result
 

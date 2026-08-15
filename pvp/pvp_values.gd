@@ -34,10 +34,10 @@ func _init(_values: Dictionary[Stats.PVPStat, float] = _make_empty()) -> void:
 func get_value(stat: Stats.PVPStat) -> float:
 	return values.get(stat, 0.0)
 
-func add(other: PVPValues) -> PVPValues:
+static func add(a: PVPValues, b: PVPValues) -> PVPValues:
 	var new_values: Dictionary[Stats.PVPStat, float] = {}
 	for stat: Stats.PVPStat in Stats.PVPStat.values():
-		new_values[stat] = get_value(stat) + other.get_value(stat)
+		new_values[stat] = a.get_value(stat) + b.get_value(stat)
 	return PVPValues.new(new_values)
 
 # TODO: do we need this? Are values allowed to exceed their min and max values if boosted by bonuses?
