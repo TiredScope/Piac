@@ -45,7 +45,16 @@ func _apply_style() -> void:
 
 	_icon.texture = item_data.icon
 	_tooltip.visible = highlighted
-	_tooltip_label.text = item_data.name + "\n" + item_data.description
+
+	var item_tooltip: String = item_data.name
+
+	if item_data.description != "":
+		item_tooltip += "\r" + item_data.description
+
+	item_tooltip += "\n\nSlot: " + ItemData.get_slot_name(item_data.slot)
+
+	print(item_tooltip)
+	_tooltip_label.text = item_tooltip
 	call_deferred("_center_tooltip")
 
 	_stylebox.border_color = Color.ORANGE if highlighted else Color.TRANSPARENT

@@ -16,3 +16,16 @@ enum Slot {
 @export_multiline var description: String = ""
 
 @export var bonus: PVPValues = PVPValues.new()
+
+static func get_slot_name(slot: Slot) -> String:
+	match slot:
+		Slot.HEAD:
+			return "Kopf"
+		Slot.TOOL:
+			return "Tool"
+		Slot.ACCESSORY:
+			return "Accessoire"
+		Slot.FEET:
+			return "Füße"
+		_:
+			return ""
