@@ -5,7 +5,8 @@ class PVPPlayer:
 	var values: PVPValues
 	var hp: int
 	var items: Array[ItemData] = []
-	var attack_values: AttackValues = AttackValues.new()
+	var attack_values: AttackValues = AttackValues.new(self)
+	var stunned: bool = false
 
 	func _init(p_values: PVPValues, p_items: Array[ItemData]) -> void:
 		values = p_values
@@ -15,6 +16,18 @@ class PVPPlayer:
 			values = PVPValues.add(values, item.bonus)
 
 		hp = int(values.get_value(Stats.PVPStat.HP))
+
+	func roll_tempo() -> int:
+		return int(values.tempo) + randi_range(1, 20)
+
+	func choose_action() -> String:
+		return "nothing" if stunned else attack_values.choose_action()
+
+	func get_damage(crit: bool, blocked: bool) -> float:
+		if not blocked:
+			return values.attack * values.luck if crit else values.attack
+		else:
+			return 0.0 if crit else values.attack
 
 @onready var _player1_stats: PVPPlayerStats = %Player1Stats
 @onready var _player2_stats: PVPPlayerStats = %Player2Stats
@@ -43,7 +56,7 @@ func _ready() -> void:
 	_show_values()
 
 	await get_tree().create_timer(1.0).timeout
-	_start_countdown(int(_first_round_timer.wait_time))
+	#_start_countdown(int(_first_round_timer.wait_time))
 	_first_round_timer.start()
 
 func init_players(player1_values: PVPValues, player1_items: Array[ItemData], player2_values: PVPValues, player2_items: Array[ItemData]) -> void:
@@ -92,6 +105,7 @@ func _on_pressure_sensor_module_received_value(message: Message, value: int) -> 
 	print("Pressure sensor (%d): %d" % [message.discriminator, value])
 
 class AttackValues:
+	var _player: PVPPlayer
 	var _normal: float = 1.0/3.0
 	var _crit: float = 1.0/3.0
 	var _block: float = 1.0/3.0
@@ -114,11 +128,15 @@ class AttackValues:
 		set(value):
 			update_value("_block", value)
 
+	func _init(player: PVPPlayer) -> void:
+		_player = player
+
 	func update_value(prop: StringName, new_value: float) -> void:
 		# TODO: If this feels bad in testing, just remove the value adjustment of the other values
 		# and instead just normalize everything to a total of 1
-		var max_value: float = 0.7 # TODO: obedience
+		var max_value: float = _player.values.obedience
 		new_value = clampf(new_value, 0, max_value)
+		print(new_value)
 
 		var old_value: float = get(prop)
 
@@ -130,7 +148,8 @@ class AttackValues:
 				continue
 
 			var val: float = get(o)
-			var to_deduct: float = clampf(delta / (len(all_props) - 1), val - 1, val)
+			var to_deduct: float = clampf(delta / (len(all_props) - 1), val - max_value, val)
+
 			print("Deducting ", to_deduct)
 			set(o, val - to_deduct)
 			remaining_delta -= to_deduct
@@ -138,6 +157,17 @@ class AttackValues:
 		set(prop, new_value - remaining_delta)
 		print(remaining_delta)
 		print("N ", normal, " | C ", crit, " | B ", block)
+
+	func choose_action() -> String:
+		var gen: RandomNumberGenerator = RandomNumberGenerator.new()
+		var pick: int = gen.rand_weighted([normal, crit, block])
+		match pick:
+			0: return "normal"
+			1: return "crit"
+			2: return "block"
+			_:
+				printerr("Pick failed somehow")
+				return "normal"
 
 func _start_round() -> void:
 	_current_round += 1
@@ -168,8 +198,45 @@ func _on_attack_timeout() -> void:
 	_between_rounds_timer.start()
 
 func _calculate_attacks() -> void:
-	player1.hp -= 5
-	# TODO: calculate actual values
+	var player_1_roll: int = int(player1.values.tempo) + randi_range(1, 20)
+	var player_2_roll: int = int(player2.values.tempo) + randi_range(1, 20)
+	var player_1_first: bool = player_1_roll > player_2_roll
+	if player_1_roll == player_2_roll:
+		player_1_first = randi_range(0, 1) == 1
+
+	var first_player: PVPPlayer = player1 if player_1_first else player2
+	var second_player: PVPPlayer = player2 if player_1_first else player1
+
+	print(player_1_roll, ", ", player_2_roll, " -> ", player_1_first)
+
+	var first_action: String = first_player.choose_action()
+	var second_action: String = second_player.choose_action()
+
+	print("First player: ", first_action)
+	print("Second player: ", second_action)
+
+	# TODO: seems kind of convoluted, refactor
+	var first_damage: float = max(second_player.get_damage(second_action == "crit", first_action == "block") - first_player.values.defense, 0)
+	var second_damage: float = max(first_player.get_damage(first_action == "crit", false) - second_player.values.defense, 0)
+
+	if first_action == "block" or first_action == "nothing":
+		second_damage = 0
+
+	if second_action == "block" or second_action == "nothing":
+		first_damage = 0
+
+	if second_action == "block":
+		print("Second heals")
+		second_damage -= floor(second_damage * 0.5) # Heal
+
+	print(first_damage, " - ", second_damage)
+
+	first_player.hp -= int(round(first_damage) as float)
+	second_player.hp -= int(round(second_damage) as float)
+
+	first_player.stunned = false
+	second_player.stunned = first_action == "block" and second_action == "crit"
+
 	# TODO: play some fancy animations
 	_show_values()
 	pass

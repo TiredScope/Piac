@@ -103,7 +103,6 @@ libraries/ = SubResource("AnimationLibrary_jhk0j")
 one_shot = true
 
 [node name="Attack" type="Timer" parent="Timers" unique_id=1152446373]
-wait_time = 3.0
 one_shot = true
 
 [node name="BetweenRounds" type="Timer" parent="Timers" unique_id=1062072533]
@@ -122,5 +121,5 @@ one_shot = true
 [connection signal="timeout" from="Timers/FirstRound" to="." method="_start_round"]
 [connection signal="timeout" from="Timers/Attack" to="." method="_on_attack_timeout"]
 [connection signal="timeout" from="Timers/BetweenRounds" to="." method="_start_round"]
-[connection signal="timeout" from="Timers/Countdown" to="." method="_show_countdown"]
 [connection signal="timeout" from="Timers/Countdown" to="." method="_on_countdown_timeout"]
+[connection signal="timeout" from="Timers/Countdown" to="." method="_show_countdown"]
