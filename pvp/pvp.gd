@@ -40,10 +40,9 @@ func _handle_keypad(key: int) -> void:
 	if selection == -1 or selection != to_select:
 		inv.highlight_item(to_select)
 	elif _is_selection_valid(inv, to_select):
+		# TODO: feedback if it can't be selected (either visual or as a message)
 		inv.set_selected(to_select, true)
 		inv.highlight_item(-1)
-
-		# TODO: Continue if done
 
 		if not get_config(not first_player).player_ready:
 			first_player = not first_player
