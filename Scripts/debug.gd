@@ -12,6 +12,7 @@ var mpu6050: MPU6050Module
 var pressureSensor: PressureSensorModule
 var potentiometer: PotentiometerModule
 var light: LightSensorModule
+var max4466: MAX4466Module
 
 var t: float = 0
 var lastChange: float = -1
@@ -179,6 +180,15 @@ func _init() -> void:
 		debug_print("%s Light value: v=%d" % [message.source.get_port(), value])
 	)
 
+	self.max4466 = MAX4466Module.new(Com)
+	max4466.init.connect(func(_client: MiniCom.Client, discriminator: int) -> void:
+		light.set_reporting_delay(500, discriminator)
+	)
+
+	max4466.received_value.connect(func(message: Message, value: int) -> void:
+		debug_print("%s MAX4466 value: v=%d" % [message.source.get_port(), value])
+	)
+
 func _process(delta: float) -> void:
 	if lastChange < 0:
 		return
@@ -213,7 +223,7 @@ func update_modules() -> void:
 		for module: MiniCom.ClientModule in client.get_capabilities():
 			var cb: CheckBox = CheckBox.new()
 			cb.text = module.get_id()
-			cb.button_pressed = module.is_enabed()
+			cb.button_pressed = module.is_enabled()
 			%ModuleControls.add_child(cb)
 
 			cb.toggled.connect(func(on: bool) -> void:
