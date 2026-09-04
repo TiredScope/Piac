@@ -13,6 +13,7 @@ var pressureSensor: PressureSensorModule
 var potentiometer: PotentiometerModule
 var light: LightSensorModule
 var max4466: MAX4466Module
+var scd41: SCD41Module
 
 var t: float = 0
 var lastChange: float = -1
@@ -129,6 +130,7 @@ func _init() -> void:
 		neoPixel.set_color(0, Color.DARK_GOLDENROD)
 		lastChange = 0
 	)
+	neoPixel._ready()
 
 	self.bme280 = BME280Module.new(Com)
 	bme280.init.connect(func(_client: MiniCom.Client, discriminator: int) -> void:
@@ -189,6 +191,17 @@ func _init() -> void:
 		debug_print("%s MAX4466 value: v=%d" % [message.source.get_port(), value])
 	)
 
+	self.scd41 = SCD41Module.new(Com)
+	scd41.init.connect(func(_client: MiniCom.Client, discriminator: int) -> void:
+		scd41.set_reporting_delay(5000, discriminator)
+	)
+
+	scd41.received_values.connect(func(message: Message, values: SCD41Module.Values) -> void:
+		debug_print("%s SCD41 values: co2=%d t=%4.2f h=%4.2f" % [message.source.get_port(), values.co2, values.temperature, values.humidity])
+	)
+
+	scd41._ready()
+
 func _process(delta: float) -> void:
 	if lastChange < 0:
 		return
@@ -203,8 +216,8 @@ func _process(delta: float) -> void:
 		var colors: Array[Color] = []
 		var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
-		#var color: Color = Color.from_rgba8(rng.randi_range(0, 255), rng.randi_range(0, 255), rng.randi_range(0, 255))
-		var color: Color = Color.from_rgba8(mult * 255, mult * 255, 0)
+		var color: Color = Color.from_rgba8(rng.randi_range(0, 255), rng.randi_range(0, 255), rng.randi_range(0, 255))
+		#var color: Color = Color.from_rgba8(mult * 255, mult * 255, 0)
 		for i: int in range(0, 30):
 			colors.push_back(color)
 		for i: int in range(31, 60):
