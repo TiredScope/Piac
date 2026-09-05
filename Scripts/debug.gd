@@ -15,6 +15,7 @@ var light: LightSensorModule
 var max4466: MAX4466Module
 var scd41: SCD41Module
 var lis3dh: LIS3DHModule
+var bmp280: BMP280Module
 
 var t: float = 0
 var lastChange: float = -1
@@ -214,6 +215,19 @@ func _init() -> void:
 	)
 
 	lis3dh._ready()
+
+	scd41._ready()
+
+	self.bmp280 = BMP280Module.new(Com)
+	bmp280.init.connect(func(_client: MiniCom.Client, discriminator: int) -> void:
+		bmp280.set_reporting_delay(200, discriminator)
+	)
+
+	bmp280.received_values.connect(func(message: Message, values: BMP280Module.Values) -> void:
+		debug_print("%s BMP280 values: t=%4.2f °C p=%4.2f Pa" % [message.source.get_port(), values.temperature, values.pressure])
+	)
+
+	bmp280._ready()
 
 func _process(delta: float) -> void:
 	if lastChange < 0:
