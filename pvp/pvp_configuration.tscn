@@ -1,0 +1,85 @@
+[gd_scene format=3 uid="uid://kr2csmg3dm4x"]
+
+[ext_resource type="Script" uid="uid://d0elb0oqs5gun" path="res://pvp/pvp_configuration.gd" id="1_b2c5x"]
+[ext_resource type="PackedScene" uid="uid://ue5gvnguluoc" path="res://pvp/inventory.tscn" id="2_b2c5x"]
+[ext_resource type="Script" uid="uid://b3j2p5tw20anf" path="res://pvp/radar_chart.gd" id="3_up52y"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_458wi"]
+bg_color = Color(0, 0.06666667, 0.1882353, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s04cq"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 0)
+
+[node name="PVPConfiguration" type="PanelContainer" unique_id=1865470295]
+custom_minimum_size = Vector2(100, 100)
+offset_right = 609.0
+offset_bottom = 639.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_458wi")
+script = ExtResource("1_b2c5x")
+title_text = "Inventar"
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=89664308]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="MainPanel" type="PanelContainer" parent="MarginContainer" unique_id=1680470367]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_s04cq")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/MainPanel" unique_id=718904296]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/MainPanel/MarginContainer" unique_id=710661740]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer" unique_id=563271363]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 0.5647059, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "Inventar"
+
+[node name="Inventory" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer" unique_id=515263858 instance=ExtResource("2_b2c5x")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SelectItem" type="Label" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer" unique_id=303237943]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 24
+text = "Bitte wähle ein Item mit 1-9 aus (0 = fertig)"
+
+[node name="PlayerReady" type="Label" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer" unique_id=992067940]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Spieler ist bereit!"
+horizontal_alignment = 1
+
+[node name="RadarChart" type="Control" parent="MarginContainer/MainPanel/MarginContainer/VBoxContainer" unique_id=826693054]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+script = ExtResource("3_up52y")
+max_value = nan
+metadata/_custom_type_script = "uid://b3j2p5tw20anf"

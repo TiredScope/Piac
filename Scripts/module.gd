@@ -3,11 +3,14 @@ extends Node
 
 signal init(client: MiniCom.Client, discriminator: int)
 
-@export var _com: MiniCom
+@export var _com: MiniCom = Com
 
-func _init(com: MiniCom) -> void:
-	_com = com
+func _init(com: MiniCom = null) -> void:
+	if com:
+		_com = com
 
+func _ready() -> void:
+	print("Init module ", get_id())
 	_com.is_ready.connect(_init_client)
 	_com.message_received.connect(_on_message)
 
@@ -16,14 +19,14 @@ func _init(com: MiniCom) -> void:
 
 func _init_client(client: MiniCom.Client) -> void:
 	var cap: Array[MiniCom.ClientModule] = client.get_capabilities(get_id())
-	for m in cap:
+	for m: MiniCom.ClientModule in cap:
 		init.emit(client, m.get_discriminator())
 
 @abstract func _on_message(m: Message) -> void
 @abstract func get_id() -> String
 
 func is_available() -> bool:
-	for client in Com.get_clients():
+	for client: MiniCom.Client in Com.get_clients():
 		if client.has_capability(get_id()):
 			return true
 	return false

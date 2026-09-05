@@ -5,7 +5,7 @@ const ID: String = "sparkfun_keypad"
 
 signal key_pressed(message: Message, key: String)
 
-func _init(com: MiniCom) -> void:
+func _init(com: MiniCom = Com) -> void:
 	super(com)
 
 func _on_message(m: Message) -> void:

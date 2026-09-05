@@ -12,6 +12,12 @@ var mpu6050: MPU6050Module
 var pressureSensor: PressureSensorModule
 var potentiometer: PotentiometerModule
 var light: LightSensorModule
+var max4466: MAX4466Module
+var scd41: SCD41Module
+var lis3dh: LIS3DHModule
+var bmp280: BMP280Module
+var ds3231: DS3231Module
+var df_player: DFPlayerModule
 
 var t: float = 0
 var lastChange: float = -1
@@ -128,6 +134,7 @@ func _init() -> void:
 		neoPixel.set_color(0, Color.DARK_GOLDENROD)
 		lastChange = 0
 	)
+	neoPixel._ready()
 
 	self.bme280 = BME280Module.new(Com)
 	bme280.init.connect(func(_client: MiniCom.Client, discriminator: int) -> void:
@@ -179,6 +186,75 @@ func _init() -> void:
 		debug_print("%s Light value: v=%d" % [message.source.get_port(), value])
 	)
 
+	self.max4466 = MAX4466Module.new(Com)
+	max4466.init.connect(func(_client: MiniCom.Client, discriminator: int) -> void:
+		light.set_reporting_delay(500, discriminator)
+	)
+
+	max4466.received_value.connect(func(message: Message, value: int) -> void:
+		debug_print("%s MAX4466 value: v=%d" % [message.source.get_port(), value])
+	)
+
+	self.scd41 = SCD41Module.new(Com)
+	scd41.init.connect(func(_client: MiniCom.Client, discriminator: int) -> void:
+		scd41.set_reporting_delay(5000, discriminator)
+	)
+
+	scd41.received_values.connect(func(message: Message, values: SCD41Module.Values) -> void:
+		debug_print("%s SCD41 values: co2=%d t=%4.2f h=%4.2f" % [message.source.get_port(), values.co2, values.temperature, values.humidity])
+	)
+
+	scd41._ready()
+
+	self.lis3dh = LIS3DHModule.new(Com)
+	lis3dh.init.connect(func(_client: MiniCom.Client, discriminator: int) -> void:
+		lis3dh.set_reporting_delay(200, discriminator)
+		lis3dh.set_params(LIS3DHModule.DataRate.RATE_1_HZ, LIS3DHModule.PerformanceMode.MODE_LOW_POWER, LIS3DHModule.AccelRange.RANGE_16_G)
+	)
+
+	lis3dh.received_values.connect(func(message: Message, values: LIS3DHModule.Values) -> void:
+		debug_print("%s LIS3DH values: x=%4.2f y=%4.2f z=%4.2f" % [message.source.get_port(), values.acceleration.x, values.acceleration.y, values.acceleration.z])
+	)
+
+	lis3dh._ready()
+
+	scd41._ready()
+
+	self.bmp280 = BMP280Module.new(Com)
+	bmp280.init.connect(func(_client: MiniCom.Client, discriminator: int) -> void:
+		bmp280.set_reporting_delay(200, discriminator)
+	)
+
+	bmp280.received_values.connect(func(message: Message, values: BMP280Module.Values) -> void:
+		debug_print("%s BMP280 values: t=%4.2f °C p=%4.2f Pa" % [message.source.get_port(), values.temperature, values.pressure])
+	)
+
+	bmp280._ready()
+
+	self.ds3231 = DS3231Module.new(Com)
+	ds3231.init.connect(func(_client: MiniCom.Client, discriminator: int) -> void:
+		ds3231.set_reporting_delay(200, discriminator)
+		ds3231.set_time(int(Time.get_unix_time_from_system()))
+	)
+
+	ds3231.received_values.connect(func(message: Message, values: DS3231Module.Values) -> void:
+		debug_print("%s DS3231 values: unix=%d time=%s" % [message.source.get_port(), values.unix_time, values.local_parsed_time])
+	)
+
+	ds3231._ready()
+
+	self.df_player = DFPlayerModule.new(Com)
+	df_player.init.connect(func(_client: MiniCom.Client, discriminator: int) -> void:
+		df_player.set_volume(10, 0)
+		df_player.play(2, discriminator)
+	)
+
+	df_player.received_event.connect(func(message: Message, event: DFPlayerModule.Event) -> void:
+		debug_print("%s DFPlayer event: %d" % [message.source.get_port(), event])
+	)
+
+	df_player._ready()
+
 func _process(delta: float) -> void:
 	if lastChange < 0:
 		return
@@ -193,8 +269,8 @@ func _process(delta: float) -> void:
 		var colors: Array[Color] = []
 		var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
-		#var color: Color = Color.from_rgba8(rng.randi_range(0, 255), rng.randi_range(0, 255), rng.randi_range(0, 255))
-		var color: Color = Color.from_rgba8(mult * 255, mult * 255, 0)
+		var color: Color = Color.from_rgba8(rng.randi_range(0, 255), rng.randi_range(0, 255), rng.randi_range(0, 255))
+		#var color: Color = Color.from_rgba8(mult * 255, mult * 255, 0)
 		for i: int in range(0, 30):
 			colors.push_back(color)
 		for i: int in range(31, 60):
@@ -213,7 +289,7 @@ func update_modules() -> void:
 		for module: MiniCom.ClientModule in client.get_capabilities():
 			var cb: CheckBox = CheckBox.new()
 			cb.text = module.get_id()
-			cb.button_pressed = module.is_enabed()
+			cb.button_pressed = module.is_enabled()
 			%ModuleControls.add_child(cb)
 
 			cb.toggled.connect(func(on: bool) -> void:
