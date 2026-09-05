@@ -245,8 +245,8 @@ func _init() -> void:
 
 	self.df_player = DFPlayerModule.new(Com)
 	df_player.init.connect(func(_client: MiniCom.Client, discriminator: int) -> void:
-		df_player.set_volume(10, 0)
-		df_player.random_all()
+		df_player.set_volume(10, discriminator)
+		df_player.random_all(discriminator)
 	)
 
 	df_player.received_event.connect(func(message: Message, event: DFPlayerModule.Event) -> void:
