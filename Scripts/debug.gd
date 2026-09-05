@@ -205,7 +205,8 @@ func _init() -> void:
 
 	self.lis3dh = LIS3DHModule.new(Com)
 	lis3dh.init.connect(func(_client: MiniCom.Client, discriminator: int) -> void:
-		scd41.set_reporting_delay(5000, discriminator)
+		lis3dh.set_reporting_delay(200, discriminator)
+		lis3dh.set_params(LIS3DHModule.DataRate.RATE_1_HZ, LIS3DHModule.PerformanceMode.MODE_LOW_POWER, LIS3DHModule.AccelRange.RANGE_16_G)
 	)
 
 	lis3dh.received_values.connect(func(message: Message, values: LIS3DHModule.Values) -> void:

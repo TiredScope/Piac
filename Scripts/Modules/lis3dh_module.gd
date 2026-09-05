@@ -10,7 +10,7 @@ enum AccelRange {
 	RANGE_2_G = 0b00,
 	RANGE_4_G = 0b01,
 	RANGE_8_G = 0b10,
-	RANGE_1_G6 = 0b11,
+	RANGE_16_G = 0b11,
 }
 
 enum DataRate {
