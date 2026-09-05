@@ -17,6 +17,7 @@ var scd41: SCD41Module
 var lis3dh: LIS3DHModule
 var bmp280: BMP280Module
 var ds3231: DS3231Module
+var df_player: DFPlayerModule
 
 var t: float = 0
 var lastChange: float = -1
@@ -241,6 +242,18 @@ func _init() -> void:
 	)
 
 	ds3231._ready()
+
+	self.df_player = DFPlayerModule.new(Com)
+	df_player.init.connect(func(_client: MiniCom.Client, discriminator: int) -> void:
+		df_player.set_volume(10, 0)
+		df_player.play(2, discriminator)
+	)
+
+	df_player.received_event.connect(func(message: Message, event: DFPlayerModule.Event) -> void:
+		debug_print("%s DFPlayer event: %d" % [message.source.get_port(), event])
+	)
+
+	df_player._ready()
 
 func _process(delta: float) -> void:
 	if lastChange < 0:

@@ -46,6 +46,9 @@ var _performance_modes: Dictionary[int, PerformanceMode]
 func _init(com: MiniCom) -> void:
 	super(com)
 	self._values = {}
+	self._accel_ranges = {}
+	self._data_rates = {}
+	self._performance_modes = {}
 
 func _on_message(m: Message) -> void:
 	match m.type:
