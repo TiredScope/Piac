@@ -16,6 +16,7 @@ var max4466: MAX4466Module
 var scd41: SCD41Module
 var lis3dh: LIS3DHModule
 var bmp280: BMP280Module
+var ds3231: DS3231Module
 
 var t: float = 0
 var lastChange: float = -1
@@ -228,6 +229,18 @@ func _init() -> void:
 	)
 
 	bmp280._ready()
+
+	self.ds3231 = DS3231Module.new(Com)
+	ds3231.init.connect(func(_client: MiniCom.Client, discriminator: int) -> void:
+		ds3231.set_reporting_delay(200, discriminator)
+		ds3231.set_time(int(Time.get_unix_time_from_system()))
+	)
+
+	ds3231.received_values.connect(func(message: Message, values: DS3231Module.Values) -> void:
+		debug_print("%s DS3231 values: unix=%d time=%s" % [message.source.get_port(), values.unix_time, values.local_parsed_time])
+	)
+
+	ds3231._ready()
 
 func _process(delta: float) -> void:
 	if lastChange < 0:
