@@ -30,7 +30,17 @@ class State:
 		return copy_value
 
 enum Event {
+	CARD_INSERTED = 0x01,
+	CARD_REMOVED = 0x02,
+	CARD_ONLINE = 0x03,
+	USB_INSERTED = 0x04,
+	USB_REMOVED = 0x05,
+	PLAY_FINISHED = 0x06,
 
+	ERROR_TIMEOUT = 0x80,
+	ERROR_NO_CARD = 0x81,
+	ERROR_FILE_NOT_FOUND = 0x82,  # OOB or not found
+	ERROR_OTHER = 0x83,
 }
 
 signal received_state(message: Message, values: State)

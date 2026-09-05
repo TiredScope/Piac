@@ -246,11 +246,12 @@ func _init() -> void:
 	self.df_player = DFPlayerModule.new(Com)
 	df_player.init.connect(func(_client: MiniCom.Client, discriminator: int) -> void:
 		df_player.set_volume(10, 0)
-		df_player.play(2, discriminator)
+		df_player.random_all()
 	)
 
 	df_player.received_event.connect(func(message: Message, event: DFPlayerModule.Event) -> void:
-		debug_print("%s DFPlayer event: %d" % [message.source.get_port(), event])
+		var event_name: String = "<INVALID>" if not event in DFPlayerModule.Event.values() else DFPlayerModule.Event.keys()[DFPlayerModule.Event.values().find(event)]
+		debug_print("%s DFPlayer event: %s" % [message.source.get_port(), event_name])
 	)
 
 	df_player._ready()
