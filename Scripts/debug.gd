@@ -14,6 +14,7 @@ var potentiometer: PotentiometerModule
 var light: LightSensorModule
 var max4466: MAX4466Module
 var scd41: SCD41Module
+var lis3dh: LIS3DHModule
 
 var t: float = 0
 var lastChange: float = -1
@@ -201,6 +202,17 @@ func _init() -> void:
 	)
 
 	scd41._ready()
+
+	self.lis3dh = LIS3DHModule.new(Com)
+	lis3dh.init.connect(func(_client: MiniCom.Client, discriminator: int) -> void:
+		scd41.set_reporting_delay(5000, discriminator)
+	)
+
+	lis3dh.received_values.connect(func(message: Message, values: LIS3DHModule.Values) -> void:
+		debug_print("%s LIS3DH values: x=%4.2f y=%4.2f z=%4.2f" % [message.source.get_port(), values.acceleration.x, values.acceleration.y, values.acceleration.z])
+	)
+
+	lis3dh._ready()
 
 func _process(delta: float) -> void:
 	if lastChange < 0:
