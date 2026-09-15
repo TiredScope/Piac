@@ -148,7 +148,7 @@ func _init() -> void:
 	self.mpu6050 = MPU6050Module.new(Com)
 	mpu6050.init.connect(func(_client: MiniCom.Client, discriminator: int) -> void:
 		mpu6050.set_ranges(MPU6050Module.AccelRange.FS_2, MPU6050Module.GyroRange.FS_2000, discriminator)
-		mpu6050.start_calibration(10, discriminator)
+		#mpu6050.start_calibration(10, discriminator)
 	)
 
 	mpu6050.received_values.connect(func(message: Message, values: MPU6050Module.Values) -> void:
@@ -158,6 +158,8 @@ func _init() -> void:
 	mpu6050.received_calibration_values.connect(func(message: Message, values: MPU6050Module.CalibrationValues) -> void:
 		debug_print("%s MPU6050 calibration values: a=%s, g=%s" % [message.source.get_port(), values.accel_offset, values.gyro_offset])
 	)
+
+	mpu6050._ready()
 
 	self.pressureSensor = PressureSensorModule.new(Com)
 	pressureSensor.init.connect(func(_client: MiniCom.Client, discriminator: int) -> void:
@@ -208,7 +210,7 @@ func _init() -> void:
 
 	self.lis3dh = LIS3DHModule.new(Com)
 	lis3dh.init.connect(func(_client: MiniCom.Client, discriminator: int) -> void:
-		lis3dh.set_reporting_delay(200, discriminator)
+		lis3dh.set_reporting_delay(1000, discriminator)
 		lis3dh.set_params(LIS3DHModule.DataRate.RATE_1_HZ, LIS3DHModule.PerformanceMode.MODE_LOW_POWER, LIS3DHModule.AccelRange.RANGE_16_G)
 	)
 
@@ -222,7 +224,7 @@ func _init() -> void:
 
 	self.bmp280 = BMP280Module.new(Com)
 	bmp280.init.connect(func(_client: MiniCom.Client, discriminator: int) -> void:
-		bmp280.set_reporting_delay(200, discriminator)
+		bmp280.set_reporting_delay(1000, discriminator)
 	)
 
 	bmp280.received_values.connect(func(message: Message, values: BMP280Module.Values) -> void:
@@ -233,7 +235,7 @@ func _init() -> void:
 
 	self.ds3231 = DS3231Module.new(Com)
 	ds3231.init.connect(func(_client: MiniCom.Client, discriminator: int) -> void:
-		ds3231.set_reporting_delay(200, discriminator)
+		ds3231.set_reporting_delay(1000, discriminator)
 		ds3231.set_time(int(Time.get_unix_time_from_system()))
 	)
 
