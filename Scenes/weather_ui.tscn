@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://cp4kegayvcwbm"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_j0i27"]
+font_size = 12
+
+[node name="WeatherUi" type="Control" unique_id=1143328816]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1120000992]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1174871220]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="WetterIcon" type="Label" parent="MarginContainer/VBoxContainer" unique_id=2080445841]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "OutWeatherIcon"
+label_settings = SubResource("LabelSettings_j0i27")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1909537330]
+layout_mode = 2
+
+[node name="temp" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=33412509]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Temperatur"
+
+[node name="Icon" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=85383712]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "°C"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=946384046]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2" unique_id=1270640377]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Feuchtigkeit"
+
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2" unique_id=443533930]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "%"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=733491144]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3" unique_id=1343771127]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Druck"
+
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3" unique_id=2022329996]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=2033704342]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer4" unique_id=552615890]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Wind"
+
+[node name="Label3" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer4" unique_id=821322426]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "km/h"
+
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer4" unique_id=1415904553]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "direction"
