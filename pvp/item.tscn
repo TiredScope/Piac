@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://vg6g01sokmak"]
+
+[ext_resource type="Script" uid="uid://dtr7lwloe7soe" path="res://pvp/item.gd" id="1_g6e1w"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s04cq"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_458wi"]
+bg_color = Color(0.5019608, 0.5019608, 0.5019608, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g6e1w"]
+bg_color = Color(0, 0, 0, 0.78431374)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="Item" type="PanelContainer" unique_id=1629209839]
+custom_minimum_size = Vector2(64, 64)
+custom_maximum_size = Vector2(64, 64)
+propagate_maximum_size = false
+offset_right = 64.0
+offset_bottom = 64.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_s04cq")
+script = ExtResource("1_g6e1w")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=688916748]
+layout_mode = 2
+tooltip_text = "HELLO WORLD"
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer" unique_id=368481889]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_458wi")
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer" unique_id=1275184974]
+layout_mode = 2
+expand_mode = 3
+
+[node name="SlotIndex" type="Label" parent="." unique_id=1348662659]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+text = "0"
+
+[node name="Tooltip" type="Control" parent="." unique_id=1261718569]
+z_index = 1
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="Tooltip" unique_id=427332123]
+custom_maximum_size = Vector2(200, -1)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -5.5
+offset_right = 5.5
+offset_bottom = 33.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_g6e1w")
+
+[node name="MarginContainer" type="MarginContainer" parent="Tooltip/PanelContainer" unique_id=412731640]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Label" type="Label" parent="Tooltip/PanelContainer/MarginContainer" unique_id=477851394]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+autowrap_mode = 3

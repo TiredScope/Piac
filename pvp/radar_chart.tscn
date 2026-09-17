@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://c8wgsvejekjru"]
+
+[ext_resource type="Script" uid="uid://b3j2p5tw20anf" path="res://pvp/radar_chart.gd" id="1_pv072"]
+
+[node name="RadarChart" type="Control" unique_id=2131257211]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 50.0
+offset_bottom = 50.0
+script = ExtResource("1_pv072")
+max_value = nan
+outline_color = Color(0.4117647, 0.4117647, 0.4117647, 1)

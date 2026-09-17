@@ -1,7 +1,7 @@
-class_name PressureSensorModule
+class_name MAX4466Module
 extends Module
 
-const ID: String = "pressure_sensor"
+const ID: String = "max4466"
 
 signal received_value(message: Message, value: int)
 
@@ -12,17 +12,17 @@ func _init(com: MiniCom = null) -> void:
 	self._value = {}
 
 func _on_message(m: Message) -> void:
-	if m.type == Message.Type.M_PRESSURESENSOR_VALUE:
+	if m.type == Message.Type.M_MAX4466_VALUE:
 		var reader: MessageReader = m.reader()
 		var value: int = reader.get_u16()
-		_value[m.discriminator] =  value
+		_value[m.discriminator] = value
 		received_value.emit(m, value)
 
 func get_id() -> String:
 	return ID
 
 func set_reporting_delay(delay: int, discriminator: int = Message.DEFAULT_DISCRIMINATOR) -> void:
-	var builder: MessageBuilder = MessageBuilder.new(Message.Type.M_PRESSURESENSOR_SET_REPORTING_DELAY, discriminator)
+	var builder: MessageBuilder = MessageBuilder.new(Message.Type.M_MAX4466_SET_REPORTING_DELAY, discriminator)
 	builder.put_u32(delay)
 	_com.send_message(builder.build())
 

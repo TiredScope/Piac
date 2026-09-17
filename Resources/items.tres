@@ -1,0 +1,84 @@
+[gd_resource type="Resource" script_class="Items" format=3 uid="uid://c6psb6xbb5hb8"]
+
+[ext_resource type="Script" uid="uid://bimgnl8iwej4u" path="res://pvp/item_data.gd" id="1_xpmy7"]
+[ext_resource type="Script" uid="uid://dqqqf7l4u6iam" path="res://pvp/items.gd" id="2_cdl1g"]
+[ext_resource type="Script" uid="uid://81lj6u3rietp" path="res://pvp/pvp_values.gd" id="2_llaei"]
+[ext_resource type="Texture2D" uid="uid://lyowx8yxdhie" path="res://icon.svg" id="3_llaei"]
+
+[sub_resource type="Resource" id="Resource_c7p2d"]
+script = ExtResource("2_llaei")
+values = Dictionary[int, float]({
+0: 100.0,
+1: 100.0,
+2: 100.0,
+3: 100.0,
+4: 100.0,
+5: 100.0
+})
+
+[sub_resource type="Resource" id="Resource_5k3ys"]
+script = ExtResource("1_xpmy7")
+id = "omegalul_hat"
+name = "Omegalul-Hut"
+description = "Ein KEKW-Omegalul-Hut
+Neue Zeile"
+bonus = SubResource("Resource_c7p2d")
+metadata/_custom_type_script = "uid://bimgnl8iwej4u"
+
+[sub_resource type="Resource" id="Resource_llaei"]
+script = ExtResource("2_llaei")
+values = Dictionary[int, float]({
+0: 0.0,
+1: 0.0,
+2: 0.0,
+3: 0.0,
+4: 0.0,
+5: 0.0
+})
+
+[sub_resource type="Resource" id="Resource_hv5tx"]
+script = ExtResource("1_xpmy7")
+slot = 2
+bonus = SubResource("Resource_llaei")
+metadata/_custom_type_script = "uid://bimgnl8iwej4u"
+
+[sub_resource type="Resource" id="Resource_wb22t"]
+script = ExtResource("2_llaei")
+values = Dictionary[int, float]({
+0: 0.0,
+1: 0.0,
+2: 0.0,
+3: 0.0,
+4: 0.0,
+5: 0.0
+})
+
+[sub_resource type="Resource" id="Resource_rkgqe"]
+script = ExtResource("1_xpmy7")
+name = "Neues Item 2"
+slot = 1
+bonus = SubResource("Resource_wb22t")
+metadata/_custom_type_script = "uid://bimgnl8iwej4u"
+
+[sub_resource type="Resource" id="Resource_qderw"]
+script = ExtResource("2_llaei")
+values = Dictionary[int, float]({
+0: 0.0,
+1: 0.0,
+2: 0.0,
+3: 0.0,
+4: 0.0,
+5: 0.0
+})
+
+[sub_resource type="Resource" id="Resource_en624"]
+script = ExtResource("1_xpmy7")
+id = "head2"
+name = "Head 2"
+bonus = SubResource("Resource_qderw")
+metadata/_custom_type_script = "uid://bimgnl8iwej4u"
+
+[resource]
+script = ExtResource("2_cdl1g")
+items = Array[ExtResource("1_xpmy7")]([SubResource("Resource_5k3ys"), SubResource("Resource_hv5tx"), SubResource("Resource_rkgqe"), SubResource("Resource_en624")])
+metadata/_custom_type_script = "uid://dqqqf7l4u6iam"

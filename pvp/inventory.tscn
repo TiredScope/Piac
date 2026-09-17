@@ -1,0 +1,147 @@
+[gd_scene format=3 uid="uid://ue5gvnguluoc"]
+
+[ext_resource type="PackedScene" uid="uid://vg6g01sokmak" path="res://pvp/item.tscn" id="1_tw8kn"]
+[ext_resource type="Script" uid="uid://d4dvq5ktqumj1" path="res://pvp/inventory.gd" id="1_ubwhw"]
+[ext_resource type="Texture2D" uid="uid://lyowx8yxdhie" path="res://icon.svg" id="3_24bvc"]
+[ext_resource type="Script" uid="uid://bimgnl8iwej4u" path="res://pvp/item_data.gd" id="4_knfra"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v0k1o"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 0)
+
+[sub_resource type="Resource" id="Resource_g6e1w"]
+script = ExtResource("4_knfra")
+description = "wewjrwerwlejrwelkrj
+werwr
+e"
+metadata/_custom_type_script = "uid://bimgnl8iwej4u"
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oogws"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qlb28"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1cjo4"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j3qqs"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_56qyr"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8voj5"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gp3w4"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bgiy1"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 0)
+
+[node name="Inventory" type="GridContainer" unique_id=515263858]
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 3
+script = ExtResource("1_ubwhw")
+
+[node name="Item" parent="." unique_id=1629209839 instance=ExtResource("1_tw8kn")]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_v0k1o")
+slot_index = 1
+item_data = SubResource("Resource_g6e1w")
+
+[node name="Item2" parent="." unique_id=297297988 instance=ExtResource("1_tw8kn")]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_oogws")
+slot_index = 2
+
+[node name="Item3" parent="." unique_id=2093805152 instance=ExtResource("1_tw8kn")]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_qlb28")
+slot_index = 3
+
+[node name="Item4" parent="." unique_id=825864990 instance=ExtResource("1_tw8kn")]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1cjo4")
+slot_index = 4
+
+[node name="Item5" parent="." unique_id=1238704592 instance=ExtResource("1_tw8kn")]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_j3qqs")
+slot_index = 5
+
+[node name="Item6" parent="." unique_id=1593618566 instance=ExtResource("1_tw8kn")]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_56qyr")
+slot_index = 6
+
+[node name="Item7" parent="." unique_id=1791760932 instance=ExtResource("1_tw8kn")]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_8voj5")
+slot_index = 7
+
+[node name="Item8" parent="." unique_id=1874221568 instance=ExtResource("1_tw8kn")]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_gp3w4")
+slot_index = 8
+
+[node name="Item9" parent="." unique_id=1021239703 instance=ExtResource("1_tw8kn")]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bgiy1")
+slot_index = 9

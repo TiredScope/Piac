@@ -8,8 +8,8 @@ const DEFAULT_NAME_FILTER: Array[String] = [
 ]
 
 #const DEFAULT_NAME_FILTER = "Silicon Labs"
-const DEFAULT_BAUD_RATE = 115200
-const DEFAULT_TIMEOUT = 100
+const DEFAULT_BAUD_RATE: int = 115200
+const DEFAULT_TIMEOUT: int = 100
 
 class ClientModule:
 	var _id: String
@@ -30,7 +30,7 @@ class ClientModule:
 	func get_discriminator() -> int:
 		return _discriminator
 
-	func is_enabed() -> bool:
+	func is_enabled() -> bool:
 		return _enabled
 
 class Client:
@@ -49,7 +49,7 @@ class Client:
 	func _on_data(data: PackedByteArray) -> void:
 		print(_port, " > ", data.hex_encode())
 
-		for i in range(data.size()):
+		for i: int in range(data.size()):
 			var b: int = data.get(i)
 			if !_esc and b == Message.ESC_CHAR:
 				_esc = true
@@ -77,7 +77,7 @@ class Client:
 
 	func get_capabilities(id: String = "") -> Array[ClientModule]:
 		var caps: Array[ClientModule]
-		for m in _capabilities:
+		for m: ClientModule in _capabilities:
 			if id != "" and m.get_id() != id:
 				continue
 			caps.push_back(m)
@@ -88,7 +88,7 @@ class Client:
 		return not get_capabilities(id).is_empty()
 
 	func has_discriminator(discriminator: int) -> bool:
-		for m in _capabilities:
+		for m: ClientModule in _capabilities:
 			if m.get_discriminator() == discriminator:
 				return true
 		return false
@@ -140,7 +140,7 @@ func _process(_delta: float) -> void:
 
 func get_clients() -> Array[Client]:
 	var clients: Array[Client] = []
-	for port in _clients:
+	for port: String in _clients:
 		clients.append(_clients[port])
 	return clients
 
@@ -186,7 +186,7 @@ func set_module_enabled(module: String, enabled: bool, discriminator: int = Mess
 				m._enabled = enabled
 
 func _broadcast_message(message: Message) -> void:
-	for port in _clients:
+	for port: String in _clients:
 		var client: Client = _clients[port]
 		client.send(message)
 
@@ -211,7 +211,7 @@ func scan() -> void:
 			continue
 
 		var found: bool = false
-		for filter in name_filter:
+		for filter: String in name_filter:
 			if filter in port.device_name:
 				found = true
 				break

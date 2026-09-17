@@ -1,0 +1,58 @@
+[gd_resource type="Resource" script_class="Stats" format=3 uid="uid://cgbvfor02u7wp"]
+
+[ext_resource type="Script" uid="uid://bwmxt6jnnh6vd" path="res://pvp/stats.gd" id="1_8ohyy"]
+[ext_resource type="Script" uid="uid://rr8n5sd8bg26" path="res://pvp/stat_info.gd" id="2_xjspr"]
+
+[sub_resource type="Resource" id="Resource_up52y"]
+script = ExtResource("2_xjspr")
+name = "HP"
+min_value = 80.0
+max_value = 100.0
+metadata/_custom_type_script = "uid://rr8n5sd8bg26"
+
+[sub_resource type="Resource" id="Resource_jtsfe"]
+script = ExtResource("2_xjspr")
+name = "Angriff"
+min_value = 8.0
+max_value = 15.0
+metadata/_custom_type_script = "uid://rr8n5sd8bg26"
+
+[sub_resource type="Resource" id="Resource_8ohyy"]
+script = ExtResource("2_xjspr")
+name = "Verteidigung"
+min_value = 4.0
+max_value = 10.0
+metadata/_custom_type_script = "uid://rr8n5sd8bg26"
+
+[sub_resource type="Resource" id="Resource_xjspr"]
+script = ExtResource("2_xjspr")
+name = "Gehorsam"
+min_value = 0.5
+max_value = 0.8
+metadata/_custom_type_script = "uid://rr8n5sd8bg26"
+
+[sub_resource type="Resource" id="Resource_n32ew"]
+script = ExtResource("2_xjspr")
+name = "Tempo"
+min_value = 1.0
+max_value = 10.0
+metadata/_custom_type_script = "uid://rr8n5sd8bg26"
+
+[sub_resource type="Resource" id="Resource_agd2l"]
+script = ExtResource("2_xjspr")
+name = "Glück"
+min_value = 2.0
+max_value = 3.0
+metadata/_custom_type_script = "uid://rr8n5sd8bg26"
+
+[resource]
+script = ExtResource("1_8ohyy")
+info = Dictionary[int, ExtResource("2_xjspr")]({
+0: SubResource("Resource_up52y"),
+1: SubResource("Resource_jtsfe"),
+2: SubResource("Resource_8ohyy"),
+3: SubResource("Resource_xjspr"),
+4: SubResource("Resource_n32ew"),
+5: SubResource("Resource_agd2l")
+})
+metadata/_custom_type_script = "uid://bwmxt6jnnh6vd"

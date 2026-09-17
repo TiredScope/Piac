@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://cjotab7wbyty"]
 
 [ext_resource type="Script" uid="uid://j1hl6ek4h2kv" path="res://Scripts/debug.gd" id="1_raf04"]
-[ext_resource type="Script" uid="uid://rwad88t11kp5" path="res://Scripts/Animation/led_animation.gd" id="2_5k3ys"]
 [ext_resource type="Script" uid="uid://1ih7jskkb4py" path="res://Scripts/Modules/neopixel_module.gd" id="4_6fqrn"]
 
 [node name="Debug" type="Node2D" unique_id=693057969]
@@ -41,10 +40,6 @@ text = "Modules:"
 [node name="ModuleControls" type="HBoxContainer" parent="VBoxContainer" unique_id=607338514]
 unique_name_in_owner = true
 layout_mode = 2
-
-[node name="LEDAnimation" type="Node" parent="." unique_id=47112918]
-script = ExtResource("2_5k3ys")
-metadata/_custom_type_script = "uid://rwad88t11kp5"
 
 [node name="NeoPixelModule" type="Node" parent="." unique_id=1846674340]
 script = ExtResource("4_6fqrn")
