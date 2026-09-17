@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 Com="*uid://dvo6vway0j0fn"
 PVPConstants="*uid://c2hunvs8tvbgm"
+DBProvider="*uid://bbexecf1y40cl"
 
 [debug]
 

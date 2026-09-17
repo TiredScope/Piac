@@ -1,3 +1,11 @@
 [gd_scene format=3 uid="uid://w13mudvaa44"]
 
+[ext_resource type="Script" uid="uid://d4dip5i5uuoal" path="res://Scripts/main.gd" id="1_jjgbg"]
+[ext_resource type="Script" uid="uid://dtxbjngsahrwi" path="res://Scripts/DB/player_manager.gd" id="2_bo1nx"]
+
 [node name="Main" type="Node2D" unique_id=288079288]
+script = ExtResource("1_jjgbg")
+
+[node name="PlayerManager" type="Node" parent="." unique_id=871448932]
+script = ExtResource("2_bo1nx")
+metadata/_custom_type_script = "uid://dtxbjngsahrwi"
