@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://d3fpjqoljlpos"]
+
+[node name="PassivUI" type="Control" unique_id=1435919382]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=664290829]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CO" type="Label" parent="VBoxContainer" unique_id=164007793]
+layout_mode = 2
+text = "CO2"
+
+[node name="Temp" type="Label" parent="VBoxContainer" unique_id=441173498]
+layout_mode = 2
+text = "Temp"
+
+[node name="Hum" type="Label" parent="VBoxContainer" unique_id=1354850003]
+layout_mode = 2
+text = "Feuchtigkeit"
+
+[node name="Druck" type="Label" parent="VBoxContainer" unique_id=325762883]
+layout_mode = 2
+text = "Druck"

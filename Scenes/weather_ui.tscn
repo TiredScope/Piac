@@ -3,7 +3,7 @@
 [sub_resource type="LabelSettings" id="LabelSettings_j0i27"]
 font_size = 12
 
-[node name="WeatherUi" type="Control" unique_id=1143328816]
+[node name="WeatherUI" type="Control" unique_id=1143328816]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -85,3 +85,6 @@ text = "km/h"
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "direction"
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer4" unique_id=1679712039]
+layout_mode = 2
