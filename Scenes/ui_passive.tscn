@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://d3fpjqoljlpos"]
 
-[node name="PassivUI" type="Control" unique_id=1435919382]
+[node name="UIPassive" type="Control" unique_id=1435919382]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
