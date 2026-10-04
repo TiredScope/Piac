@@ -5,11 +5,7 @@ const ID: String = "light_sensor"
 
 signal received_value(message: Message, value: int)
 
-var _value: Dictionary[int, int]
-
-func _init(com: MiniCom = null) -> void:
-	super(com)
-	self._value = {}
+var _value: Dictionary[int, int] = {}
 
 func _on_message(m: Message) -> void:
 	if m.type == Message.Type.M_LIGHTSENSOR_VALUE:

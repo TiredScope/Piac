@@ -10,6 +10,15 @@ class IRData:
 	var command: int
 	var extra: int
 
+	func _to_string() -> String:
+		return "(proto=%s, flags=%s, addr=%s, cmd=%s, extra=%s)" % [
+			protocol,
+			flags,
+			address,
+			command,
+			extra
+		]
+
 signal data_received(message: Message, data: IRData)
 
 func _on_message(m: Message) -> void:

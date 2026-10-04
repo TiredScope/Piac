@@ -5,11 +5,7 @@ const ID: String = "pir_sensor"
 
 signal received_presence(message: Message, presence: bool)
 
-var _presence: Dictionary[int, bool]
-
-func _init(com: MiniCom) -> void:
-	super(com)
-	self._presence = {}
+var _presence: Dictionary[int, bool] = {}
 
 func _on_message(m: Message) -> void:
 	if m.type == Message.Type.M_PIRSENSOR_PRESENCE:

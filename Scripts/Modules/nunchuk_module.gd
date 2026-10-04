@@ -20,28 +20,28 @@ class Values:
 
 signal received_values(message: Message, values: Values)
 
-var _values: Values
-
-func _init(com: MiniCom) -> void:
-	super(com)
-	self._values = Values.new()
+var _values: Dictionary[int, Values] = {}
 
 func _on_message(m: Message) -> void:
 	if m.type == Message.Type.M_NUNCHUK_VALUES:
 		var reader: MessageReader = m.reader()
-		_values.joy_x = reader.get_u8()
-		_values.joy_y = reader.get_u8()
-		_values.roll_angle = reader.get_f32()
-		_values.pitch_angle = reader.get_f32()
-		_values.accel_x = reader.get_u16()
-		_values.accel_y = reader.get_u16()
-		_values.accel_z = reader.get_u16()
-		_values.button_c = reader.get_u8() != 0
-		_values.button_z = reader.get_u8() != 0
+
+		var values: Values = Values.new()
+		values.joy_x = reader.get_u8()
+		values.joy_y = reader.get_u8()
+		values.roll_angle = reader.get_f32()
+		values.pitch_angle = reader.get_f32()
+		values.accel_x = reader.get_u16()
+		values.accel_y = reader.get_u16()
+		values.accel_z = reader.get_u16()
+		values.button_c = reader.get_u8() != 0
+		values.button_z = reader.get_u8() != 0
+
+		_values[m.discriminator] = values
 		received_values.emit(m, _values)
 
 func get_id() -> String:
 	return ID
 
-func get_values() -> Values:
-	return self._values
+func get_values(discriminator: int = Message.DEFAULT_DISCRIMINATOR) -> Values:
+	return _get_value(_values, discriminator, Values.new())

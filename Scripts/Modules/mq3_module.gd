@@ -7,15 +7,14 @@ class Values:
 	var alcohol_detected: bool
 	var value: int
 
+	func _to_string() -> String:
+		return "(detected=%s, value=%d)" % [alcohol_detected, value]
+
 signal received_values(message: Message, values: Values)
 signal state_changed(message: Message, alcohol_detected: bool)
 
-var _values: Dictionary[int, Values]
-var _alcohol_detected: Dictionary[int, bool]
-
-func _init(com: MiniCom) -> void:
-	super(com)
-	self._values = {}
+var _values: Dictionary[int, Values] = {}
+var _alcohol_detected: Dictionary[int, bool] = {}
 
 func _on_message(m: Message) -> void:
 	match m.type:

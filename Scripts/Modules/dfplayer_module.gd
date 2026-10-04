@@ -46,11 +46,7 @@ enum Event {
 signal received_state(message: Message, values: State)
 signal received_event(message: Message, event: Event)
 
-var _states: Dictionary[int, State]
-
-func _init(com: MiniCom) -> void:
-	super(com)
-	self._states = {}
+var _states: Dictionary[int, State] = {}
 
 func _on_message(m: Message) -> void:
 	match m.type:

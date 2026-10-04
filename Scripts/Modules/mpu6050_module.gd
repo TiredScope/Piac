@@ -10,6 +10,9 @@ class Values:
 	var acceleration: Vector3
 	var gyroscope: Vector3
 
+	func _to_string() -> String:
+		return "(accel=%s, gyro=%s)" % [acceleration, gyroscope]
+
 class CalibrationValues:
 	var accel_offset: Vector3i
 	var gyro_offset: Vector3i
@@ -34,13 +37,9 @@ const DEFAULT_GYRO_RANGE: GyroRange = GyroRange.FS_2000
 signal received_values(message: Message, values: Values)
 signal received_calibration_values(message: Message, values: CalibrationValues)
 
-var _values: Dictionary[int, Values]
-var _accel_ranges: Dictionary[int, AccelRange]
-var _gyro_ranges: Dictionary[int, GyroRange]
-
-func _init(com: MiniCom) -> void:
-	super(com)
-	self._values = {}
+var _values: Dictionary[int, Values] = {}
+var _accel_ranges: Dictionary[int, AccelRange] = {}
+var _gyro_ranges: Dictionary[int, GyroRange] = {}
 
 func _on_message(m: Message) -> void:
 	match m.type:

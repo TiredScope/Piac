@@ -1,8 +1,33 @@
 [gd_scene format=3 uid="uid://cjotab7wbyty"]
 
 [ext_resource type="Script" uid="uid://j1hl6ek4h2kv" path="res://Scripts/debug.gd" id="1_raf04"]
+[ext_resource type="Script" uid="uid://yi8waly51kpb" path="res://Scripts/Modules/bme280_module.gd" id="2_vgnr0"]
 [ext_resource type="Script" uid="uid://bbexecf1y40cl" path="res://Scripts/DB/database_provider.gd" id="3_5k3ys"]
+[ext_resource type="Script" uid="uid://beacw55pdc4ni" path="res://Scripts/Modules/bmp280_module.gd" id="3_42dx1"]
 [ext_resource type="Script" uid="uid://1ih7jskkb4py" path="res://Scripts/Modules/neopixel_module.gd" id="4_6fqrn"]
+[ext_resource type="Script" uid="uid://baxu4upu4vm1u" path="res://Scripts/Modules/circuit_playground_module.gd" id="4_xh41y"]
+[ext_resource type="Script" uid="uid://d371mprfyeab4" path="res://Scripts/Modules/dfplayer_module.gd" id="5_5lj5d"]
+[ext_resource type="Script" uid="uid://vmt77tg5hw1o" path="res://Scripts/Modules/dht22_module.gd" id="6_5udg2"]
+[ext_resource type="Script" uid="uid://ckjfqsfos5q3e" path="res://Scripts/Modules/ds3231_module.gd" id="7_evysk"]
+[ext_resource type="Script" uid="uid://d161x0p5lhbfc" path="res://Scripts/Modules/ir_receiver_module.gd" id="8_6yya3"]
+[ext_resource type="Script" uid="uid://dc3qf0b37gpdi" path="res://Scripts/Modules/joystick_module.gd" id="9_dk6jj"]
+[ext_resource type="Script" uid="uid://d2uu8n85bda54" path="res://Scripts/Modules/lcd_module.gd" id="10_tlip6"]
+[ext_resource type="Script" uid="uid://by0yab3g6o8sk" path="res://Scripts/Modules/led_matrix_module.gd" id="11_1tpmp"]
+[ext_resource type="Script" uid="uid://cimwogvprqi3m" path="res://Scripts/Modules/lis3dh_module.gd" id="12_k4ffe"]
+[ext_resource type="Script" uid="uid://ctkwlmlescv65" path="res://Scripts/Modules/light_sensor_module.gd" id="13_eujrk"]
+[ext_resource type="Script" uid="uid://cyu12mf3040ij" path="res://Scripts/Modules/max4466_module.gd" id="14_cao58"]
+[ext_resource type="Script" uid="uid://dk2fn7p2k5dn8" path="res://Scripts/Modules/mpu6050_module.gd" id="15_brmvs"]
+[ext_resource type="Script" uid="uid://kqqxk8gule8p" path="res://Scripts/Modules/mq3_module.gd" id="16_mjhka"]
+[ext_resource type="Script" uid="uid://b4py5t7rvi2ur" path="res://Scripts/Modules/nunchuk_module.gd" id="18_tsqiq"]
+[ext_resource type="Script" uid="uid://cayxsnhsvmh8b" path="res://Scripts/Modules/pir_sensor_module.gd" id="19_nhelk"]
+[ext_resource type="Script" uid="uid://cgwoxxixa24a7" path="res://Scripts/Modules/potentiometer_module.gd" id="20_ymwk8"]
+[ext_resource type="Script" uid="uid://chwkqwbbcae4m" path="res://Scripts/Modules/pressure_sensor_module.gd" id="21_p2lb8"]
+[ext_resource type="Script" uid="uid://bi1qekhprgnxc" path="res://Scripts/Modules/pulse_sensor_module.gd" id="22_xnjb1"]
+[ext_resource type="Script" uid="uid://b6jsj2fws6rx8" path="res://Scripts/Modules/rfid_module.gd" id="23_c2b4q"]
+[ext_resource type="Script" uid="uid://cid5fmtd4iy77" path="res://Scripts/Modules/scd41_module.gd" id="24_eres0"]
+[ext_resource type="Script" uid="uid://u0osa5q8bc80" path="res://Scripts/Modules/sparkfun_keypad_module.gd" id="25_cp1ir"]
+[ext_resource type="Script" uid="uid://cisyj0fl2cu2h" path="res://Scripts/Modules/thermistor_module.gd" id="26_mdpqm"]
+[ext_resource type="Script" uid="uid://cjh3wkd0a6y8u" path="res://Scripts/Modules/ultrasonic_sensor_module.gd" id="27_o7uaa"]
 
 [node name="Debug" type="Node2D" unique_id=693057969]
 script = ExtResource("1_raf04")
@@ -42,9 +67,112 @@ text = "Modules:"
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="NeoPixelModule" type="Node" parent="." unique_id=1846674340]
+[node name="Modules" type="Node" parent="." unique_id=1594161074]
+unique_name_in_owner = true
+
+[node name="BME280Module" type="Node" parent="Modules" unique_id=42389728]
+script = ExtResource("2_vgnr0")
+metadata/_custom_type_script = "uid://yi8waly51kpb"
+
+[node name="BMP280Module" type="Node" parent="Modules" unique_id=771483594]
+script = ExtResource("3_42dx1")
+metadata/_custom_type_script = "uid://beacw55pdc4ni"
+
+[node name="CircuitPlaygroundModule" type="Node" parent="Modules" unique_id=1764286137]
+script = ExtResource("4_xh41y")
+metadata/_custom_type_script = "uid://baxu4upu4vm1u"
+
+[node name="DFPlayerModule" type="Node" parent="Modules" unique_id=1156532428]
+script = ExtResource("5_5lj5d")
+metadata/_custom_type_script = "uid://d371mprfyeab4"
+
+[node name="DHT22Module" type="Node" parent="Modules" unique_id=2044433178]
+script = ExtResource("6_5udg2")
+metadata/_custom_type_script = "uid://vmt77tg5hw1o"
+
+[node name="DS3231Module" type="Node" parent="Modules" unique_id=1506408306]
+script = ExtResource("7_evysk")
+metadata/_custom_type_script = "uid://ckjfqsfos5q3e"
+
+[node name="IRReceiverModule" type="Node" parent="Modules" unique_id=805667285]
+script = ExtResource("8_6yya3")
+metadata/_custom_type_script = "uid://d161x0p5lhbfc"
+
+[node name="JoystickModule" type="Node" parent="Modules" unique_id=1005208716]
+script = ExtResource("9_dk6jj")
+metadata/_custom_type_script = "uid://dc3qf0b37gpdi"
+
+[node name="LCDModule" type="Node" parent="Modules" unique_id=2033197453]
+script = ExtResource("10_tlip6")
+metadata/_custom_type_script = "uid://d2uu8n85bda54"
+
+[node name="LEDMatrixModule" type="Node" parent="Modules" unique_id=331926029]
+script = ExtResource("11_1tpmp")
+metadata/_custom_type_script = "uid://by0yab3g6o8sk"
+
+[node name="LIS3DHModule" type="Node" parent="Modules" unique_id=1610852751]
+script = ExtResource("12_k4ffe")
+metadata/_custom_type_script = "uid://cimwogvprqi3m"
+
+[node name="LightSensorModule" type="Node" parent="Modules" unique_id=1066173602]
+script = ExtResource("13_eujrk")
+metadata/_custom_type_script = "uid://ctkwlmlescv65"
+
+[node name="MAX4466Module" type="Node" parent="Modules" unique_id=1857283282]
+script = ExtResource("14_cao58")
+metadata/_custom_type_script = "uid://cyu12mf3040ij"
+
+[node name="MPU6050Module" type="Node" parent="Modules" unique_id=555021956]
+script = ExtResource("15_brmvs")
+metadata/_custom_type_script = "uid://dk2fn7p2k5dn8"
+
+[node name="MQ3Module" type="Node" parent="Modules" unique_id=413484544]
+script = ExtResource("16_mjhka")
+metadata/_custom_type_script = "uid://kqqxk8gule8p"
+
+[node name="NeoPixelModule" type="Node" parent="Modules" unique_id=1833703886]
 script = ExtResource("4_6fqrn")
 metadata/_custom_type_script = "uid://1ih7jskkb4py"
+
+[node name="NunchukModule" type="Node" parent="Modules" unique_id=1376536639]
+script = ExtResource("18_tsqiq")
+metadata/_custom_type_script = "uid://b4py5t7rvi2ur"
+
+[node name="PIRSensorModule" type="Node" parent="Modules" unique_id=267416525]
+script = ExtResource("19_nhelk")
+metadata/_custom_type_script = "uid://cayxsnhsvmh8b"
+
+[node name="PotentiometerModule" type="Node" parent="Modules" unique_id=785666520]
+script = ExtResource("20_ymwk8")
+metadata/_custom_type_script = "uid://cgwoxxixa24a7"
+
+[node name="PressureSensorModule" type="Node" parent="Modules" unique_id=1917527572]
+script = ExtResource("21_p2lb8")
+metadata/_custom_type_script = "uid://chwkqwbbcae4m"
+
+[node name="PulseSensorModule" type="Node" parent="Modules" unique_id=1386630599]
+script = ExtResource("22_xnjb1")
+metadata/_custom_type_script = "uid://bi1qekhprgnxc"
+
+[node name="RFIDModule" type="Node" parent="Modules" unique_id=1748926804]
+script = ExtResource("23_c2b4q")
+metadata/_custom_type_script = "uid://b6jsj2fws6rx8"
+
+[node name="SCD41Module" type="Node" parent="Modules" unique_id=1279646621]
+script = ExtResource("24_eres0")
+metadata/_custom_type_script = "uid://cid5fmtd4iy77"
+
+[node name="SparkfunKeypadModule" type="Node" parent="Modules" unique_id=1312663434]
+script = ExtResource("25_cp1ir")
+metadata/_custom_type_script = "uid://u0osa5q8bc80"
+
+[node name="ThermistorModule" type="Node" parent="Modules" unique_id=2123262008]
+script = ExtResource("26_mdpqm")
+metadata/_custom_type_script = "uid://cisyj0fl2cu2h"
+
+[node name="UltrasonicSensorModule" type="Node" parent="Modules" unique_id=1460074456]
+script = ExtResource("27_o7uaa")
+metadata/_custom_type_script = "uid://cjh3wkd0a6y8u"
 
 [node name="DatabaseProvider" type="Node" parent="." unique_id=1779878333]
 script = ExtResource("3_5k3ys")

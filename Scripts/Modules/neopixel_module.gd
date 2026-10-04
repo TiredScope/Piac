@@ -20,7 +20,7 @@ func set_colors(colors: Array[Color], offset: int = 0, discriminator: int = Mess
 	var builder: MessageBuilder = MessageBuilder.new(Message.Type.M_NEOPIXEL_SET_COLORS, discriminator)
 
 	builder.put_u16(offset)
-	for color in colors:
+	for color: Color in colors:
 		builder.put_u8(color.r8)
 		builder.put_u8(color.g8)
 		builder.put_u8(color.b8)
