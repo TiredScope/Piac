@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://ue5gvnguluoc"]
 
-[ext_resource type="PackedScene" uid="uid://vg6g01sokmak" path="res://pvp/item.tscn" id="1_tw8kn"]
-[ext_resource type="Script" uid="uid://d4dvq5ktqumj1" path="res://pvp/inventory.gd" id="1_ubwhw"]
+[ext_resource type="PackedScene" uid="uid://vg6g01sokmak" path="res://pvp/common/item.tscn" id="1_tw8kn"]
+[ext_resource type="Script" uid="uid://d4dvq5ktqumj1" path="res://pvp/common/inventory.gd" id="1_ubwhw"]
 [ext_resource type="Texture2D" uid="uid://lyowx8yxdhie" path="res://icon.svg" id="3_24bvc"]
-[ext_resource type="Script" uid="uid://bimgnl8iwej4u" path="res://pvp/item_data.gd" id="4_knfra"]
+[ext_resource type="Script" uid="uid://bimgnl8iwej4u" path="res://pvp/core/item_data.gd" id="4_knfra"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v0k1o"]
 resource_local_to_scene = true

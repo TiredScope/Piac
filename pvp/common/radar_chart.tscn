@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c8wgsvejekjru"]
 
-[ext_resource type="Script" uid="uid://b3j2p5tw20anf" path="res://pvp/radar_chart.gd" id="1_pv072"]
+[ext_resource type="Script" uid="uid://b3j2p5tw20anf" path="res://pvp/common/radar_chart.gd" id="1_pv072"]
 
 [node name="RadarChart" type="Control" unique_id=2131257211]
 custom_minimum_size = Vector2(50, 50)

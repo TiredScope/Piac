@@ -2,16 +2,18 @@ class_name PVPFight
 extends Control
 
 class PVPPlayer:
+	var data: PVPPlayerData
 	var values: PVPValues
 	var hp: int
 	var items: Array[ItemData] = []
 	var attack_values: AttackValues = AttackValues.new(self)
 	var stunned: bool = false
 
-	func _init(p_values: PVPValues, p_items: Array[ItemData]) -> void:
-		values = p_values
+	func _init(p_data: PVPPlayerData, p_items: Array[ItemData]) -> void:
+		data = p_data
 		items = p_items
 
+		values = PVPValues.get_from_player_data(p_data)
 		for item: ItemData in items:
 			values = PVPValues.add(values, item.bonus)
 
@@ -59,9 +61,9 @@ func _ready() -> void:
 	#_start_countdown(int(_first_round_timer.wait_time))
 	_first_round_timer.start()
 
-func init_players(player1_values: PVPValues, player1_items: Array[ItemData], player2_values: PVPValues, player2_items: Array[ItemData]) -> void:
-	player1 = PVPPlayer.new(player1_values, player1_items)
-	player2 = PVPPlayer.new(player2_values, player2_items)
+func init_players(player1_data: PVPPlayerData, player1_items: Array[ItemData], player2_data: PVPPlayerData, player2_items: Array[ItemData]) -> void:
+	player1 = PVPPlayer.new(player1_data, player1_items)
+	player2 = PVPPlayer.new(player2_data, player2_items)
 	pass
 
 func _process(_delta: float) -> void:

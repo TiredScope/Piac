@@ -4,8 +4,8 @@ extends Control
 
 var first_player: bool = true
 
-var player1_values: PVPValues = PVPValues.generate_from_distribution(PVPValues.generate_distribution())
-var player2_values: PVPValues = PVPValues.generate_from_distribution(PVPValues.generate_distribution())
+var player1_data: PVPPlayerData = PVPPlayerData.create_random()
+var player2_data: PVPPlayerData = PVPPlayerData.create_random()
 
 var _packed_pvp_fight: PackedScene = preload("res://pvp/pvp_fight.tscn")
 
@@ -85,7 +85,7 @@ func _selection_done() -> void:
 	var player1_items: Array[ItemData] = left_config.get_inventory().get_selected_item_data()
 	var player2_items: Array[ItemData] = right_config.get_inventory().get_selected_item_data()
 
-	pvp_fight.init_players(player1_values, player1_items, player2_values, player2_items)
+	pvp_fight.init_players(player1_data, player1_items, player2_data, player2_items)
 	get_tree().change_scene_to_node(pvp_fight)
 
 func _unhandled_input(event: InputEvent) -> void:

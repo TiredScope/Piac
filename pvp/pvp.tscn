@@ -12,6 +12,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ns7ub")
+num_items = null
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=589031429]
 layout_mode = 1

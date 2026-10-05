@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://l1l705yj7r2t"]
 
 [ext_resource type="Texture2D" uid="uid://lyowx8yxdhie" path="res://icon.svg" id="1_2bbed"]
-[ext_resource type="Script" uid="uid://ca61iovgdmd7x" path="res://pvp/pvp_player_stats.gd" id="1_petrx"]
-[ext_resource type="Script" uid="uid://b3j2p5tw20anf" path="res://pvp/radar_chart.gd" id="2_dewcj"]
+[ext_resource type="Script" uid="uid://ca61iovgdmd7x" path="res://pvp/common/pvp_player_stats.gd" id="1_petrx"]
+[ext_resource type="Script" uid="uid://b3j2p5tw20anf" path="res://pvp/common/radar_chart.gd" id="2_dewcj"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qnlnd"]
 bg_color = Color(0.42350006, 0.245, 0.5, 1)
@@ -94,6 +94,7 @@ value = 50.0
 show_percentage = false
 
 [node name="RadarChart" type="Control" parent="MarginContainer/VBoxContainer" unique_id=1152469576]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 script = ExtResource("2_dewcj")

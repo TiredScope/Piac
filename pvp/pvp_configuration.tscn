@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://kr2csmg3dm4x"]
 
 [ext_resource type="Script" uid="uid://d0elb0oqs5gun" path="res://pvp/pvp_configuration.gd" id="1_b2c5x"]
-[ext_resource type="PackedScene" uid="uid://ue5gvnguluoc" path="res://pvp/inventory.tscn" id="2_b2c5x"]
-[ext_resource type="Script" uid="uid://b3j2p5tw20anf" path="res://pvp/radar_chart.gd" id="3_up52y"]
+[ext_resource type="PackedScene" uid="uid://ue5gvnguluoc" path="res://pvp/common/inventory.tscn" id="2_b2c5x"]
+[ext_resource type="Script" uid="uid://b3j2p5tw20anf" path="res://pvp/common/radar_chart.gd" id="3_up52y"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_458wi"]
 bg_color = Color(0, 0.06666667, 0.1882353, 1)
