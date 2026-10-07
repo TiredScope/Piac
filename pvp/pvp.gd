@@ -15,6 +15,8 @@ var _packed_pvp_fight: PackedScene = preload("res://pvp/pvp_fight.tscn")
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	_update_highlight()
+	left_config.init(player1_data)
+	right_config.init(player2_data)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:

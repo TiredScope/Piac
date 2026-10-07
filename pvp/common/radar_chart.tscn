@@ -11,3 +11,5 @@ offset_bottom = 50.0
 script = ExtResource("1_pv072")
 max_value = nan
 outline_color = Color(0.4117647, 0.4117647, 0.4117647, 1)
+icon_offset = 12
+icon_size = Vector2(16, 16)

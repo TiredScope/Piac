@@ -14,7 +14,6 @@ func show_values(player: PVPFight.PVPPlayer) -> void:
 	_crit.value = player.attack_values.crit
 	_block.value = player.attack_values.block
 
-	print(player.data.value_distribution)
 	var float_values: Array[float] = []
 	for i: int in player.data.value_distribution:
 		float_values.push_back(i)

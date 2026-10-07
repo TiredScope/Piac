@@ -3,6 +3,12 @@
 [ext_resource type="Texture2D" uid="uid://lyowx8yxdhie" path="res://icon.svg" id="1_2bbed"]
 [ext_resource type="Script" uid="uid://ca61iovgdmd7x" path="res://pvp/common/pvp_player_stats.gd" id="1_petrx"]
 [ext_resource type="Script" uid="uid://b3j2p5tw20anf" path="res://pvp/common/radar_chart.gd" id="2_dewcj"]
+[ext_resource type="Texture2D" uid="uid://bw180xagxoo61" path="res://Art/hp.svg" id="4_geb6u"]
+[ext_resource type="Texture2D" uid="uid://bv07frvwwh4f1" path="res://Art/attack.svg" id="5_3pxwp"]
+[ext_resource type="Texture2D" uid="uid://c080rngmv2mti" path="res://Art/defense.svg" id="6_ucwlv"]
+[ext_resource type="Texture2D" uid="uid://ds3hykhln5neu" path="res://Art/obedience.svg" id="7_ak2o2"]
+[ext_resource type="Texture2D" uid="uid://clauauewsqucd" path="res://Art/tempo.svg" id="8_3y3qp"]
+[ext_resource type="Texture2D" uid="uid://c21dbok1xejfw" path="res://Art/luck.svg" id="9_0keb2"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qnlnd"]
 bg_color = Color(0.42350006, 0.245, 0.5, 1)
@@ -98,5 +104,6 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 script = ExtResource("2_dewcj")
+icons = Array[Texture2D]([ExtResource("4_geb6u"), ExtResource("5_3pxwp"), ExtResource("6_ucwlv"), ExtResource("7_ak2o2"), ExtResource("8_3y3qp"), ExtResource("9_0keb2")])
 max_value = nan
 metadata/_custom_type_script = "uid://b3j2p5tw20anf"

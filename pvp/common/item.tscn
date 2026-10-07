@@ -12,7 +12,7 @@ border_width_bottom = 3
 border_color = Color(1, 1, 1, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_458wi"]
-bg_color = Color(0.5019608, 0.5019608, 0.5019608, 1)
+bg_color = Color(0.3232469, 0.36817247, 0.4206308, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
@@ -57,6 +57,7 @@ size_flags_vertical = 8
 text = "0"
 
 [node name="Tooltip" type="Control" parent="." unique_id=1261718569]
+visible = false
 z_index = 1
 layout_mode = 2
 size_flags_horizontal = 4
