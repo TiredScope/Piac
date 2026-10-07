@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://lyowx8yxdhie" path="res://icon.svg" id="1_2bbed"]
 [ext_resource type="Script" uid="uid://ca61iovgdmd7x" path="res://pvp/common/pvp_player_stats.gd" id="1_petrx"]
 [ext_resource type="Script" uid="uid://b3j2p5tw20anf" path="res://pvp/common/radar_chart.gd" id="2_dewcj"]
+[ext_resource type="Texture2D" uid="uid://imkbxijaqqt4" path="res://Art/crit_attack.svg" id="3_3y3qp"]
 [ext_resource type="Texture2D" uid="uid://bw180xagxoo61" path="res://Art/hp.svg" id="4_geb6u"]
 [ext_resource type="Texture2D" uid="uid://bv07frvwwh4f1" path="res://Art/attack.svg" id="5_3pxwp"]
 [ext_resource type="Texture2D" uid="uid://c080rngmv2mti" path="res://Art/defense.svg" id="6_ucwlv"]
@@ -50,7 +51,7 @@ theme_override_constants/margin_bottom = 16
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=883184099]
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 8
 
 [node name="StatusBars" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1153298547]
 unique_name_in_owner = true
@@ -58,7 +59,14 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 
-[node name="Normal" type="ProgressBar" parent="MarginContainer/VBoxContainer/StatusBars" unique_id=451161103]
+[node name="Normal" type="VBoxContainer" parent="MarginContainer/VBoxContainer/StatusBars" unique_id=1543885039]
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="MarginContainer/VBoxContainer/StatusBars/Normal" unique_id=494572334]
+layout_mode = 2
+texture = ExtResource("5_3pxwp")
+
+[node name="Bar" type="ProgressBar" parent="MarginContainer/VBoxContainer/StatusBars/Normal" unique_id=451161103]
 custom_minimum_size = Vector2(30, 200)
 layout_mode = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_jhk0j")
@@ -67,7 +75,14 @@ value = 0.5
 fill_mode = 3
 show_percentage = false
 
-[node name="Crit" type="ProgressBar" parent="MarginContainer/VBoxContainer/StatusBars" unique_id=98409313]
+[node name="Crit" type="VBoxContainer" parent="MarginContainer/VBoxContainer/StatusBars" unique_id=1811306696]
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="MarginContainer/VBoxContainer/StatusBars/Crit" unique_id=295002048]
+layout_mode = 2
+texture = ExtResource("3_3y3qp")
+
+[node name="Bar" type="ProgressBar" parent="MarginContainer/VBoxContainer/StatusBars/Crit" unique_id=98409313]
 custom_minimum_size = Vector2(30, 200)
 layout_mode = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_ivloj")
@@ -76,7 +91,14 @@ value = 0.5
 fill_mode = 3
 show_percentage = false
 
-[node name="Block" type="ProgressBar" parent="MarginContainer/VBoxContainer/StatusBars" unique_id=2037409517]
+[node name="Block" type="VBoxContainer" parent="MarginContainer/VBoxContainer/StatusBars" unique_id=302457024]
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="MarginContainer/VBoxContainer/StatusBars/Block" unique_id=1901909932]
+layout_mode = 2
+texture = ExtResource("6_ucwlv")
+
+[node name="Bar" type="ProgressBar" parent="MarginContainer/VBoxContainer/StatusBars/Block" unique_id=2037409517]
 custom_minimum_size = Vector2(30, 200)
 layout_mode = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_5qt0o")

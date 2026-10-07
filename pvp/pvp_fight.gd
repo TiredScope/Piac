@@ -6,6 +6,7 @@ class PVPPlayer:
 	var values: PVPValues
 	var hp: int
 	var items: Array[ItemData] = []
+	var sensor_inputs: SensorInputs
 	var attack_values: AttackValues = AttackValues.new(self)
 	var stunned: bool = false
 
@@ -31,80 +32,10 @@ class PVPPlayer:
 		else:
 			return 0.0 if crit else values.attack
 
-@onready var _player1_stats: PVPPlayerStats = %Player1Stats
-@onready var _player2_stats: PVPPlayerStats = %Player2Stats
-
-@onready var _light_sensor: LightSensorModule = $Modules/LightSensorModule
-@onready var _pressure_sensor: PressureSensorModule = $Modules/PressureSensorModule
-@onready var _potentiometer: PotentiometerModule = $Modules/PotentiometerModule
-
-@onready var _countdown: Label = %Countdown
-@onready var _countdown_player: AnimationPlayer = %Countdown/AnimationPlayer
-
-@onready var _first_round_timer: Timer = $Timers/FirstRound
-@onready var _attack_timer: Timer = $Timers/Attack
-@onready var _between_rounds_timer: Timer = $Timers/BetweenRounds
-@onready var _countdown_timer: Timer = $Timers/Countdown
-
-@onready var _round_status: Label = %RoundStatus
-
-var player1: PVPPlayer
-var player2: PVPPlayer
-
-var _current_round: int = 0
-var _current_countdown: int = 0
-
-func _ready() -> void:
-	_show_values()
-
-	await get_tree().create_timer(1.0).timeout
-	#_start_countdown(int(_first_round_timer.wait_time))
-	_first_round_timer.start()
-
-func init_players(player1_data: PVPPlayerData, player1_items: Array[ItemData], player2_data: PVPPlayerData, player2_items: Array[ItemData]) -> void:
-	player1 = PVPPlayer.new(player1_data, player1_items)
-	player2 = PVPPlayer.new(player2_data, player2_items)
-	pass
-
-func _process(_delta: float) -> void:
-	var change: float = -0.1 if Input.is_key_pressed(KEY_SHIFT) else 0.1
-	var attack_values: AttackValues = player2.attack_values if Input.is_key_pressed(KEY_CTRL) else player1.attack_values
-
-	if Input.is_action_just_pressed("simulate_sensor_1"):
-		attack_values.normal += change
-		_show_values()
-
-	if Input.is_action_just_pressed("simulate_sensor_2"):
-		attack_values.crit += change
-		_show_values()
-
-	if Input.is_action_just_pressed("simulate_sensor_3"):
-		attack_values.block += change
-		_show_values()
-
-func _show_values() -> void:
-	_player1_stats.show_values(player1)
-	_player2_stats.show_values(player2)
-
-func _on_light_sensor_module_init(_client: MiniCom.Client, discriminator: int) -> void:
-	_light_sensor.set_reporting_delay(100, discriminator)
-
-func _on_light_sensor_module_received_value(message: Message, value: int) -> void:
-	print("Light sensor (%d): %d" % [message.discriminator, value])
-
-
-func _on_potentiometer_module_init(_client: MiniCom.Client, discriminator: int) -> void:
-	_potentiometer.set_reporting_delay(100, discriminator)
-
-func _on_potentiometer_module_received_value(message: Message, value: int) -> void:
-	print("Potentiometer (%d): %d" % [message.discriminator, value])
-
-
-func _on_pressure_sensor_module_init(_client: MiniCom.Client, discriminator: int) -> void:
-	_pressure_sensor.set_reporting_delay(100, discriminator)
-
-func _on_pressure_sensor_module_received_value(message: Message, value: int) -> void:
-	print("Pressure sensor (%d): %d" % [message.discriminator, value])
+class SensorInputs:
+	var pressure_sensor: float = NAN
+	var light_sensor: float = NAN
+	var potentiometer: float = NAN
 
 class AttackValues:
 	var _player: PVPPlayer
@@ -171,6 +102,141 @@ class AttackValues:
 				printerr("Pick failed somehow")
 				return "normal"
 
+@export var player1_discriminator: int = 1
+@export var player2_discriminator: int = 2
+
+@export var light_sensor_min: float = 0
+@export var light_sensor_max: float = 1024
+@export var potentiometer_min: float = 0
+@export var potentiometer_max: float = 1024
+@export var pressure_sensor_min: float = 500
+@export var pressure_sensor_max: float = 1024
+
+@onready var _player1_stats: PVPPlayerStats = %Player1Stats
+@onready var _player2_stats: PVPPlayerStats = %Player2Stats
+
+@onready var _light_sensor: LightSensorModule = $Modules/LightSensorModule
+@onready var _pressure_sensor: PressureSensorModule = $Modules/PressureSensorModule
+@onready var _potentiometer: PotentiometerModule = $Modules/PotentiometerModule
+
+@onready var _countdown: Label = %Countdown
+@onready var _countdown_player: AnimationPlayer = %Countdown/AnimationPlayer
+
+@onready var _first_round_timer: Timer = $Timers/FirstRound
+@onready var _attack_timer: Timer = $Timers/Attack
+@onready var _between_rounds_timer: Timer = $Timers/BetweenRounds
+@onready var _countdown_timer: Timer = $Timers/Countdown
+
+@onready var _round_status: Label = %RoundStatus
+
+var player1: PVPPlayer
+var player2: PVPPlayer
+
+var _current_round: int = 0
+var _current_countdown: int = 0
+var _game_over: bool = false
+
+func _ready() -> void:
+	_show_values()
+
+	await get_tree().create_timer(1.0).timeout
+	#_start_countdown(int(_first_round_timer.wait_time))
+	_first_round_timer.start()
+
+func init_players(player1_data: PVPPlayerData, player1_items: Array[ItemData], player2_data: PVPPlayerData, player2_items: Array[ItemData]) -> void:
+	player1 = PVPPlayer.new(player1_data, player1_items)
+	player2 = PVPPlayer.new(player2_data, player2_items)
+	pass
+
+func _process(_delta: float) -> void:
+	var change: float = -0.1 if Input.is_key_pressed(KEY_SHIFT) else 0.1
+	var attack_values: AttackValues = player2.attack_values if Input.is_key_pressed(KEY_CTRL) else player1.attack_values
+
+	if Input.is_action_just_pressed("simulate_sensor_1"):
+		attack_values.normal += change
+		_show_values()
+
+	if Input.is_action_just_pressed("simulate_sensor_2"):
+		attack_values.crit += change
+		_show_values()
+
+	if Input.is_action_just_pressed("simulate_sensor_3"):
+		attack_values.block += change
+		_show_values()
+
+func _show_values() -> void:
+	_player1_stats.show_values(player1)
+	_player2_stats.show_values(player2)
+
+func _get_player_by_discriminator(discriminator: int) -> PVPPlayer:
+	match discriminator:
+		player1_discriminator:
+			return player1
+		player2_discriminator:
+			return player2
+		_:
+			return null
+
+func _on_light_sensor_module_init(_client: MiniCom.Client, discriminator: int) -> void:
+	_light_sensor.set_reporting_delay(100, discriminator)
+
+func _on_light_sensor_module_received_value(message: Message, value: int) -> void:
+	print("Light sensor (%d): %d" % [message.discriminator, value])
+
+	# For light sensor (crit): Increase when the abs value increases, otherwise ignore
+	var abs_value: float = clamp(remap(value, light_sensor_min, light_sensor_max, 0, 1), 0, 1)
+	var player: PVPPlayer = _get_player_by_discriminator(message.discriminator)
+	if not player:
+		return
+
+	if not is_nan(player.sensor_inputs.light_sensor):
+		var change: float = abs_value - player.sensor_inputs.light_sensor
+		if change > 0:
+			player.attack_values.crit += change
+
+	player.sensor_inputs.light_sensor = abs_value
+
+
+func _on_potentiometer_module_init(_client: MiniCom.Client, discriminator: int) -> void:
+	_potentiometer.set_reporting_delay(100, discriminator)
+
+func _on_potentiometer_module_received_value(message: Message, value: int) -> void:
+	print("Potentiometer (%d): %d" % [message.discriminator, value])
+
+	# For potentiometer (block): Increase when the abs value increases, otherwise ignore
+	var abs_value: float = clamp(remap(value, potentiometer_min, potentiometer_max, 0, 1), 0, 1)
+	var player: PVPPlayer = _get_player_by_discriminator(message.discriminator)
+	if not player:
+		return
+
+	if not is_nan(player.sensor_inputs.potentiometer):
+		var change: float = abs_value - player.sensor_inputs.potentiometer
+		if change > 0:
+			player.attack_values.block += change
+
+	player.sensor_inputs.potentiometer = abs_value
+
+
+func _on_pressure_sensor_module_init(_client: MiniCom.Client, discriminator: int) -> void:
+	_pressure_sensor.set_reporting_delay(100, discriminator)
+
+func _on_pressure_sensor_module_received_value(message: Message, value: int) -> void:
+	print("Pressure sensor (%d): %d" % [message.discriminator, value])
+
+	# For pressure sensor (normal): Increase when the abs value increases, otherwise ignore
+	var abs_value: float = clamp(remap(value, pressure_sensor_min, pressure_sensor_max, 0, 1), 0, 1)
+	var player: PVPPlayer = _get_player_by_discriminator(message.discriminator)
+	if not player:
+		return
+
+	if not is_nan(player.sensor_inputs.pressure_sensor):
+		var change: float = abs_value - player.sensor_inputs.pressure_sensor
+		if change > 0:
+			player.attack_values.normal += change
+
+	player.sensor_inputs.pressure_sensor = abs_value
+
+
 func _start_round() -> void:
 	_current_round += 1
 	_round_status.text = "Runde %d" % [_current_round]
@@ -196,8 +262,10 @@ func _show_countdown() -> void:
 
 func _on_attack_timeout() -> void:
 	_calculate_attacks()
-	_round_status.text = "Runde %d vorbei" % [_current_round]
-	_between_rounds_timer.start()
+
+	if not _game_over:
+		_round_status.text = "Runde %d vorbei" % [_current_round]
+		_between_rounds_timer.start()
 
 func _calculate_attacks() -> void:
 	var player_1_roll: int = int(player1.values.tempo) + randi_range(1, 20)
@@ -241,8 +309,23 @@ func _calculate_attacks() -> void:
 
 	# TODO: play some fancy animations
 	_show_values()
-	pass
 
+	# Intentionally check second_player first in case both are at <= 0 HP, then the first player wins
+	# TODO: is this correct?
+	if second_player.hp <= 0:
+		# Game over (first moving player wins)
+		_on_game_over(first_player, second_player)
+		return
+
+	if first_player.hp <= 0:
+		# Game over (second moving player wins)
+		_on_game_over(second_player, first_player)
+		return
+
+func _on_game_over(winner: PVPPlayer, _loser: PVPPlayer) -> void:
+	_game_over = true
+	_round_status.text = "Kampf vorbei. Gewinner: %s" % ["Spieler 1" if winner == player1 else "Spieler 2"]
+	pass
 
 func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 	_countdown.visible = false

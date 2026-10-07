@@ -8,6 +8,7 @@ func _init() -> void:
 	value_distribution = []
 	value_distribution.resize(PVPConstants.get_num_stats())
 	value_distribution.fill(0)
+	value_distribution_max = PVPConstants.STATS.max_points_per_category
 
 
 static func create_random() -> PVPPlayerData:

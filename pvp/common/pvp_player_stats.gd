@@ -1,9 +1,9 @@
 class_name PVPPlayerStats
 extends PanelContainer
 
-@onready var _normal: ProgressBar = %StatusBars/Normal
-@onready var _crit: ProgressBar = %StatusBars/Crit
-@onready var _block: ProgressBar = %StatusBars/Block
+@onready var _normal: ProgressBar = %StatusBars/Normal/Bar
+@onready var _crit: ProgressBar = %StatusBars/Crit/Bar
+@onready var _block: ProgressBar = %StatusBars/Block/Bar
 @onready var _hp: ProgressBar = %HP
 @onready var _radar_chart: RadarChart = %RadarChart
 
