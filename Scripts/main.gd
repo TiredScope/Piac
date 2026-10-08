@@ -1,3 +1,4 @@
+class_name PlayerManager
 extends Node2D
 
 @onready var player_manager: PlayerManager = $PlayerManager

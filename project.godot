@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="PIAC"
-run/main_scene="uid://daxt44kos2tp"
+run/main_scene="uid://w13mudvaa44"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -20,6 +20,8 @@ config/icon="res://icon.svg"
 Com="*uid://dvo6vway0j0fn"
 PVPConstants="*uid://c2hunvs8tvbgm"
 DBProvider="*uid://bbexecf1y40cl"
+PiacRegistry="*uid://ts4th0csm253"
+PiacPlayerManager="*uid://dtxbjngsahrwi"
 
 [debug]
 

@@ -13,7 +13,7 @@ static func migrate_001_initial_setup(sql: SQLite) -> bool:
 		},
 		"name": {
 			"data_type": "text",
-		}
+		},
 	})
 
 	if not ok:
@@ -21,5 +21,18 @@ static func migrate_001_initial_setup(sql: SQLite) -> bool:
 
 	#sql.create_table("piac_personality_values", {
 	#})
+
+	sql.create_table("piac_trait_generators", {
+		"uid_hash": {
+			"data_type": "blob",
+			"primary_key": true,
+			"not_null": true,
+		},
+		"trait_generator": {
+			"data_type": "text",
+			"primary_key": true,
+			"not_null": true,
+		},
+	})
 
 	return true
