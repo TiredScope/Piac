@@ -166,7 +166,7 @@ func pack() -> PackedByteArray:
 	stream.put_u16(type)
 	stream.put_u8(discriminator)
 	var checksum: int = 0
-	for b in body:
+	for b: int in body:
 		checksum ^= b
 	stream.put_partial_data(body)
 	stream.put_u8(checksum)

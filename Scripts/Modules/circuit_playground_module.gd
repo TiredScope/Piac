@@ -8,16 +8,33 @@ class Buttons:
 	var right: bool
 	var slide_switch: bool
 
+	func _to_string() -> String:
+		return "(left=%s right=%s sw=%s)" % [
+			"X" if left else "-",
+			"X" if right else "-",
+			"<-" if slide_switch else "->"
+		]
+
 class CapacitiveTouchValues:
 	var _values: Dictionary[CapacitiveTouchPin, int]
 
 	func get_value(pin: CapacitiveTouchPin) -> int:
 		return _values.get(pin, 0)
 
+	func _to_string() -> String:
+		var touch_str: Array[String]
+		for p: CircuitPlaygroundModule.CapacitiveTouchPin in CircuitPlaygroundModule.CapacitiveTouchPin.values():
+			touch_str.push_back("%s=%d" % [p, get_value(p)])
+
+		return "(%s)" % [", ".join(touch_str)]
+
 class AccelerometerValues:
 	var x: float
 	var y: float
 	var z: float
+
+	func _to_string() -> String:
+		return "(x=%.2f, y=%.2f, z=%.2f)" % [x, y, z]
 
 enum Component {
 	BUTTONS,
@@ -46,14 +63,14 @@ signal temperature_received(message: Message, value: float)
 signal light_received(message: Message, value: int)
 signal sound_received(message: Message, value: int)
 
-var _capacitive_touch_pins: Dictionary[int, int]
+var _capacitive_touch_pins: Dictionary[int, int] = {}
 
-var _buttons: Dictionary[int, Buttons]
-var _capacitive_touch: Dictionary[int, CapacitiveTouchValues]
-var _accelerometer: Dictionary[int, AccelerometerValues]
-var _temperature: Dictionary[int, float]
-var _light: Dictionary[int, int]
-var _sound: Dictionary[int, int]
+var _buttons: Dictionary[int, Buttons] = {}
+var _capacitive_touch: Dictionary[int, CapacitiveTouchValues] = {}
+var _accelerometer: Dictionary[int, AccelerometerValues] = {}
+var _temperature: Dictionary[int, float] = {}
+var _light: Dictionary[int, int] = {}
+var _sound: Dictionary[int, int] = {}
 
 func _on_message(m: Message) -> void:
 	match m.type:
@@ -161,15 +178,6 @@ func set_pixel(pixel: int, color: Color, discriminator: int = Message.DEFAULT_DI
 	builder.put_u8((argb32 >> 8) & 0xFF)
 	builder.put_u8(argb32 & 0xFF)
 	_com.send_message(builder.build())
-
-func _get_value(dict: Dictionary, discriminator: int, default: Variant) -> Variant:
-	if discriminator != Message.DEFAULT_DISCRIMINATOR:
-		return dict.get(discriminator, default)
-
-	if len(dict) == 0:
-		return default
-
-	return dict.values()[0]
 
 func get_buttons(discriminator: int = Message.DEFAULT_DISCRIMINATOR) -> Buttons:
 	return _get_value(_buttons, discriminator, Buttons.new())

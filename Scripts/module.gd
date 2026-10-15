@@ -30,3 +30,12 @@ func is_available() -> bool:
 		if client.has_capability(get_id()):
 			return true
 	return false
+
+static func _get_value(dict: Dictionary, discriminator: int, default: Variant) -> Variant:
+	if discriminator != Message.DEFAULT_DISCRIMINATOR:
+		return dict.get(discriminator, default)
+
+	if len(dict) == 0:
+		return default
+
+	return dict.values()[0]

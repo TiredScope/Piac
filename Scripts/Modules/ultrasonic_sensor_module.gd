@@ -5,11 +5,7 @@ const ID: String = "ultrasonic_sensor"
 
 signal received_distance(message: Message, distance: int)
 
-var _distance: Dictionary[int, int]
-
-func _init(com: MiniCom) -> void:
-	super(com)
-	self._distance = {}
+var _distance: Dictionary[int, int] = {}
 
 func _on_message(m: Message) -> void:
 	if m.type == Message.Type.M_ULTRASONICSENSOR_DISTANCE:

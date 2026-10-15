@@ -192,7 +192,7 @@ func _broadcast_message(message: Message) -> void:
 
 func get_clients_by_discriminator(discriminator: int) -> Array[Client]:
 	if discriminator != Message.DEFAULT_DISCRIMINATOR:
-		return _clients.values().filter(func(c: Client) -> void:
+		return _clients.values().filter(func(c: Client) -> bool:
 			return c.has_discriminator(discriminator)
 		)
 	else:

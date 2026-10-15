@@ -8,13 +8,12 @@ class Values:
 	var humidity: float
 	var pressure: float
 
+	func _to_string() -> String:
+		return "(t=%.2f, h=%.2f, p=%.2f)" % [temperature, humidity, pressure]
+
 signal received_values(message: Message, values: Values)
 
-var _values: Dictionary[int, Values]
-
-func _init(com: MiniCom) -> void:
-	super(com)
-	self._values = {}
+var _values: Dictionary[int, Values] = {}
 
 func _on_message(m: Message) -> void:
 	if m.type == Message.Type.M_BME280_VALUES:

@@ -12,8 +12,8 @@ enum PVPStat {
 }
 
 @export_group("Generation")
-@export var maxPointsPerCategory: int = 10
-@export var totalPoints: int = 30
+@export var max_points_per_category: int = 10
+@export var total_points: int = 30
 
 @export_group("Info")
 @export var info: Dictionary[PVPStat, StatInfo] = _make_empty()
