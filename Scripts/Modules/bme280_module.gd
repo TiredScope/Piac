@@ -15,14 +15,6 @@ signal received_values(message: Message, values: Values)
 
 var _values: Dictionary[int, Values] = {}
 
-var tmp: float = 0
-func _process(delta: float) -> void:
-	tmp += delta
-	if tmp >= 1:
-		tmp -= 1
-		received_values.emit(Message.new(Message.Type.M_BME280_VALUES), Values.new())
-		print("emitted")
-
 func _on_message(m: Message) -> void:
 	if m.type == Message.Type.M_BME280_VALUES:
 		var reader: MessageReader = m.reader()

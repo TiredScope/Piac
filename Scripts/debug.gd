@@ -1,7 +1,7 @@
 extends Node
 
 var reference_node: Node = Node.new()
-@onready var bme280: BME280Module = %Modules.get_node("BME280Module")
+@onready var bme280: BME280Module = %Modules/BME280Module
 @onready var bmp280: BMP280Module = %Modules/BMP280Module
 @onready var circuit_playground: CircuitPlaygroundModule = %Modules/CircuitPlaygroundModule
 @onready var df_player: DFPlayerModule = %Modules/DFPlayerModule

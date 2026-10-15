@@ -6,7 +6,7 @@ class PVPPlayer:
 	var values: PVPValues
 	var hp: int
 	var items: Array[ItemData] = []
-	var sensor_inputs: SensorInputs
+	var sensor_inputs: SensorInputs = SensorInputs.new()
 	var attack_values: AttackValues = AttackValues.new(self)
 	var stunned: bool = false
 
@@ -102,6 +102,9 @@ class AttackValues:
 				printerr("Pick failed somehow")
 				return "normal"
 
+	func _to_string() -> String:
+		return "(%.2f %.2f %.2f)" % [normal, crit, block]
+
 @export var player1_discriminator: int = 1
 @export var player2_discriminator: int = 2
 
@@ -165,6 +168,8 @@ func _process(_delta: float) -> void:
 		_show_values()
 
 func _show_values() -> void:
+	print(player1.attack_values)
+	print(player2.attack_values)
 	_player1_stats.show_values(player1)
 	_player2_stats.show_values(player2)
 
@@ -178,7 +183,7 @@ func _get_player_by_discriminator(discriminator: int) -> PVPPlayer:
 			return null
 
 func _on_light_sensor_module_init(_client: MiniCom.Client, discriminator: int) -> void:
-	_light_sensor.set_reporting_delay(100, discriminator)
+	get_node("Modules/LightSensorModule").set_reporting_delay(100, discriminator)
 
 func _on_light_sensor_module_received_value(message: Message, value: int) -> void:
 	print("Light sensor (%d): %d" % [message.discriminator, value])
@@ -189,16 +194,19 @@ func _on_light_sensor_module_received_value(message: Message, value: int) -> voi
 	if not player:
 		return
 
+	print("UPDATING ", player.attack_values, " TO NEW VALUES OF ", player.attack_values.get_instance_id())
 	if not is_nan(player.sensor_inputs.light_sensor):
 		var change: float = abs_value - player.sensor_inputs.light_sensor
 		if change > 0:
 			player.attack_values.crit += change
 
 	player.sensor_inputs.light_sensor = abs_value
+	print("UPDATED VALUES ", player.attack_values)
+	_show_values()
 
 
 func _on_potentiometer_module_init(_client: MiniCom.Client, discriminator: int) -> void:
-	_potentiometer.set_reporting_delay(100, discriminator)
+	get_node("Modules/PotentiometerModule").set_reporting_delay(100, discriminator)
 
 func _on_potentiometer_module_received_value(message: Message, value: int) -> void:
 	print("Potentiometer (%d): %d" % [message.discriminator, value])
@@ -215,10 +223,11 @@ func _on_potentiometer_module_received_value(message: Message, value: int) -> vo
 			player.attack_values.block += change
 
 	player.sensor_inputs.potentiometer = abs_value
+	_show_values()
 
 
 func _on_pressure_sensor_module_init(_client: MiniCom.Client, discriminator: int) -> void:
-	_pressure_sensor.set_reporting_delay(100, discriminator)
+	get_node("Modules/PressureSensorModule").set_reporting_delay(100, discriminator)
 
 func _on_pressure_sensor_module_received_value(message: Message, value: int) -> void:
 	print("Pressure sensor (%d): %d" % [message.discriminator, value])
@@ -235,6 +244,7 @@ func _on_pressure_sensor_module_received_value(message: Message, value: int) -> 
 			player.attack_values.normal += change
 
 	player.sensor_inputs.pressure_sensor = abs_value
+	_show_values()
 
 
 func _start_round() -> void:

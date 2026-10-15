@@ -17,6 +17,7 @@ func _ready() -> void:
 	_update_highlight()
 	left_config.init(player1_data)
 	right_config.init(player2_data)
+	Com.scan()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -97,6 +98,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			return
 
 func _on_keypad_key_pressed(_message: Message, key: String) -> void:
+	print("hi")
 	if not key.is_valid_int():
 		return
 
