@@ -1,13 +1,13 @@
 [gd_resource type="Resource" script_class="Items" format=3 uid="uid://c6psb6xbb5hb8"]
 
-[ext_resource type="Script" uid="uid://bimgnl8iwej4u" path="res://pvp/core/item_data.gd" id="1_llaei"]
-[ext_resource type="Script" uid="uid://81lj6u3rietp" path="res://pvp/core/pvp_values.gd" id="2_c7p2d"]
-[ext_resource type="Texture2D" uid="uid://lyowx8yxdhie" path="res://icon.svg" id="3_llaei"]
-[ext_resource type="Texture2D" uid="uid://imkbxijaqqt4" path="res://Art/crit_attack.svg" id="4_c7p2d"]
-[ext_resource type="Script" uid="uid://dqqqf7l4u6iam" path="res://pvp/core/items.gd" id="4_wb22t"]
+[ext_resource type="Script" uid="uid://bimgnl8iwej4u" path="res://pvp/core/item_data.gd" id="1_bnyqg"]
+[ext_resource type="Script" uid="uid://81lj6u3rietp" path="res://pvp/core/pvp_values.gd" id="2_mixxi"]
+[ext_resource type="Texture2D" uid="uid://lyowx8yxdhie" path="res://icon.svg" id="3_2peg6"]
+[ext_resource type="Texture2D" uid="uid://imkbxijaqqt4" path="res://art/crit_attack.svg" id="4_mftkl"]
+[ext_resource type="Script" uid="uid://dqqqf7l4u6iam" path="res://pvp/core/items.gd" id="5_vxl7j"]
 
 [sub_resource type="Resource" id="Resource_c7p2d"]
-script = ExtResource("2_c7p2d")
+script = ExtResource("2_mixxi")
 values = Dictionary[int, float]({
 0: 100.0,
 1: 100.0,
@@ -18,7 +18,7 @@ values = Dictionary[int, float]({
 })
 
 [sub_resource type="Resource" id="Resource_5k3ys"]
-script = ExtResource("1_llaei")
+script = ExtResource("1_bnyqg")
 id = "omegalul_hat"
 name = "Omegalul-Hut"
 description = "Ein KEKW-Omegalul-Hut
@@ -27,7 +27,7 @@ bonus = SubResource("Resource_c7p2d")
 metadata/_custom_type_script = "uid://bimgnl8iwej4u"
 
 [sub_resource type="Resource" id="Resource_llaei"]
-script = ExtResource("2_c7p2d")
+script = ExtResource("2_mixxi")
 values = Dictionary[int, float]({
 0: 0.0,
 1: 0.0,
@@ -38,13 +38,13 @@ values = Dictionary[int, float]({
 })
 
 [sub_resource type="Resource" id="Resource_hv5tx"]
-script = ExtResource("1_llaei")
+script = ExtResource("1_bnyqg")
 slot = 2
 bonus = SubResource("Resource_llaei")
 metadata/_custom_type_script = "uid://bimgnl8iwej4u"
 
 [sub_resource type="Resource" id="Resource_wb22t"]
-script = ExtResource("2_c7p2d")
+script = ExtResource("2_mixxi")
 values = Dictionary[int, float]({
 0: 0.0,
 1: 0.0,
@@ -55,14 +55,14 @@ values = Dictionary[int, float]({
 })
 
 [sub_resource type="Resource" id="Resource_rkgqe"]
-script = ExtResource("1_llaei")
+script = ExtResource("1_bnyqg")
 name = "Neues Item 2"
 slot = 1
 bonus = SubResource("Resource_wb22t")
 metadata/_custom_type_script = "uid://bimgnl8iwej4u"
 
 [sub_resource type="Resource" id="Resource_qderw"]
-script = ExtResource("2_c7p2d")
+script = ExtResource("2_mixxi")
 values = Dictionary[int, float]({
 0: 0.0,
 1: 0.0,
@@ -73,14 +73,14 @@ values = Dictionary[int, float]({
 })
 
 [sub_resource type="Resource" id="Resource_en624"]
-script = ExtResource("1_llaei")
+script = ExtResource("1_bnyqg")
 id = "head2"
 name = "Head 2"
 bonus = SubResource("Resource_qderw")
 metadata/_custom_type_script = "uid://bimgnl8iwej4u"
 
 [sub_resource type="Resource" id="Resource_xv3pc"]
-script = ExtResource("2_c7p2d")
+script = ExtResource("2_mixxi")
 values = Dictionary[int, float]({
 0: 0.0,
 1: 0.0,
@@ -91,13 +91,13 @@ values = Dictionary[int, float]({
 })
 
 [sub_resource type="Resource" id="Resource_84es6"]
-script = ExtResource("1_llaei")
+script = ExtResource("1_bnyqg")
 name = "test123"
-icon = ExtResource("4_c7p2d")
+icon = ExtResource("4_mftkl")
 bonus = SubResource("Resource_xv3pc")
 metadata/_custom_type_script = "uid://bimgnl8iwej4u"
 
 [resource]
-script = ExtResource("4_wb22t")
-items = Array[ExtResource("1_llaei")]([SubResource("Resource_5k3ys"), SubResource("Resource_hv5tx"), SubResource("Resource_rkgqe"), SubResource("Resource_en624"), SubResource("Resource_84es6")])
+script = ExtResource("5_vxl7j")
+items = Array[ExtResource("1_bnyqg")]([SubResource("Resource_5k3ys"), SubResource("Resource_hv5tx"), SubResource("Resource_rkgqe"), SubResource("Resource_en624"), SubResource("Resource_84es6")])
 metadata/_custom_type_script = "uid://dqqqf7l4u6iam"
