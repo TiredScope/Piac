@@ -6,6 +6,9 @@ const ID: String = "lis3dh"
 class Values:
 	var acceleration: Vector3
 
+	func _to_string() -> String:
+		return "(accel=%s)" % [acceleration]
+
 enum AccelRange {
 	RANGE_2_G = 0b00,
 	RANGE_4_G = 0b01,
@@ -38,17 +41,10 @@ const DEFAULT_PERFORMANCE_MODE: PerformanceMode = PerformanceMode.MODE_NORMAL
 
 signal received_values(message: Message, values: Values)
 
-var _values: Dictionary[int, Values]
-var _accel_ranges: Dictionary[int, AccelRange]
-var _data_rates: Dictionary[int, DataRate]
-var _performance_modes: Dictionary[int, PerformanceMode]
-
-func _init(com: MiniCom) -> void:
-	super(com)
-	self._values = {}
-	self._accel_ranges = {}
-	self._data_rates = {}
-	self._performance_modes = {}
+var _values: Dictionary[int, Values] = {}
+var _accel_ranges: Dictionary[int, AccelRange] = {}
+var _data_rates: Dictionary[int, DataRate] = {}
+var _performance_modes: Dictionary[int, PerformanceMode] = {}
 
 func _on_message(m: Message) -> void:
 	match m.type:

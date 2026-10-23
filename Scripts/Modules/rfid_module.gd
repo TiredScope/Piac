@@ -6,9 +6,6 @@ const ID: String = "rfid"
 signal scan_failed(message: Message)
 signal scanned(message: Message, uid: PackedByteArray)
 
-func _init(com: MiniCom) -> void:
-	super(com)
-
 func _on_message(m: Message) -> void:
 	match m.type:
 		Message.Type.M_RFID_SCAN_FAILED:

@@ -22,9 +22,17 @@ extends Control
 @onready var _label: Label = %Label
 @onready var _select_item: Label = %SelectItem
 @onready var _player_ready: Label = %PlayerReady
+@onready var _radar_chart: RadarChart = %RadarChart
 
 func _ready() -> void:
 	_apply_style()
+
+func init(player: PVPPlayerData) -> void:
+	var float_values: Array[float] = []
+	for i: int in player.value_distribution:
+		float_values.push_back(i)
+	_radar_chart.values = float_values
+	_radar_chart.max_value = PVPConstants.STATS.max_points_per_category
 
 func _apply_style() -> void:
 	if not is_inside_tree():

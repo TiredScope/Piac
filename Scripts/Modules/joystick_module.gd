@@ -8,13 +8,12 @@ class Values:
 	var x: float
 	var y: float
 
+	func _to_string() -> String:
+		return "(x=%.2f, y=%.2f, sw=%s)" % [x, y, sw]
+
 signal received_values(message: Message, x: float, y: float, sw: bool)
 
-var _values: Dictionary[int, Values]
-
-func _init(com: MiniCom) -> void:
-	super(com)
-	self._values = {}
+var _values: Dictionary[int, Values]  = {}
 
 func _on_message(m: Message) -> void:
 	if m.type == Message.Type.M_JOYSTICK_VALUES:
