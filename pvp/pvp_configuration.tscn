@@ -3,12 +3,12 @@
 [ext_resource type="Script" uid="uid://d0elb0oqs5gun" path="res://pvp/pvp_configuration.gd" id="1_b2c5x"]
 [ext_resource type="PackedScene" uid="uid://ue5gvnguluoc" path="res://pvp/common/inventory.tscn" id="2_b2c5x"]
 [ext_resource type="Script" uid="uid://b3j2p5tw20anf" path="res://pvp/common/radar_chart.gd" id="3_up52y"]
-[ext_resource type="Texture2D" uid="uid://bw180xagxoo61" path="res://Art/hp.svg" id="4_1xygt"]
-[ext_resource type="Texture2D" uid="uid://bv07frvwwh4f1" path="res://Art/attack.svg" id="5_3gti2"]
-[ext_resource type="Texture2D" uid="uid://c080rngmv2mti" path="res://Art/defense.svg" id="6_b5sme"]
-[ext_resource type="Texture2D" uid="uid://clauauewsqucd" path="res://Art/tempo.svg" id="7_pjifx"]
-[ext_resource type="Texture2D" uid="uid://ds3hykhln5neu" path="res://Art/obedience.svg" id="8_8ixd2"]
-[ext_resource type="Texture2D" uid="uid://c21dbok1xejfw" path="res://Art/luck.svg" id="9_ecw00"]
+[ext_resource type="Texture2D" uid="uid://bw180xagxoo61" path="res://art/hp.svg" id="4_1xygt"]
+[ext_resource type="Texture2D" uid="uid://bv07frvwwh4f1" path="res://art/attack.svg" id="5_3gti2"]
+[ext_resource type="Texture2D" uid="uid://c080rngmv2mti" path="res://art/defense.svg" id="6_b5sme"]
+[ext_resource type="Texture2D" uid="uid://clauauewsqucd" path="res://art/tempo.svg" id="7_pjifx"]
+[ext_resource type="Texture2D" uid="uid://ds3hykhln5neu" path="res://art/obedience.svg" id="8_8ixd2"]
+[ext_resource type="Texture2D" uid="uid://c21dbok1xejfw" path="res://art/luck.svg" id="9_ecw00"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_458wi"]
 bg_color = Color(0.40020004, 0.5064601, 0.69, 1)

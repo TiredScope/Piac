@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://clauauewsqucd"
-path="res://.godot/imported/tempo.svg-b838ef6f9a7326b7d3fdddc6723256cf.ctex"
+uid="uid://ds3hykhln5neu"
+path="res://.godot/imported/obedience.svg-41d7b647b1c92bf4742bf8c6c573c908.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/tempo.svg"
-dest_files=["res://.godot/imported/tempo.svg-b838ef6f9a7326b7d3fdddc6723256cf.ctex"]
+source_file="res://art/obedience.svg"
+dest_files=["res://.godot/imported/obedience.svg-41d7b647b1c92bf4742bf8c6c573c908.ctex"]
 
 [params]
 

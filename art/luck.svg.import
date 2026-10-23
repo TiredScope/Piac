@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bw180xagxoo61"
-path="res://.godot/imported/hp.svg-0d49fe611e0c2e7c7897fae64e6c3f06.ctex"
+uid="uid://c21dbok1xejfw"
+path="res://.godot/imported/luck.svg-aa8c095e203b2b1a26902fa618a59ec5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/hp.svg"
-dest_files=["res://.godot/imported/hp.svg-0d49fe611e0c2e7c7897fae64e6c3f06.ctex"]
+source_file="res://art/luck.svg"
+dest_files=["res://.godot/imported/luck.svg-aa8c095e203b2b1a26902fa618a59ec5.ctex"]
 
 [params]
 

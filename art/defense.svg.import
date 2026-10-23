@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c080rngmv2mti"
-path="res://.godot/imported/defense.svg-494ce8f8db456558fff892b3157f4bd3.ctex"
+path="res://.godot/imported/defense.svg-9aa1c2cdf19d0e62b3a274a963155a48.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/defense.svg"
-dest_files=["res://.godot/imported/defense.svg-494ce8f8db456558fff892b3157f4bd3.ctex"]
+source_file="res://art/defense.svg"
+dest_files=["res://.godot/imported/defense.svg-9aa1c2cdf19d0e62b3a274a963155a48.ctex"]
 
 [params]
 
