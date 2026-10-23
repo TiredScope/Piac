@@ -5,6 +5,7 @@ const DEFAULT_NAME_FILTER: Array[String] = [
 	"Arduino",
 	"Silicon Labs",
 	"Adafruit",
+	"FTDI USB Serial Port"
 ]
 
 #const DEFAULT_NAME_FILTER = "Silicon Labs"
