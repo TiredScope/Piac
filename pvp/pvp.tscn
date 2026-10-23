@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://kr2csmg3dm4x" path="res://pvp/pvp_configuration.tscn" id="1_643k2"]
 [ext_resource type="Script" uid="uid://c5dbfc8o4whmb" path="res://pvp/pvp.gd" id="1_ns7ub"]
-[ext_resource type="Script" uid="uid://u0osa5q8bc80" path="res://Scripts/Modules/sparkfun_keypad_module.gd" id="3_en624"]
+[ext_resource type="Script" uid="uid://u0osa5q8bc80" path="res://scripts/module/sparkfun_keypad_module.gd" id="3_en624"]
 
 [node name="Pvp" type="Control" unique_id=1016442301]
 layout_mode = 3

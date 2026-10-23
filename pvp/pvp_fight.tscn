@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://btbtk5vdf0wht"]
 
 [ext_resource type="Script" uid="uid://c6jfngdy43anl" path="res://pvp/pvp_fight.gd" id="1_hv5tx"]
-[ext_resource type="Script" uid="uid://ctkwlmlescv65" path="res://Scripts/Modules/light_sensor_module.gd" id="2_1hq0y"]
+[ext_resource type="Script" uid="uid://ctkwlmlescv65" path="res://scripts/module/light_sensor_module.gd" id="2_1hq0y"]
 [ext_resource type="PackedScene" uid="uid://l1l705yj7r2t" path="res://pvp/common/pvp_player_stats.tscn" id="2_uvnuq"]
-[ext_resource type="Script" uid="uid://cgwoxxixa24a7" path="res://Scripts/Modules/potentiometer_module.gd" id="3_uvnuq"]
-[ext_resource type="Script" uid="uid://chwkqwbbcae4m" path="res://Scripts/Modules/pressure_sensor_module.gd" id="4_43ux5"]
+[ext_resource type="Script" uid="uid://cgwoxxixa24a7" path="res://scripts/module/potentiometer_module.gd" id="3_uvnuq"]
+[ext_resource type="Script" uid="uid://chwkqwbbcae4m" path="res://scripts/module/pressure_sensor_module.gd" id="4_43ux5"]
 
 [sub_resource type="Animation" id="Animation_43ux5"]
 resource_name = "pop"
