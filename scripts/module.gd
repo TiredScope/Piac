@@ -1,0 +1,41 @@
+@abstract class_name Module
+extends Node
+
+signal init(client: MiniCom.Client, discriminator: int)
+
+@export var _com: MiniCom = Com
+
+func _init(com: MiniCom = null) -> void:
+	if com:
+		_com = com
+
+func _ready() -> void:
+	print("Init module ", get_id())
+	_com.is_ready.connect(_init_client)
+	_com.message_received.connect(_on_message)
+
+	for c: MiniCom.Client in _com.get_clients():
+		_init_client(c)
+
+func _init_client(client: MiniCom.Client) -> void:
+	var cap: Array[MiniCom.ClientModule] = client.get_capabilities(get_id())
+	for m: MiniCom.ClientModule in cap:
+		init.emit(client, m.get_discriminator())
+
+@abstract func _on_message(m: Message) -> void
+@abstract func get_id() -> String
+
+func is_available() -> bool:
+	for client: MiniCom.Client in Com.get_clients():
+		if client.has_capability(get_id()):
+			return true
+	return false
+
+static func _get_value(dict: Dictionary, discriminator: int, default: Variant) -> Variant:
+	if discriminator != Message.DEFAULT_DISCRIMINATOR:
+		return dict.get(discriminator, default)
+
+	if len(dict) == 0:
+		return default
+
+	return dict.values()[0]
