@@ -1,4 +1,4 @@
-class_name TraitGenerator
+class_name TraitGenerator # TODO: name
 
 static func generate_hash(uid: PackedByteArray) -> PackedByteArray:
 	# TODO: move out of TraitGenerator?
@@ -16,11 +16,12 @@ static func generate_traits(piac: PiacInfo) -> void:
 	#var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	#rng.seed = get_seed_from_hash(piac.uid_hash)
 
-	## Default traits (TODO: register like all others?)
+	# Default traits (TODO: register like all others?)
 
-	var trait_generators: Dictionary[String, Callable] = PiacRegistry.get_trait_generators()
+	var r: ContentRegistry = PiacRegistry
+	var trait_generators: Dictionary[String, Callable] = r.get_trait_generators()
 	for generator_name: String in trait_generators:
-		
+
 		# TODO: check if already generated, save generated names
 
 		var generator: Callable = trait_generators[generator_name]

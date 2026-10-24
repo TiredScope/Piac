@@ -1,3 +1,4 @@
+class_name PlayerManager
 extends Node
 
 func get_player(uid_hash: PackedByteArray) -> PiacInfo:
@@ -7,7 +8,7 @@ func get_player(uid_hash: PackedByteArray) -> PiacInfo:
 		return null
 
 	if DBProvider.sql.query_result.is_empty():
-		return null 
+		return null
 
 	var result: Dictionary = DBProvider.sql.query_result[0]
 	print("THE RESULT IS ", result)
@@ -42,8 +43,8 @@ func save_traits(player: PiacInfo, traits: PiacTraits) -> bool:
 		"expressiveness": traits.expressiveness,
 	})
 
-func get_generators(player: PiacInfo) -> Dictionary[String, int]:
-	var ok: bool = DBProvider.sql.query_with_named_bindings("SELECT * FROM piac_trait_generators WHERE uid_hash = :uid_hash", {"uid_hash": player.uid_hash})
+func get_executed_generators(player: PiacInfo) -> Dictionary[String, int]:
+	var ok: bool = DBProvider.sql.query_with_named_bindings("SELECT * FROM piac_generators WHERE uid_hash = :uid_hash", {"uid_hash": player.uid_hash})
 	if not ok:
 		return {}
 
