@@ -20,6 +20,7 @@ static func generate_traits(piac: PiacInfo) -> void:
 
 	var trait_generators: Dictionary[String, Callable] = PiacRegistry.get_trait_generators()
 	for generator_name: String in trait_generators:
+		
 		# TODO: check if already generated, save generated names
 
 		var generator: Callable = trait_generators[generator_name]

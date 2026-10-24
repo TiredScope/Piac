@@ -2,9 +2,12 @@ extends Node
 
 func get_player(uid_hash: PackedByteArray) -> PiacInfo:
 	var ok: bool = DBProvider.sql.query_with_named_bindings("SELECT * FROM piac WHERE uid_hash = :uid_hash", {"uid_hash": uid_hash})
-	if not ok or DBProvider.sql.query_result.is_empty():
+	if not ok:
 		push_error("Query failed: ", DBProvider.sql.error_message)
 		return null
+
+	if DBProvider.sql.query_result.is_empty():
+		return null 
 
 	var result: Dictionary = DBProvider.sql.query_result[0]
 	print("THE RESULT IS ", result)
@@ -38,3 +41,14 @@ func save_traits(player: PiacInfo, traits: PiacTraits) -> bool:
 		"activity_level":  traits.activity_level,
 		"expressiveness": traits.expressiveness,
 	})
+
+func get_generators(player: PiacInfo) -> Dictionary[String, int]:
+	var ok: bool = DBProvider.sql.query_with_named_bindings("SELECT * FROM piac_trait_generators WHERE uid_hash = :uid_hash", {"uid_hash": player.uid_hash})
+	if not ok:
+		return {}
+
+	var generators: Dictionary[String, int]
+	for d: Dictionary in DBProvider.sql.query_result:
+		print(d)
+
+	return generators

@@ -33,6 +33,10 @@ static func migrate_001_initial_setup(sql: SQLite) -> bool:
 			"primary_key": true,
 			"not_null": true,
 		},
+		"version": {
+			"data_type": "int",
+			"not_null": true,
+		},
 	})
 
 	return true
