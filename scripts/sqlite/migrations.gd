@@ -2,16 +2,20 @@ class_name Migrations
 
 static func migrate_001_initial_setup(sql: SQLite) -> bool:
 	var ok: bool = sql.create_table("piac", {
-		"uid_hash": {
+		"uid_hash": { # SHA256 Hash of NFC UID
 			"data_type": "blob",
 			"primary_key": true,
 			"not_null": true,
 		},
-		"uid": {
+		"uid": { # NFC UID
 			"data_type": "blob",
 			"unique": true,
 		},
-		"name": {
+		"pid": { # Player id
+			"data_type": "blob",
+			"unique": true,
+		},
+		"name": { # Player name
 			"data_type": "text",
 		},
 	})
@@ -28,7 +32,7 @@ static func migrate_001_initial_setup(sql: SQLite) -> bool:
 			"primary_key": true,
 			"not_null": true,
 		},
-		"trait_generator": {
+		"generator": {
 			"data_type": "text",
 			"primary_key": true,
 			"not_null": true,

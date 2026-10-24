@@ -50,6 +50,13 @@ func get_executed_generators(player: PiacInfo) -> Dictionary[String, int]:
 
 	var generators: Dictionary[String, int]
 	for d: Dictionary in DBProvider.sql.query_result:
-		print(d)
+		generators[d["generator"]] = d["version"]
 
 	return generators
+
+func save_executed_generator(player: PiacInfo, generator_name: String, version: int) -> bool:
+	return DBProvider.sql.query_with_named_bindings("INSERT INTO piac_generators(uid_hash, generator, version) VALUES(:uid_hash, :generator, :version) ON CONFLICT UPDATE SET version = excluded.version", {
+		"uid_hash": player.uid_hash,
+		"generator": generator_name,
+		"version": version,
+	})
