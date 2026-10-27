@@ -46,6 +46,7 @@ func save_traits(player: PiacInfo, traits: PiacTraits) -> bool:
 func get_executed_generators(player: PiacInfo) -> Dictionary[String, int]:
 	var ok: bool = DBProvider.sql.query_with_named_bindings("SELECT * FROM piac_generators WHERE uid_hash = :uid_hash", {"uid_hash": player.uid_hash})
 	if not ok:
+		push_error(DBProvider.sql.error_message)
 		return {}
 
 	var generators: Dictionary[String, int]
@@ -55,8 +56,13 @@ func get_executed_generators(player: PiacInfo) -> Dictionary[String, int]:
 	return generators
 
 func save_executed_generator(player: PiacInfo, generator_name: String, version: int) -> bool:
-	return DBProvider.sql.query_with_named_bindings("INSERT INTO piac_generators(uid_hash, generator, version) VALUES(:uid_hash, :generator, :version) ON CONFLICT UPDATE SET version = excluded.version", {
+	var ok: bool =  DBProvider.sql.query_with_named_bindings("INSERT INTO piac_generators(uid_hash, generator, version) VALUES(:uid_hash, :generator, :version) ON CONFLICT DO UPDATE SET version = excluded.version", {
 		"uid_hash": player.uid_hash,
 		"generator": generator_name,
 		"version": version,
 	})
+
+	if not ok:
+		push_error("Query failed: ", DBProvider.sql.error_message)
+
+	return ok

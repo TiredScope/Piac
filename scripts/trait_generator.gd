@@ -19,10 +19,10 @@ static func generate_traits(piac: PiacInfo) -> void:
 	# Default traits (TODO: register like all others?)
 
 	var trait_generators: Dictionary[String, ContentRegistry.TraitGeneratorInstance] = PiacRegistry.get_trait_generators()
+	var executed_generators: Dictionary[String, int] = PiacPlayerManager.get_executed_generators(piac)
+
 	for generator_name: String in trait_generators:
 		var generator: ContentRegistry.TraitGeneratorInstance = trait_generators[generator_name]
-
-		var executed_generators: Dictionary[String, int] = PiacPlayerManager.get_executed_generators(piac)
 		if executed_generators.has(generator_name) and executed_generators[generator_name] >= generator.version:
 			# Generator has already been executed
 			continue
@@ -37,8 +37,8 @@ static func generate_traits(piac: PiacInfo) -> void:
 			ContentRegistry.RandomType.FULLY_RANDOM:
 				pass # RandomNumberGenerator uses a random seed by default
 
-		var ok: bool = PiacPlayerManager.save_executed_generator(piac, generator_name, generator.version)
-		ok = ok and generator.generator_func.call(piac, rng)
+		var ok: bool = generator.generator_func.call(piac, rng)
+		ok = ok and PiacPlayerManager.save_executed_generator(piac, generator_name, generator.version)
 		if not ok:
 			push_error("Failed to generate traits for ", generator_name)
 

@@ -6,8 +6,10 @@ func _ready() -> void:
 	var p: PiacInfo = PiacPlayerManager.get_player(uid_hash)
 	print(p)
 
+	PiacRegistry.register_trait_generator("default", TraitGenerator._generate_default_traits, ContentRegistry.RandomType.CONSISTENT)
+
 	if p == null:
 		p = PiacPlayerManager.create_new_player(test_uid, "Hello World!")
 		print("Made new player: ", p)
 
-		TraitGenerator.generate_traits(p)
+	TraitGenerator.generate_traits(p)
