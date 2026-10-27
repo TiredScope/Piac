@@ -20,7 +20,7 @@ func _ready() -> void:
 func _init_client(client: MiniCom.Client) -> void:
 	var cap: Array[MiniCom.ClientModule] = client.get_capabilities(get_id())
 	for m: MiniCom.ClientModule in cap:
-		init.emit(client, m.get_discriminator())
+		init.emit.call_deferred(client, m.get_discriminator())
 
 @abstract func _on_message(m: Message) -> void
 @abstract func get_id() -> String

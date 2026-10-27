@@ -183,7 +183,7 @@ func _get_player_by_discriminator(discriminator: int) -> PVPPlayer:
 			return null
 
 func _on_light_sensor_module_init(_client: MiniCom.Client, discriminator: int) -> void:
-	get_node("Modules/LightSensorModule").set_reporting_delay(100, discriminator)
+	_light_sensor.set_reporting_delay(100, discriminator)
 
 func _on_light_sensor_module_received_value(message: Message, value: int) -> void:
 	print("Light sensor (%d): %d" % [message.discriminator, value])
@@ -206,7 +206,7 @@ func _on_light_sensor_module_received_value(message: Message, value: int) -> voi
 
 
 func _on_potentiometer_module_init(_client: MiniCom.Client, discriminator: int) -> void:
-	get_node("Modules/PotentiometerModule").set_reporting_delay(100, discriminator)
+	_potentiometer.set_reporting_delay(100, discriminator)
 
 func _on_potentiometer_module_received_value(message: Message, value: int) -> void:
 	print("Potentiometer (%d): %d" % [message.discriminator, value])
@@ -227,7 +227,7 @@ func _on_potentiometer_module_received_value(message: Message, value: int) -> vo
 
 
 func _on_pressure_sensor_module_init(_client: MiniCom.Client, discriminator: int) -> void:
-	get_node("Modules/PressureSensorModule").set_reporting_delay(100, discriminator)
+	_pressure_sensor.set_reporting_delay(100, discriminator)
 
 func _on_pressure_sensor_module_received_value(message: Message, value: int) -> void:
 	print("Pressure sensor (%d): %d" % [message.discriminator, value])

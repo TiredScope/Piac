@@ -122,5 +122,5 @@ one_shot = true
 [connection signal="timeout" from="Timers/FirstRound" to="." method="_start_round"]
 [connection signal="timeout" from="Timers/Attack" to="." method="_on_attack_timeout"]
 [connection signal="timeout" from="Timers/BetweenRounds" to="." method="_start_round"]
-[connection signal="timeout" from="Timers/Countdown" to="." method="_on_countdown_timeout"]
 [connection signal="timeout" from="Timers/Countdown" to="." method="_show_countdown"]
+[connection signal="timeout" from="Timers/Countdown" to="." method="_on_countdown_timeout"]

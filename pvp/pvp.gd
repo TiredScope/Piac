@@ -98,7 +98,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			return
 
 func _on_keypad_key_pressed(_message: Message, key: String) -> void:
-	print("hi")
 	if not key.is_valid_int():
 		return
 

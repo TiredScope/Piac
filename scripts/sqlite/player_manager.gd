@@ -1,7 +1,7 @@
 class_name PlayerManager
 extends Node
 
-func get_player(uid_hash: PackedByteArray) -> PiacInfo:
+func get_piac(uid_hash: PackedByteArray) -> PiacInfo:
 	var ok: bool = DBProvider.sql.query_with_named_bindings("SELECT * FROM piac WHERE uid_hash = :uid_hash", {"uid_hash": uid_hash})
 	if not ok:
 		push_error("Query failed: ", DBProvider.sql.error_message)
@@ -12,39 +12,39 @@ func get_player(uid_hash: PackedByteArray) -> PiacInfo:
 
 	var result: Dictionary = DBProvider.sql.query_result[0]
 	print("THE RESULT IS ", result)
-	var player: PiacInfo = PiacInfo.new()
-	player.uid_hash = uid_hash
-	player.uid = result["uid"] as PackedByteArray
-	player.name = result["name"]
-	return player
+	var piac: PiacInfo = PiacInfo.new()
+	piac.uid_hash = uid_hash
+	piac.uid = result["uid"] as PackedByteArray
+	piac.name = result["name"]
+	return piac
 
-func create_new_player(uid: PackedByteArray, player_name: String) -> PiacInfo:
-	var player: PiacInfo = PiacInfo.new()
-	player.uid = uid
-	player.uid_hash = TraitGenerator.generate_hash(uid)
-	player.name = player_name
+func create_new_piac(uid: PackedByteArray, player_name: String) -> PiacInfo:
+	var piac: PiacInfo = PiacInfo.new()
+	piac.uid = uid
+	piac.uid_hash = TraitGenerator.generate_hash(uid)
+	piac.name = player_name
 
-	if not save_player(player):
+	if not save_piac(piac):
 		return null
 
-	return player
+	return piac
 
-func save_player(player: PiacInfo) -> bool:
+func save_piac(piac: PiacInfo) -> bool:
 	return DBProvider.sql.insert_row("piac", {
-		"uid_hash": player.uid_hash,
-		"uid": player.uid,
-		"name": player.name,
+		"uid_hash": piac.uid_hash,
+		"uid": piac.uid,
+		"name": piac.name,
 	})
 
-func save_traits(player: PiacInfo, traits: PiacTraits) -> bool:
+func save_traits(piac: PiacInfo, traits: PiacTraits) -> bool:
 	return DBProvider.sql.insert_row("piac_traits", {
-		"uid_hash": player.uid_hash,
+		"uid_hash": piac.uid_hash,
 		"activity_level":  traits.activity_level,
 		"expressiveness": traits.expressiveness,
 	})
 
-func get_executed_generators(player: PiacInfo) -> Dictionary[String, int]:
-	var ok: bool = DBProvider.sql.query_with_named_bindings("SELECT * FROM piac_generators WHERE uid_hash = :uid_hash", {"uid_hash": player.uid_hash})
+func get_executed_generators(piac: PiacInfo) -> Dictionary[String, int]:
+	var ok: bool = DBProvider.sql.query_with_named_bindings("SELECT * FROM piac_generators WHERE uid_hash = :uid_hash", {"uid_hash": piac.uid_hash})
 	if not ok:
 		push_error(DBProvider.sql.error_message)
 		return {}
