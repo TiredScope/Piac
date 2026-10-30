@@ -1,4 +1,3 @@
-class_name PlayerManager
 extends Node
 
 @onready var player_manager: PlayerManager = $PlayerManager

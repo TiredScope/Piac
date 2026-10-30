@@ -1,3 +1,4 @@
+class_name PlayerManager
 extends Node
 
 func get_player(uid_hash: PackedByteArray) -> PiacInfo:

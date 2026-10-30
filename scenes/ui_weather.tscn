@@ -36,7 +36,8 @@ label_settings = SubResource("LabelSettings_j0i27")
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1909537330]
 layout_mode = 2
 
-[node name="temp" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=33412509]
+[node name="OutTemp" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=33412509]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "Temperatur"
@@ -49,7 +50,8 @@ text = "°C"
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=946384046]
 layout_mode = 2
 
-[node name="hum" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2" unique_id=1270640377]
+[node name="OutHum" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2" unique_id=1270640377]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "Feuchtigkeit"
@@ -62,7 +64,8 @@ text = "%"
 [node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=733491144]
 layout_mode = 2
 
-[node name="press" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3" unique_id=1343771127]
+[node name="OutPress" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3" unique_id=1343771127]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "Druck"
@@ -74,7 +77,7 @@ theme_override_font_sizes/font_size = 12
 [node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=2033704342]
 layout_mode = 2
 
-[node name="wind" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer4" unique_id=552615890]
+[node name="Wind" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer4" unique_id=552615890]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "Wind"
