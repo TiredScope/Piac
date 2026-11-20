@@ -11,7 +11,6 @@ func get_piac(uid_hash: PackedByteArray) -> PiacInfo:
 		return null
 
 	var result: Dictionary = DBProvider.sql.query_result[0]
-	print("THE RESULT IS ", result)
 	var piac: PiacInfo = PiacInfo.new()
 	piac.uid_hash = uid_hash
 	piac.uid = result["uid"] as PackedByteArray
@@ -21,6 +20,7 @@ func get_piac(uid_hash: PackedByteArray) -> PiacInfo:
 func create_new_piac(uid: PackedByteArray, player_name: String) -> PiacInfo:
 	var piac: PiacInfo = PiacInfo.new()
 	piac.uid = uid
+	piac.pid = RandomNumberGenerator.new().randi()
 	piac.uid_hash = TraitGenerator.generate_hash(uid)
 	piac.name = player_name
 
@@ -33,6 +33,7 @@ func save_piac(piac: PiacInfo) -> bool:
 	return DBProvider.sql.insert_row("piac", {
 		"uid_hash": piac.uid_hash,
 		"uid": piac.uid,
+		"pid": piac.pid,
 		"name": piac.name,
 	})
 
@@ -55,9 +56,9 @@ func get_executed_generators(piac: PiacInfo) -> Dictionary[String, int]:
 
 	return generators
 
-func save_executed_generator(player: PiacInfo, generator_name: String, version: int) -> bool:
+func save_executed_generator(piac: PiacInfo, generator_name: String, version: int) -> bool:
 	var ok: bool =  DBProvider.sql.query_with_named_bindings("INSERT INTO piac_generators(uid_hash, generator, version) VALUES(:uid_hash, :generator, :version) ON CONFLICT DO UPDATE SET version = excluded.version", {
-		"uid_hash": player.uid_hash,
+		"uid_hash": piac.uid_hash,
 		"generator": generator_name,
 		"version": version,
 	})
@@ -66,3 +67,26 @@ func save_executed_generator(player: PiacInfo, generator_name: String, version: 
 		push_error("Query failed: ", DBProvider.sql.error_message)
 
 	return ok
+
+func get_pvp_player_data(piac: PiacInfo) -> PVPPlayerData:
+	var ok: bool = DBProvider.sql.query_with_named_bindings("SELECT * FROM pvp_player_data WHERE uid_hash = :uid_hash", {"uid_hash": piac.uid_hash})
+	if not ok:
+		push_error("Query failed: ", DBProvider.sql.error_message)
+		return null
+
+	if DBProvider.sql.query_result.is_empty():
+		return null
+
+	var result: Dictionary = DBProvider.sql.query_result[0]
+	var data: PVPPlayerData = PVPPlayerData.new()
+	data.value_distribution = Array((result["value_distribution"] as String).split(",")).map(func (v: String) -> int: return int(v))
+	data.value_distribution_max = result["value_distribution_max"] as int
+	return data
+
+
+func save_pvp_player_data(piac: PiacInfo, data: PVPPlayerData) -> bool:
+	return DBProvider.sql.insert_row("pvp_player_data", {
+		"uid_hash": piac.uid_hash,
+		"value_distribution": ",".join(data.value_distribution.map(str)),
+		"value_distribution_max": data.value_distribution_max,
+	})

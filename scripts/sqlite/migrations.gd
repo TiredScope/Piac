@@ -12,7 +12,7 @@ static func migrate_001_initial_setup(sql: SQLite) -> bool:
 			"unique": true,
 		},
 		"pid": { # Player id
-			"data_type": "blob",
+			"data_type": "int",
 			"unique": true,
 		},
 		"name": { # Player name
@@ -26,7 +26,7 @@ static func migrate_001_initial_setup(sql: SQLite) -> bool:
 	#sql.create_table("piac_personality_values", {
 	#})
 
-	sql.create_table("piac_generators", {
+	ok = sql.create_table("piac_generators", {
 		"uid_hash": {
 			"data_type": "blob",
 			"primary_key": true,
@@ -42,5 +42,30 @@ static func migrate_001_initial_setup(sql: SQLite) -> bool:
 			"not_null": true,
 		},
 	})
+
+	if not ok:
+		return false
+
+	return true
+
+static func migrate_002_pvp(sql: SQLite) -> bool:
+	var ok: bool = sql.create_table("pvp_player_data", {
+		"uid_hash": {
+			"data_type": "blob",
+			"primary_key": true,
+			"not_null": true,
+		},
+		"value_distribution": {
+			"data_type": "text",
+			"unique": true,
+		},
+		"value_distribution_max": {
+			"data_type": "int",
+			"unique": true,
+		},
+	})
+
+	if not ok:
+		return false
 
 	return true

@@ -1,10 +1,12 @@
 extends Node
 
 func _ready() -> void:
-	PiacRegistry.register_trait_generator("default", TraitGenerator._generate_default_traits, ContentRegistry.RandomType.CONSISTENT)
+	PiacRegistry.register_trait_generator(TraitGenerator.GENERATOR)
+	PiacRegistry.register_trait_generator(PVPPlayerData.GENERATOR)
 
 func _rfid_scanned(uid: PackedByteArray) -> void:
 	if len(uid) != 7:
+		# TODO: add handling for special control cards
 		print("Ignoring scanned uid ", uid)
 
 	var uid_hash: PackedByteArray = TraitGenerator.generate_hash(uid)

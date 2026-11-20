@@ -1,5 +1,12 @@
 class_name TraitGenerator # TODO: name
 
+static var GENERATOR: ContentRegistry.AttributeGenerator = ContentRegistry.AttributeGenerator.new(
+	"default",
+	generate_traits,
+	ContentRegistry.RandomType.CONSISTENT,
+	0
+)
+
 static func generate_hash(uid: PackedByteArray) -> PackedByteArray:
 	# TODO: move out of TraitGenerator?
 	var ctx: HashingContext = HashingContext.new()
@@ -18,11 +25,11 @@ static func generate_traits(piac: PiacInfo) -> void:
 
 	# Default traits (TODO: register like all others?)
 
-	var trait_generators: Dictionary[String, ContentRegistry.TraitGeneratorInstance] = PiacRegistry.get_trait_generators()
+	var attribute_generators: Dictionary[String, ContentRegistry.AttributeGenerator] = PiacRegistry.get_attribute_generators()
 	var executed_generators: Dictionary[String, int] = PiacPlayerManager.get_executed_generators(piac)
 
-	for generator_name: String in trait_generators:
-		var generator: ContentRegistry.TraitGeneratorInstance = trait_generators[generator_name]
+	for generator_name: String in attribute_generators:
+		var generator: ContentRegistry.AttributeGenerator = attribute_generators[generator_name]
 		if executed_generators.has(generator_name) and executed_generators[generator_name] >= generator.version:
 			# Generator has already been executed
 			continue
@@ -33,14 +40,14 @@ static func generate_traits(piac: PiacInfo) -> void:
 			ContentRegistry.RandomType.CONSISTENT:
 				rng.seed = get_seed_from_bytes(piac.uid_hash) ^ generator_name.hash() # TODO: better way to seed rng?
 			ContentRegistry.RandomType.PLAYER_RANDOM:
-				rng.seed = get_seed_from_bytes(piac.uid_hash) ^ get_seed_from_bytes(piac.pid) ^ generator_name.hash() # TODO: better way to seed rng?
+				rng.seed = get_seed_from_bytes(piac.uid_hash) ^ piac.pid ^ generator_name.hash() # TODO: better way to seed rng?
 			ContentRegistry.RandomType.FULLY_RANDOM:
 				pass # RandomNumberGenerator uses a random seed by default
 
 		var ok: bool = generator.generator_func.call(piac, rng)
 		ok = ok and PiacPlayerManager.save_executed_generator(piac, generator_name, generator.version)
 		if not ok:
-			push_error("Failed to generate traits for ", generator_name)
+			push_error("Failed to generate attributes for ", generator_name)
 
 static func get_seed_from_bytes(uid_hash: PackedByteArray) -> int:
 	var generated_seed: int = 0

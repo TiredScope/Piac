@@ -15,7 +15,11 @@ var MIGRATIONS: Array[Migration] = [
 	Migration.new(
 		"001_initial_setup",
 		Migrations.migrate_001_initial_setup,
-	)
+	),
+	Migration.new(
+		"002_pvp",
+		Migrations.migrate_002_pvp,
+	),
 ]
 
 func _ready() -> void:
