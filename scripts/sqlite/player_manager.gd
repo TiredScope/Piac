@@ -16,7 +16,7 @@ func get_piac(uid_hash: PackedByteArray) -> PiacInfo:
 	piac.uid = result["uid"] as PackedByteArray
 	piac.pid = result["pid"] as int
 	piac.name = result["name"] as String
-	if not TraitGenerator.generate_traits(piac):
+	if not AttributeGenerators.generate_traits(piac):
 		# TODO: this should return an error, not nothing
 		return null
 
@@ -26,13 +26,13 @@ func create_new_piac(uid: PackedByteArray, player_name: String) -> PiacInfo:
 	var piac: PiacInfo = PiacInfo.new()
 	piac.uid = uid
 	piac.pid = RandomNumberGenerator.new().randi()
-	piac.uid_hash = TraitGenerator.generate_hash(uid)
+	piac.uid_hash = AttributeGenerators.generate_hash(uid)
 	piac.name = player_name
 
 	if not save_piac(piac):
 		return null
 
-	if not TraitGenerator.generate_traits(piac):
+	if not AttributeGenerators.generate_traits(piac):
 		# TODO: this should return an error, not nothing
 		return null
 

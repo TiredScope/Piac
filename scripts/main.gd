@@ -17,7 +17,7 @@ func select_piac(piac: PiacInfo) -> void:
 		add_child(preload("res://scenes/companion.tscn").instantiate())
 
 func _ready() -> void:
-	PiacRegistry.register_attribute_generator(TraitGenerator.GENERATOR)
+	PiacRegistry.register_attribute_generator(PiacTraits.GENERATOR)
 	PiacRegistry.register_attribute_generator(PVPPlayerData.GENERATOR)
 
 func _rfid_scanned(uid: PackedByteArray) -> void:
@@ -25,7 +25,7 @@ func _rfid_scanned(uid: PackedByteArray) -> void:
 		# TODO: add handling for special control cards
 		print("Ignoring scanned uid ", uid)
 
-	var uid_hash: PackedByteArray = TraitGenerator.generate_hash(uid)
+	var uid_hash: PackedByteArray = AttributeGenerators.generate_hash(uid)
 	if current_piac != null and uid_hash == current_piac.uid_hash:
 		return
 	

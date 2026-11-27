@@ -1,23 +1,11 @@
-class_name TraitGenerator # TODO: name
-
-static var GENERATOR: ContentRegistry.AttributeGenerator = ContentRegistry.AttributeGenerator.new(
-	"default",
-	generate_traits,
-	ContentRegistry.RandomType.CONSISTENT,
-	0
-)
+class_name AttributeGenerators # TODO: name
 
 static func generate_hash(uid: PackedByteArray) -> PackedByteArray:
-	# TODO: move out of TraitGenerator?
+	# TODO: move out of AttributeGenerators?
 	var ctx: HashingContext = HashingContext.new()
 	ctx.start(HashingContext.HASH_SHA256)
 	ctx.update(uid)
 	return ctx.finish()
-
-static func _generate_default_traits(player: PiacInfo, rng: RandomNumberGenerator) -> bool:
-	var traits: PiacTraits = PiacTraits.generate(rng)
-	PiacPlayerManager.save_traits(player, traits)
-	return true
 
 static func generate_traits(piac: PiacInfo) -> bool:
 	#var rng: RandomNumberGenerator = RandomNumberGenerator.new()
