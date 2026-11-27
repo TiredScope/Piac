@@ -25,7 +25,7 @@ class AttributeGenerator:
 
 var _attribute_generators: Dictionary[String, AttributeGenerator] = {}
 
-func register_trait_generator(generator: AttributeGenerator) -> bool:
+func register_attribute_generator(generator: AttributeGenerator) -> bool:
 	if _attribute_generators.has(generator.generator_name):
 		push_warning("Tried to register trait generator ", generator.generator_name, " twice. Ignoring.")
 		return false

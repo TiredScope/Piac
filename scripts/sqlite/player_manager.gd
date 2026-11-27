@@ -2,7 +2,7 @@ class_name PlayerManager
 extends Node
 
 func get_piac(uid_hash: PackedByteArray) -> PiacInfo:
-	var ok: bool = DBProvider.sql.query_with_named_bindings("SELECT * FROM piac WHERE uid_hash = :uid_hash", {"uid_hash": uid_hash})
+	var ok: bool = DBProvider.sql.query_with_named_bindings("SELECT * FROM piac WHERE uid_hash = :uid_hash;", {"uid_hash": uid_hash})
 	if not ok:
 		push_error("Query failed: ", DBProvider.sql.error_message)
 		return null
@@ -14,7 +14,9 @@ func get_piac(uid_hash: PackedByteArray) -> PiacInfo:
 	var piac: PiacInfo = PiacInfo.new()
 	piac.uid_hash = uid_hash
 	piac.uid = result["uid"] as PackedByteArray
-	piac.name = result["name"]
+	piac.pid = result["pid"] as int
+	piac.name = result["name"] as String
+	TraitGenerator.generate_traits(piac)
 	return piac
 
 func create_new_piac(uid: PackedByteArray, player_name: String) -> PiacInfo:
@@ -27,15 +29,18 @@ func create_new_piac(uid: PackedByteArray, player_name: String) -> PiacInfo:
 	if not save_piac(piac):
 		return null
 
+	TraitGenerator.generate_traits(piac)
 	return piac
 
 func save_piac(piac: PiacInfo) -> bool:
-	return DBProvider.sql.insert_row("piac", {
+	var ok: bool = DBProvider.sql.insert_row("piac", {
 		"uid_hash": piac.uid_hash,
 		"uid": piac.uid,
 		"pid": piac.pid,
 		"name": piac.name,
 	})
+	print("OK=",ok)
+	return ok
 
 func save_traits(piac: PiacInfo, traits: PiacTraits) -> bool:
 	return DBProvider.sql.insert_row("piac_traits", {
@@ -79,7 +84,9 @@ func get_pvp_player_data(piac: PiacInfo) -> PVPPlayerData:
 
 	var result: Dictionary = DBProvider.sql.query_result[0]
 	var data: PVPPlayerData = PVPPlayerData.new()
-	data.value_distribution = Array((result["value_distribution"] as String).split(",")).map(func (v: String) -> int: return int(v))
+	var value_distribution: Array[int] = []
+	value_distribution.assign(Array((result["value_distribution"] as String).split(",")).map(func (v: String) -> int: return int(v)))
+	data.value_distribution = value_distribution
 	data.value_distribution_max = result["value_distribution_max"] as int
 	return data
 

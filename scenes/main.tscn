@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://w13mudvaa44"]
 
 [ext_resource type="Script" uid="uid://d4dip5i5uuoal" path="res://scripts/main.gd" id="1_0wfyh"]
-[ext_resource type="Script" uid="uid://b6jsj2fws6rx8" path="res://scripts/module/rfid_module.gd" id="2_0wfyh"]
+[ext_resource type="Script" uid="uid://b6jsj2fws6rx8" path="res://scripts/minicom/module/rfid_module.gd" id="2_0wfyh"]
 
 [node name="Main" type="Node" unique_id=1980686771]
 script = ExtResource("1_0wfyh")
@@ -12,4 +12,17 @@ script = ExtResource("1_0wfyh")
 script = ExtResource("2_0wfyh")
 metadata/_custom_type_script = "uid://b6jsj2fws6rx8"
 
+[node name="InteractionTimeout" type="Timer" parent="." unique_id=485122836]
+wait_time = 60.0
+
+[node name="Notifications" type="VBoxContainer" parent="." unique_id=2043725340]
+unique_name_in_owner = true
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
 [connection signal="scanned" from="Modules/RFIDModule" to="." method="_on_rfid_module_scanned"]
+[connection signal="timeout" from="InteractionTimeout" to="." method="_on_interaction_timeout_timeout"]

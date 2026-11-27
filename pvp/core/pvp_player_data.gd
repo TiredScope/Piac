@@ -17,6 +17,8 @@ func _init() -> void:
 	value_distribution.fill(0)
 	value_distribution_max = PVPConstants.STATS.max_points_per_category
 
+static func get_data(piac: PiacInfo) -> PVPPlayerData:
+	return PiacPlayerManager.get_pvp_player_data(piac)
 
 static func create_random(rng: RandomNumberGenerator) -> PVPPlayerData:
 	var player_info: PVPPlayerData = PVPPlayerData.new()

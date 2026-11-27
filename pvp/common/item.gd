@@ -53,7 +53,6 @@ func _apply_style() -> void:
 
 	item_tooltip += "\n\nSlot: " + ItemData.get_slot_name(item_data.slot)
 
-	print(item_tooltip)
 	_tooltip_label.text = item_tooltip
 	call_deferred("_center_tooltip")
 

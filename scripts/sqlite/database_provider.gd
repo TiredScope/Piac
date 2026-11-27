@@ -14,22 +14,26 @@ class Migration:
 var MIGRATIONS: Array[Migration] = [
 	Migration.new(
 		"001_initial_setup",
-		Migrations.migrate_001_initial_setup,
+		DefaultMigrations.migrate_001_initial_setup,
 	),
 	Migration.new(
 		"002_pvp",
-		Migrations.migrate_002_pvp,
+		DefaultMigrations.migrate_002_pvp,
 	),
 ]
 
 func _ready() -> void:
 	sql = SQLite.new()
+	sql.verbosity_level = SQLite.VERY_VERBOSE
 	sql.path = "user://main"
 	sql.open_db()
 	apply_migrations()
 
 func _exit_tree() -> void:
 	sql.close_db()
+
+func add_migration() -> void:
+	pass
 
 func apply_migrations() -> void:
 	sql.create_table("migrations", {

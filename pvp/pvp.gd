@@ -1,27 +1,27 @@
+class_name PVP
 extends Control
 
 @export var num_items: int = 3
 
 var first_player: bool = true
 
-var player1_data: PVPPlayerData = PVPPlayerData.create_random()
-var player2_data: PVPPlayerData = PVPPlayerData.create_random()
+var player1_data: PVPPlayerData = PVPPlayerData.create_random(RandomNumberGenerator.new())
+var player2_data: PVPPlayerData = PVPPlayerData.create_random(RandomNumberGenerator.new())
 
 var _packed_pvp_fight: PackedScene = preload("res://pvp/pvp_fight.tscn")
 
 @onready var left_config: PVPConfiguration = $HBoxContainer/LeftConfiguration
 @onready var right_config: PVPConfiguration = $HBoxContainer/RightConfiguration
 
-# Called when the node enters the scene tree for the first time.
+func init_players(player1: PiacInfo, player2: PiacInfo) -> void:
+	player1_data = PVPPlayerData.get_data(player1)
+	player2_data = PVPPlayerData.get_data(player2)
+
 func _ready() -> void:
 	_update_highlight()
 	left_config.init(player1_data)
 	right_config.init(player2_data)
 	Com.scan()
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	pass
 
 func _handle_keypad(key: int) -> void:
 	var config: PVPConfiguration = get_config(first_player)

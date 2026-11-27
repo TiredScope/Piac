@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://dj0c2r3wcggrh"]
+
+[ext_resource type="Texture2D" uid="uid://x4xecun5wou3" path="res://art/egg.png" id="1_g46kn"]
+[ext_resource type="Script" uid="uid://d2j7bsqyoh2e3" path="res://minigames/hatching/hatching.gd" id="1_v7ks1"]
+
+[node name="Hatching" type="Control" unique_id=1122648309]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_v7ks1")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=556453209]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_g46kn")
+
+[node name="Label" type="Label" parent="." unique_id=1293991866]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -105.5
+offset_right = 105.5
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "Imagine the hatching game"
+
+[node name="Timer" type="Timer" parent="." unique_id=422252803]
+wait_time = 3.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

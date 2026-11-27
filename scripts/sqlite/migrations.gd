@@ -1,4 +1,4 @@
-class_name Migrations
+class_name DefaultMigrations
 
 static func migrate_001_initial_setup(sql: SQLite) -> bool:
 	var ok: bool = sql.create_table("piac", {
@@ -10,13 +10,16 @@ static func migrate_001_initial_setup(sql: SQLite) -> bool:
 		"uid": { # NFC UID
 			"data_type": "blob",
 			"unique": true,
+			"not_null": true,
 		},
 		"pid": { # Player id
 			"data_type": "int",
 			"unique": true,
+			"not_null": true,
 		},
 		"name": { # Player name
 			"data_type": "text",
+			"not_null": true,
 		},
 	})
 
@@ -57,11 +60,11 @@ static func migrate_002_pvp(sql: SQLite) -> bool:
 		},
 		"value_distribution": {
 			"data_type": "text",
-			"unique": true,
+			"not_null": true,
 		},
 		"value_distribution_max": {
 			"data_type": "int",
-			"unique": true,
+			"not_null": true,
 		},
 	})
 
