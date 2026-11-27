@@ -16,7 +16,10 @@ func get_piac(uid_hash: PackedByteArray) -> PiacInfo:
 	piac.uid = result["uid"] as PackedByteArray
 	piac.pid = result["pid"] as int
 	piac.name = result["name"] as String
-	TraitGenerator.generate_traits(piac)
+	if not TraitGenerator.generate_traits(piac):
+		# TODO: this should return an error, not nothing
+		return null
+
 	return piac
 
 func create_new_piac(uid: PackedByteArray, player_name: String) -> PiacInfo:
@@ -29,7 +32,10 @@ func create_new_piac(uid: PackedByteArray, player_name: String) -> PiacInfo:
 	if not save_piac(piac):
 		return null
 
-	TraitGenerator.generate_traits(piac)
+	if not TraitGenerator.generate_traits(piac):
+		# TODO: this should return an error, not nothing
+		return null
+
 	return piac
 
 func save_piac(piac: PiacInfo) -> bool:

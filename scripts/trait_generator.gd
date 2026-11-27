@@ -19,7 +19,7 @@ static func _generate_default_traits(player: PiacInfo, rng: RandomNumberGenerato
 	PiacPlayerManager.save_traits(player, traits)
 	return true
 
-static func generate_traits(piac: PiacInfo) -> void:
+static func generate_traits(piac: PiacInfo) -> bool:
 	#var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	#rng.seed = get_seed_from_bytes(piac.uid_hash)
 
@@ -27,6 +27,8 @@ static func generate_traits(piac: PiacInfo) -> void:
 
 	var attribute_generators: Dictionary[String, ContentRegistry.AttributeGenerator] = PiacRegistry.get_attribute_generators()
 	var executed_generators: Dictionary[String, int] = PiacPlayerManager.get_executed_generators(piac)
+
+	var ok: bool = true
 
 	for generator_name: String in attribute_generators:
 		var generator: ContentRegistry.AttributeGenerator = attribute_generators[generator_name]
@@ -44,10 +46,13 @@ static func generate_traits(piac: PiacInfo) -> void:
 			ContentRegistry.RandomType.FULLY_RANDOM:
 				pass # RandomNumberGenerator uses a random seed by default
 
-		var ok: bool = generator.generator_func.call(piac, rng)
-		ok = ok and PiacPlayerManager.save_executed_generator(piac, generator_name, generator.version)
-		if not ok:
+		var this_ok: bool = generator.generator_func.call(piac, rng)
+		this_ok = this_ok and PiacPlayerManager.save_executed_generator(piac, generator_name, generator.version)
+		if not this_ok:
+			ok = false
 			push_error("Failed to generate attributes for ", generator_name)
+
+	return ok
 
 static func get_seed_from_bytes(uid_hash: PackedByteArray) -> int:
 	var generated_seed: int = 0
